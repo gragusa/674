@@ -38,7 +38,7 @@ There are two "best" ways of contacting us.  The first is through the
 mailing list for the
 [Econometrics Free Library](http://www.econometricslibrary.org),
 <econometricslibrary@librelist.com> (this is the mailing list for our
-parent organization).  The second is by
+parent organization); the [Librelist homepage](http://librelist.com/) has more information about sending messages to this discussion list.  The second is by
 [filing an issue report for the project](https://github.com/EconometricsLibrary/MacroeconometricsText/issues/new).
 
 If you find an error in the text, please let us know through one of
