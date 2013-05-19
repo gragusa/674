@@ -13,12 +13,16 @@ comprehensive Econometric time-series book, but it was written in 1994
 and doesn't cover many important recent developments.
 
 The project is just getting started and is in version 0.0.0
-(pre-alpha). Use at your own risk!
+(pre-alpha).  Use at your own risk!
 
 Chapters
 --------
 
-Working on it...
+* Basic VARMA processes
+* Estimating VARMA processes
+* Structural Vector Autoregressions
+* Stochastic integrals
+* Cointegration
 
 License
 -------
@@ -31,8 +35,27 @@ Foundation; with no Invariant Sections, no Front-Cover Texts and no
 Back-Cover Texts. A copy of the license is included at
 <https://github.com/EconometricsLibrary/MacroeconometricsText/blob/master/LICENSE.txt>.
 
-More information
-----------------
+Dependencies and installation
+-----------------------------
+
+Either download a zip file from
+<https://github.com/EconometricsLibrary/MacroeconometricsText> and
+extract the source or clone the git repo.
+
+To build the pdfs, you'll need XeLaTeX (you may need to install some
+packages manually if you use an older LaTeX distribution); this is the
+only *crucial* dependency
+
+You can manually run XeLaTeX on `textbook.tex` or run
+
+```
+latexmk -pdf -pdflatex=xelatex -bibtex- textbook.tex
+```
+
+on the command line in the main directory of this project.
+
+Contact information and support
+-------------------------------
 
 There are two "best" ways of contacting us.  The first is through the
 mailing list for the
@@ -43,4 +66,6 @@ parent organization); the [Librelist homepage](http://librelist.com/) has more i
 
 If you find an error in the text, please let us know through one of
 those methods.  If you'd like to contribute to this project, please
-subscribe to the mailing list.  Thanks!
+subscribe to the mailing list.
+
+Thanks!
