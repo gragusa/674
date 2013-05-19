@@ -1,0 +1,328 @@
+% Copyright © 2013, Gray Calhoun.  Permission is granted to copy,
+% distribute and/or modify this document under the terms of the GNU
+% Free Documentation License, Version 1.3 or any later version
+% published by the Free Software Foundation; with no Invariant
+% Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of
+% the license is included in the section entitled "GNU Free
+% Documentation License."
+
+\chapter{Lectures on estimation (VARMA, VAR)}
+
+Textbooks:
+\begin{itemize}
+\item Chapters 5 of Hamilton
+\item Brockwell and Davis
+\end{itemize}
+
+\section{Parameter estimation}
+
+\begin{itemize}
+\item Method of moments
+\item Maximum Likelihood (and conditional MLE)
+\end{itemize}
+
+\subsection{Estimation of VAR parameters}
+
+Have the model (again):
+\[y_t = μ + ∑_{i=1}^p φ_i y_{t-i} + e_t\] $k$ equations, $k p + 1$
+regression coefficients. Under assumptions of causality, we know that
+$e_t$ is uncorrelated with $y_s$ for $s < t$, which implies that we
+might be able to justify OLS:
+\begin{itemize}
+\item Let $z_t' = (1 y_{t-1}' ⋯ y_{t-p}')$
+\item $Φ = [ μ φ_1 … φ_p ]'$
+\item Then $y_t' = z_t'Φ' + e_t'$ and we can do equation-by-equation
+  OLS, which is equivalent to
+  \[\hat Φ' = (∑_{t=p+1}^T z_t z_t')^{-1} ∑_{t=p+1}^T z_t y_t'\]
+\end{itemize}
+
+This is the method of moments estimator as well as the conditional MLE
+estimator if you assume that $e_t ∼ N(0, Σ)$ and
+condition on $y_1$,…,$y_p$. To do MLE, observe that
+\[y_t ∣ z_t ∼ N(Φ z_t, Σ).\]
+
+The joint likelihood can be taken as the product of the conditional
+likelihoods:
+\[L(Φ, Σ; y_1,…,y_T) = f_T(y_T ∣ y_{T-1},…, y_1) f_{T-1}(y_{T-1} ∣
+y_{T-2},…, y_1) ⋯ f_{p+1}(y_{p+1} ∣ y_p,…,y_1) f_p(y_p,…,y_1)\]
+
+Assuming normality and correct specification,
+\[f_t(y_t ∣ y_{t-1},…, y_1) = f_t(y_t ∣ z_t).\]
+
+If you want, you can avoid conditioning on $y_p$,…,$y_1$ since the
+joint dist of those observations is also normal and we've worked out
+how to find the mean and variance.
+
+\subsection{Estimation for VARMA models (MA is a special case)}
+
+Two approaches (we won't go into much detail):
+
+\begin{enumerate}
+\item Assume $e_t$ is normal, then $y_1,…,y_T$ is jointly normal and
+  you can maximize the likelihood w/rt $Φ$, $Θ$, and $Σ$
+\end{enumerate}
+
+\begin{itemize}
+\item Amounts to invoking invertibility to derive $f_T(y_t ∣
+  y_{t-1},…,y_1)$ efficiently for each $t$ w/out using strict VAR
+  structure, then building up the unconditional likelihood from that.
+\end{itemize}
+
+\begin{enumerate}
+\item Just like for VAR and VMA processes, we can derive equations
+  that define the autocovariances at lags $0,…,p+q$ in terms of $Φ$
+  and $Θ$; solving for $Φ$ and $Θ$ and plugging in the sample
+  autocovariances give the ``Yule-Walker'' estimates.
+\end{enumerate}
+
+\begin{itemize}
+\item For VARs, this is OLS
+\item When there's an MA component, this can be inefficient.
+\end{itemize}
+
+\section{Asymptotic theory for time-series}
+
+Look at OLS estimator for VAR(p). As always, two components:
+\[\hat Φ' = Φ' + (1/T ∑_{t=p+1}^T z_t z_t')^{-1} 1/T
+∑_{t=p+1}^T z_t e_t'\] so, for consistency need the sum of $z$'s to be
+$O_p(1)$; second sum to be $o_p(1)$. For asymptotic distribution
+(normality) need second summation to obey a CLT.
+
+\begin{itemize}
+\item Obviously, if we want to estimate the first or second moments of
+  a time-series process, we might want to use the sample moments.
+\item Of interest on their own
+\item Necessary for consistency and asymptotic normality of MoM
+  estimators
+\item Just look at univariate for simplicity.
+\end{itemize}
+
+\begin{description}
+\item[Filtration:]
+  A sequence of sigma-fields $\{G_t\}$ is a \emph{filtration} if $G_t
+  ⊂ G_{t+1}$ for all $t$
+\item[Martingale difference sequence:]
+  The sequence of rvs $\{e_t\}$ is an mds w/rt the filtration $\{G_t\}$ if
+  $E(e_t ∣ G_{t-1}) = 0$.
+
+  Typically $G_t = σ(e_t, e_{t-1},…)$
+
+  Comes from the definition of a martingale: $y_t$ is a martingale
+  w/rt the filtration if $E(y_t ∣ G_{t-1}) = y_{t-1}$. Then $e_t =
+  Δy_t$ is an mds.
+\end{description}
+
+\begin{itemize}
+\item Now, suppose that $e_t$ has finite variance and is an mds w/rt
+  $G_t = σ(y_t, y_{t-1},…)$, then we know that the second sum has mean
+  zero. Also
+  \begin{align*}
+    E (1/T ∑ z_t e_t)(1/T ∑ e_s z_s')
+    &= 2/T^2 ∑_{s ≤ t} E(e_s e_t z_t z_s' ∣ G_{t-1}) \\
+    &= 1/T^2 ∑_t E E( e_t^2 ∣ G_{t-1}) z_t z_t' + 2/T^2 ∑_{s < t} E E(
+    e_t ∣ G_{t-1}) e_s z_t z_s' \\
+    &= σ^2 1/T^2 ∑_t E z_t z_t'
+  \end{align*}
+
+  This converges to zero since $y_t$ has finite variance and Φ-hat
+  converges in MSE to $Φ$.
+\item Note that if $e_t$ is MDS, so is $z_t e_t$
+\end{itemize}
+
+\subsection{Standard MDS CLT (McLeish 1974; Hall and Heyde 1980)}
+
+Suppose that $Z_t$ is a (univariate) MDS and define
+\begin{itemize}
+\item $U_n^2 = ∑_1^n Z_t^2$,
+\item $s_n^2 = E U_n^2$.
+\end{itemize}
+If
+\begin{itemize}
+\item $U_n^2 / s_n^2 → 1$ i.p. and
+\item $max_{1 ≤ t ≤ n} |Z_n / s_n| → 0$ i.p.
+\end{itemize}
+then
+\[1/s_n ∑_1^n Z_t →^d N(0, 1)\]
+or, equivalently,
+\[1/U_n ∑ Z_t →^d N(0, 1)\]
+
+For multivariate, let $Ω_n = ∑ E Z_t Z_t'$ and we have $Ω_n^{-1/2} ∑
+Z_t → N(0, I)$ under essentially the same conditions.
+
+Apply this to second summation in OLS coefficients and (assuming the
+conditions hold) we can see that
+\[n^{-1/2} ∑ z_t e_t = ( Ω_n / n )^{1/2} Ω_n^{-1/2} ∑ z_t e_t
+→^d N(0,Ω) \]
+
+where $Ω_n = ∑ E( e_t^2 z_t z_t' )$ and $Ω = \lim Ω_n / n$. Under
+homoskedasticity, this can be simplified.
+
+If $1/n ∑ z_t z_t' → V$ i.p., then $\lim Ω_n = σ^2 V$ under
+homoskedasticity and we have
+\[\sqrt{n} ( \hat φ - φ ) →^d N( 0, σ^2 V^{-1} ).\]
+
+Under heteroskedasticity,
+\[\sqrt{n} (\hat φ - φ ) →^d N( 0, V^{-1} Ω V^{-1} )\]
+
+\textbf{For the asymptotic distribution of the VAR(p)} obviously it's
+joint normal, so the only tricky thing is accounting for all of the
+correlations. Rewrite it as
+\[
+sqrt(n) (\hat Φ' - Φ')
+= (1/n ∑_{t=p+1}^n z_t z_t')^{-1} 1/sqrt(n) ∑_{t=p+1}^n z_t e_t'
+\]
+so
+\[\sqrt{n} ( vec(\hat Φ' ) - vec( Φ' ) ) = vec( … )\]
+
+and use the fact that, for conformable matrices $A$, $B$, and $C$,
+\[vec( A B C ) = ( C ⊗ A ) vec( B )\]
+where $⊗$ is the kronecker product and
+\[
+C ⊗ A = 
+\begin{pmatrix}
+  c_{11}A & ⋯ & c_{1n}A \\
+  ⋮
+  c_{n1}A & ⋯ & c_{nn}A 
+\end{pmatrix}
+\]
+$A = ( 1/n ∑ z_t z_t' )^{-1}$, $B = 1/sqrt{n} ∑ z_t e_t'$, $C = I$ so
+$C ⊗ A = diag( A,…, A )$
+
+if $V = plim 1/n ∑ z_t z_t' Ω = plim 1/n ∑ vec( z_t e_t' ) vec( z_t
+e_t' )'$, then $\sqrt{n} vec(\hat Φ' - Φ' ) → N( 0, diag(
+V^{-1},…, V^{-1} ) Ω diag(V^{-1},…,V^{-1} )$
+
+Note that the block diagonal structure means that if we're interested
+in the joint dist. of the coefficients for just a single equation,
+it's not affected by those from other equations (only holds when all
+of the equations have the same regressors…).
+
+\subsection{Result (in summary)}
+
+Suppose that $y_t$ is a VAR(p),
+\begin{itemize}
+\item $1/n ∑ z_t z_t' → V$ i.p.
+\item $1/n ∑ z_t z_t' e_t^2 → Ω$ i.p.
+\item $e_t$ is an mds with finite $4 + δ$ moments ($δ > 0$)
+\end{itemize}
+Then $\sqrt{T} ( \hat Φ' - Φ' )$ is asymptotically normal (with the
+variance we derived).
+
+\subsection{Laws of large numbers}
+We still need to talk about the square terms:
+\[1/n ∑ z_t z_t'\]
+and
+\[1/n ∑ vec( z_t e_t' ) vec( z_t e_t' )'\]
+\begin{description}
+\item[LLN for martingale difference sequences:]
+If $z_t$ is uniformly integrable (i.e. a slightly weaker condition than
+assuming it has $1 + δ$ moments, $δ > 0$) and MDS, then
+\[1/n ∑ z_t →^{L_1} 0\]
+\end{description}
+
+MDS for second moments is not usually an implication of Economic
+Theory; is not usually a feature of a correctly specified model of the
+mean; and is often false in Economic data. So it's worth mentioning
+another result:
+
+\begin{description}
+\item[LLN for stationary and ergodic sequences:]
+
+  If $\{z_t\}$ is a stationary and ergodic sequence with finite mean
+  $μ$, then
+  \[1/n ∑ z_t → μ\] (in $L_1$).
+
+  Ergodic: a stationary sequence $\{x_t\}$ is \emph{ergodic} if, for
+  any bounded functions $f$ and $g$, as $n → ∞$,
+  \[E f( x_t, …, x_{t + k}) g(x_{t + n}, …, x_{ t + n + l} ) → E f(
+  x_t, …, x_{ t + k } ) E g(x_{ t + n }, …, x_{ t + n + l} )\]
+
+  \begin{itemize}
+  \item remember, you can prove independence by proving this
+    factorization for all bounded $f$ and $g$, so this is an ``asymptotic
+    independence'' condition;
+  \item Sometimes see conditions on how fast the convergence to zero
+    happens
+  \item Nothing special about stationarity; you'll see other weak
+    dependence conditions based on similar ideas (i.e. mixing
+    conditions).
+  \end{itemize}
+\end{description}
+
+\subsection{CLT with serial correlation}
+
+Have a CLT for MDS. But what if we have an MA process?
+\[y_t = ∑_{j=0}^∞ θ_j e_{t-j} = θ(L) e_t\]
+
+\begin{itemize}
+\item Just focus on the average: $̱\bar y$
+\item Obviously, if $θ_j$ decays fast enough, LLN holds.
+\item Look at CLT:
+  \begin{align*}
+    T^{1/2} \bar y
+    &= 1/T^{1/2} ∑_{t=1}^T ∑_{j=0}^∞ θ_j e_{t-j} \\
+    &= \sqrt{1/T} ( θ_0 e_T +
+    ( θ_0 + θ_1 ) e_{T-1} +
+    ( θ_0 + θ_1 + θ_2 )  e_{T-2} + ...
+    ( θ_0 + ... + θ_{T-1} ) e_1 + ... ) \\
+    &= \sqrt{1/T} ( ( θ(1) - ∑_1^∞ θ_j ) e_T +
+    ( θ(1) - ∑_2^∞ θ_j ) e_{T-1} + ...
+    ( θ(1) - ∑_T^∞ θ_j ) e_1 + ... ) \\
+    &= \sqrt{1/T} θ(1) ∑_{t=1}^T e_t + \sqrt{1/T} θ^*(L) e_t
+  \end{align*}
+  where $θ_j^* = - ∑_{i=j+1}^∞ θ_i$.  Now $θ(1)$ has the bulk of the
+  dependence, so the first term obeys a CLT and the second can
+  converge to zero i.p.
+\end{itemize}
+
+Result: Suppose that $y_t = μ + θ(L) e_t$ where
+\begin{itemize}
+\item $∑_{s=0}^∞ s |θ_s| < ∞$
+\item $1/\sqrt{T} ∑_t e_t → N(0, σ^2)$ in distribution (i.e. any CLT
+  holds)
+\end{itemize}
+Then $\sqrt{T} (\bar y - μ ) → N( 0, σ^2 θ(1)^2 )$ in distribution
+
+\section{Last bits}
+
+Forecasting from VAR:
+\begin{itemize}
+\item 1-step ahead $\hat y_{T+1} = \hat φ(L) y_T$
+\item $k$-step ahead $\hat y_{T+k} = \hat φ(L) y_{T+k-1} = … = ( \hat
+  φ(L) )^k y_T$
+\end{itemize}
+Also see forecasting by just regressing $y_{t+k}$ on $y_t,…,y_{t-p}$
+
+What to do with these approximations?
+\begin{itemize}
+\item Test as normal
+\item Test for Granger causality/exogeneity
+  \begin{itemize}
+  \item split up our variables into
+    \begin{align*}
+      y_{1t} &= μ_1 + A_1 x_{1t} + A_2 x_{2t} + e_t \\
+      y_{2t} &= μ_2 + B_1 x_{1t} + B_2 x_{2t} + e_t
+    \end{align*}
+    where the $x_{it}$ contains lags of $y_{it}$.
+  \item $y_2$ does not granger-cause $y_1$ if lags of $y_2$ do not
+    help predict $y_1$ after accounting for lags of $y_1$ (also means
+    that $y_1$ is exogenous w/rt $y_2$).
+  \item Means that $A_2 = 0$.
+  \item This is something we can test.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Lag length selection}
+
+\begin{itemize}
+\item $AIC_p = \log | Σ_u(p)| + 2 p m^2 / T$
+\item $BIC_p = \log | Σ_u(p)| + \log(T) 2 p m^2 / T$
+\item $Σ_u(q)$ is the vcv of $y_t - b_1 y_{t-1} - … - y_{t-p}$
+\item Choose to minimize the criterion
+\item Last term works as a penalty
+\end{itemize}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../textbook"
+%%% End: 
