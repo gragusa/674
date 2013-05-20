@@ -12,8 +12,8 @@ know, Hamilton's *Time Series Analysis* is the most recent
 comprehensive Econometric time-series book, but it was written in 1994
 and doesn't cover many important recent developments.
 
-The project is just getting started and is in version 0.0.1
-(pre-alpha).  Use at your own risk!
+The project is just getting started and is in version 0.1.0.  Use at
+your own risk!
 
 Chapters
 --------
@@ -28,12 +28,12 @@ License
 -------
 
 Permission is granted to copy, distribute and/or modify this document
-under the terms of the
-[GNU Free Documentation License](http://www.gnu.org/copyleft/fdl.html),
-Version 1.3 or any later version published by the Free Software
-Foundation; with no Invariant Sections, no Front-Cover Texts and no
-Back-Cover Texts. A copy of the license is included at
-<https://github.com/EconometricsLibrary/MacroeconometricsText/blob/master/LICENSE.txt>.
+under the terms of the [GNU Free Documentation
+License](http://www.gnu.org/copyleft/fdl.html), Version 1.3 or any
+later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. A
+copy of the license is included in the textbook Appendix "GNU Free
+Documentation License" and in the file LICENSE.tex.
 
 Dependencies and installation
 -----------------------------
@@ -43,8 +43,7 @@ Either download a zip file from
 extract the source or clone the git repo.
 
 To build the pdfs, you'll need XeLaTeX (you may need to install some
-packages manually if you use an older LaTeX distribution); this is the
-only *crucial* dependency
+packages manually if you use an older LaTeX distribution).
 
 You can manually run XeLaTeX on `textbook.tex` or run
 
@@ -53,6 +52,16 @@ latexmk -pdf -pdflatex=xelatex -bibtex- textbook.tex
 ```
 
 on the command line in the main directory of this project.
+
+The `latex-shared` and `tufte-latex` subdirectories are shared across
+several projects.  Please do not submit patches that contain changes
+to those directories.  If you think that you need to edit those files,
+please propose your changes on the project mailing list.  The
+"original" sources of those directories can be found on the EFL
+project's GitHub page.
+
+Please email the mailing list if you run into problems or have any
+other questions.
 
 Contact information and support
 -------------------------------
