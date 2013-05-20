@@ -43,8 +43,7 @@ Either download a zip file from
 extract the source or clone the git repo.
 
 To build the pdfs, you'll need XeLaTeX (you may need to install some
-packages manually if you use an older LaTeX distribution); this is the
-only *crucial* dependency
+packages manually if you use an older LaTeX distribution).
 
 You can manually run XeLaTeX on `textbook.tex` or run
 
@@ -53,6 +52,16 @@ latexmk -pdf -pdflatex=xelatex -bibtex- textbook.tex
 ```
 
 on the command line in the main directory of this project.
+
+The `latex-shared` and `tufte-latex` subdirectories are shared across
+several projects.  Please do not submit patches that contain changes
+to those directories.  If you think that you need to edit those files,
+please propose your changes on the project mailing list.  The
+"original" sources of those directories can be found on the EFL
+project's GitHub page.
+
+Please email the mailing list if you run into problems or have any
+other questions.
 
 Contact information and support
 -------------------------------
