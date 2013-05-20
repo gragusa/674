@@ -1,6 +1,12 @@
 Project news
 ============
 
+Version 0.1.1
+-------------
+
+Bugfix release: chapter headings were not displayed, so they've been
+converted to 'parts' instead.
+
 Version 0.1.0
 -------------
 
