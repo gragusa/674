@@ -11,14 +11,10 @@
 \part*{Cointegration}
 \addcontentsline{toc}{part}{Cointegration}
 
-\begin{itemize}
-\item Reading: Davidson (2012); Chapter 10 of Hayashi; Hamilton
-\end{itemize}
-
 Look at VAR(1): $y_t = a_0 + A y_{t-1} + e_t$; remember that if we
 want something like stationarity, we need to look at the roots of the
-polynomial $det(I - A z) = 0$; nonstationary if there are roots on the
-unit circle (ie $|z| = 1$);
+polynomial $\det(I - A z) = 0$; nonstationary if there are roots on
+the unit circle (ie $|z| = 1$);
 
 possibilities:
 \begin{itemize}
@@ -27,13 +23,34 @@ possibilities:
 \item no roots on unit circle
 \end{itemize}
 
-Let $Π = A - I$ and rewrite the VAR as 
+We haven't formally defined what it means for a process to be $I(0)$
+yet, but it captures what we usually mean when we say that a series is
+stationary.  If a series is stationary, we typically expect that it
+obeys a CLT.  But it is straightforward to write down stationary
+series that don't (for example, let $u_t$ be an i.i.d. sequence; then
+$Δu_t$ is stationary but obviously does not obey a CLT).
+
+So we say that the series $u_t$ is $I(0)$ if it has the MA
+representation $u_t = Φ(L) ε_t$ where $ε_t$ is white noise, $Φ(1) ≠
+0$, and $∑_{j=0}^∞ | Φ_j |$ is finite (element-by-element in the case
+of multivariate processes).
+
+Now we extend the definition to $I(d)$ recursively: for $d > 0$, $u_t$
+is $I(d)$ if $Δu_t$ is $I(d-1)$ and is $I(-d)$ if $∑_{j=-∞}^∞ u_t$ is
+$I(1-d)$.
+
+\paragraph{Cointegration setup}
+Let $Π = A - I$ and rewrite the VAR as
 \[Δ y_t = a_0 + Π y_{t-1} + e_t\]
 
 $Π$ may not have full rank, but if it has rank $r$, we can always write $Π =
 αβ'$ where $α$ and $β$ both are $k × r$ with full rank.
-Then \[Δ y_t = a_0 + αβ' y_{t-1} + e_t\]
+Then \[Δy_t = a_0 + αβ'y_{t-1} + e_t\]
 (essentially, this is the ``Granger representation theorem'')
+
+\paragraph{Why must it be $β'y_t$ that's $I(0)$?} The intuition's
+easiest to see when $r=1$.  In that case, $α$ becomes just a vector of
+constants, so it can't possibly remove the stochastic trend.  
 
 why do this: 
 \begin{itemize}
@@ -50,16 +67,123 @@ why do this:
 More general error-correction form
 \[Δ y_t = a_0 + αβ' y_{t-1} + π(L) Δ y_{t-1} + e_t\]
 
-\section{Interesting features of VECM}
+\paragraph{Interpreting cointegration}
+\begin{itemize}
+\item We'll sometimes know $β$ (at least under the null), in which
+  case the analysis is ``easy''
+\item cointegrating vectors can represent long-run equilibria
+\end{itemize}
+
+\subsection{Working with known cointegrating vectors.}
+
+Note that ``known'' can mean, as always, ``known under the null
+hypothesis of interest.  So this material is at least potentially
+relevant even in real applications.
+
+If $β$ is known, estimating the VECM is completely straightforward.
+If it is of interest to test whether $y_t$ is cointegrated for a
+particular value of $β$, we can define $u_t = β'y_t$.
+\begin{itemize}
+\item If $y_t$ is cointegrated (for that value of $β$), then $β'y_t$
+  is $I(0)$.
+\item If it is not cointegrated (for that value of $β$), then $β'y_t$
+  has a unit root.
+\end{itemize}
+We can then test for a unit root as usual.
+
+\subsection{Working with unknown cointegrating vectors.}
+
+This is the Engle-Granger approach; let's say for now that $r$ is 1
+and that $n$ (the number of series) is 3, and furthermore, suppose
+that we know the first variable has to be in the cointegrating
+relationship, so $β₁ ≠ 0$.  If we define $v_t = β'y_t$, we can divide
+by $β₁$ to get the relationship
+\begin{equation}\label{eq:1}
+  y_{1t} = \tfrac{1}{β₁} v_t - \tfrac{β₂}{β₁} y_{2t} - \tfrac{β₃}{β₁} y_{3t}.
+\end{equation}
+We can assume without loss of generality that $β₁=1$ (having already
+assumed that it's nonzero).  So a reasonable question is, can we
+estimate the cointegrating relationship by estimating~\eqref{eq:1}
+with OLS?  And if we do, is the estimation error in this step going to
+affect subsequent inference?
+
+We'll do a simple version of the math.  Just as in the stochastic
+integration section, we're going to have to scale at a rate different
+than $\sqrt{T}$ for a nondegenerate limit distribution.  We have
+(dropping the first element of $β$ since it's assumed to be 1)
+\begin{equation*}
+  T(\hat β - β)
+  = \Big( \tfrac{1}{T²} ∑_{t=1}^T e₂'y_t y_t'e₂ \Big)^{-1}
+    \tfrac{1}{T} ∑_{t=1}^T e₂'y_t Δy_t'e₁
+\end{equation*}
+where
+\begin{align*}
+  e₁ &= \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} &
+  e₂ &= \begin{pmatrix} 0 & 0 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}
+\end{align*}
+are used to pick off the regressand and the two regressors as in the
+previous sections.
+
+Now, since
+\[\tfrac{1}{T} y_{[λT]} y_{[λT]}' →^d Σ^{1/2} W(λ)W(λ)' Σ^{1/2\prime},\]
+and
+\begin{align*}
+  \tfrac{1}{T} ∑_{t=1}^T y_t Δy_t
+  &= \tfrac{1}{T} ∑_{t=1}^T y_{t-1} Δy_t' + \tfrac{1}{T} ∑_{t=1}^T Δy_t Δy_t' \\
+  &→^d Σ^{1/2} ∫₀¹ W(λ) dW(λ) Σ^{1/2\prime} + Σ
+\end{align*}
+(assuming MDS) this converges to something that's $O_p(1)$, so it's
+super-consistent.
+
+An implication of super-consistency is that we can ignore estimation
+error in $β$ when we do inference.
+\begin{align*}
+  \sqrt{T} (\hat α \hat β' - Π)
+  &= \sqrt{T} ((\hat α - α + α) (\hat β - β + β)' - αβ') \\
+  &= \sqrt{T} ((\hat α - α) β' + (\hat α - α) (\hat β - β) + α (\hat β - β)') \\
+  &= \sqrt{T} (\hat α - α) β' + o_p(1).
+\end{align*}
+Without superconsistency, $\sqrt{T} α (\hat β - β)'$ would not be $o_p(1)$.
+
+So the idea here would be to estimate $β$ first by OLS, then plug in
+the estimate as though $β$ were known and proceed as before.
+
+The obvious problem is that this all falls apart if it happens that
+$β₁=0$.  Since nothing about the above argument really requires that
+it be the \textit{first} element that's known to belong in the
+relationship, the issue is how to proceed if we aren't necessarily
+sure that any of the elements of $y_t$ is guaranteed to be part of the
+cointegrating relationship.
+
+In that case, you'd use Johansen's reduced rank regression; fit the
+model with OLS (or MLE) under the constraint that $Π = αβ'$ has
+reduced rank $r$.  Operationally, this requires
+\begin{itemize}
+\item First, test the null that $Π = 0$ in 
+  \[ Δy_t = a₀ Π y_{t-1} + π(L) Δy_{t-1} + e_t, \] i.e. test the null
+  hypothesis that there is no cointegration (we've already
+  decided/determined that $y_t$ is $I(1)$.
+\item If you reject the first null, test the null that $r=1$ against
+  the alternative that $r>1$.
+\item If you reject, continue testing $r=j$ vs $r>j$ for
+  $j=2,3,…,n-1$.
+\item When you finally fail to reject, set that value for $r$.
+\end{itemize}
+
+Obviously, these pre-testing procedures are really problematic in
+finite samples.
+
+\section{First-differenced cointegrated processes do not have VAR
+  representations.}
 
 Suppose we wanted to just estimate the first differenced model
-(i.e.~ignore the cointegration)
+(i.e. ignore the cointegration)
 
-$Δ y_t$ is stationary, so can't we just invoke Wold representation
+$Δy_t$ is stationary, so can't we just invoke Wold representation
 theorem:
 \[Δ y_t = C(L) e_t\]
 Use Beveridge-Nelson decomposition ($C^*_j = - \sum_{s=j+1}^∞ C_s$)
-\[Δ y_t = C(1) e_t + C^*(L) (e_t - e_{t-1})\]
+\[Δy_t = C(1) e_t + C^*(L) (e_t - e_{t-1})\]
 so
 \[y_t = y_0 + \sum_{t=0}^t Δ y_t = y_0 + C(1) w_t + C^*(L) e_t\]
 w/ $w_t = \sum_{s=0}^t e_t$ (a unit root process)
@@ -69,21 +193,15 @@ Now, cointegration implies that $β'y_t$ is I(0), so
 
 must be I(0) as well, which only happens if the $w_t$ term is a.s. zero,
 so we need
-\[β'C(1) = 0\]
-as a consequence of cointegration (and vice versa). This is actually a
-big deal. remember that for an MA(∞) to be invertible, we need $det(C(z))
-≠ 0$ for all (possibly complex) $z$ not on the unit circle. So $Δ y_t$
+\[β'C(1) = 0\] as a consequence of cointegration (and vice
+versa). This is actually a big deal. remember that for an MA(∞) to be
+invertible, we need the solutions to $\det(C(z)) = 0$ to all be
+outside the unit circle, which we just ruled out.  So $Δ y_t$
 \textbf{does not have a VAR representation}
 
-Also, $t^{-1/2} y_t$ has asymptotic variance of $C(1) Σ C(1)'$
-
-\section{Interpreting}
-
-\begin{itemize}
-\item We'll sometimes know $β$ (at least under the null), in which
-  case the analysis is ``easy''
-\item cointegrating vectors can represent long-run equilibria
-\end{itemize}
+Also, $t^{-1/2} y_t$ has limiting variance of $C(1) Σ C(1)'$, which
+means that $\avar(T^{-1/2} ∑_{t=1}^T Δy_t)$ has the same asymptotic
+variance, which doesn't have full rank.
 
 %%% Local Variables: 
 %%% mode: latex
