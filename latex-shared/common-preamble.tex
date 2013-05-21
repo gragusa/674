@@ -7,18 +7,6 @@
 % \setmonofont[Scale=MatchLowercase]{Inconsolata}
 \setmathfont{Asana-Math}
 
-\usepackage{hyperref}
-\hypersetup{colorlinks, 
-           citecolor=black,
-           filecolor=black,
-           linkcolor=black,
-           urlcolor=black,
-           bookmarksopen=true,
-           pdftex}
-
-\DeclareMathOperator{\E}{E}
-\DeclareMathOperator{\var}{var}
-
 \frenchspacing
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
@@ -26,3 +14,14 @@
 % Workaround for bug in the tufte-latex class
 \renewcommand\smallcapsspacing[1]{{\addfontfeature{LetterSpace = 8}\scshape#1}}
 \renewcommand\allcapsspacing[1]{{\addfontfeature{LetterSpace = 15}#1}}
+
+% Math Operators
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\avar}{avar}
+\DeclareMathOperator{\N}{N}
+\DeclareMathOperator{\invWishart}{inverse\ Wishart}
+
+% Shortcuts
+\newcommand{\βh}{\hat{β}}
+\newcommand{\Σh}{\hat{Σ}}
