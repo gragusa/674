@@ -43,7 +43,7 @@ Other books that students may want to consult:
 
 \begin{itemize}
 \item Want confidence intervals associated with these IRFs (draw)
-\item δ-method (example for AR(1)): 
+\item $δ$-method (example for AR(1)): 
   \[y_t = ρ y_{t-1} + e_t,\]
   then we know that 
   \[  y_{t+k} - y_{t-1} = ρ^k Δe_t;\] 
@@ -63,64 +63,6 @@ which breaks if $ρ = 0$!
 \end{itemize}
 
 (Add material on Bayesian CIs too)
-
-\section{Bayesian IRFs}
-
-\begin{itemize}
-\item Bayesian estimation is becoming \emph{massively} popular in
-  Macroeconometrics
-\item Basic idea: ``completely'' (in some sense) model our uncertainty
-  about the unknown parameter values: $φ$, $Σ$ (in this case)
-\item suppose we have 5 observations $Y ∼ bernoulli(p)$
-\item \emph{Frequentist statistics}: something like MLE
-  \[f_Y(y; p) ∼ ∏ p_i^{y_i} (1 - p_i)^{1 - y_1}\]
-  \begin{itemize}
-  \item Point estimation; hypothesis test; confidence intervals
-    (artificial decision making)
-  \item Doesn't work very well for more nuanced decision making
-    (imagine that you have four observations: 1, 0, 1, 1)
-  \item mean is 3/4; 90\% CI is about 25\% to 97\% (47\% to 90\%?)
-  \item Suppose you were going to use this information to bet… how?
-  \end{itemize}
-\item \emph{Bayesian statistics}: model uncertainty about $p$ as a
-  distribution
-  \begin{itemize}
-  \item Simple (probably wrong) approach: take the likelihood function
-    to give the distribution conditional on $p$
-  \item Model the uncertainty about $p$ as (for now) uniform(0,1)
-  \item Update uncertainty to condition on the data set $f_P(p ∣ Y)$
-  \item use Bayes's rule:
-    \[f_P(p ∣ Y) = f_Y(y ∣ p) f_P(p) / f_Y(y)\]
-  \item $f_Y(y) = ∫ f_Y(y ∣ p) f_P(p) dp$ (but usually ignore)
-  \item so posterior is proportional to 
-    \[∏ p_i^{y_i} (1 - p_i)^{1 - y_i}\] for $p ∈ [0,1]$ (draw curve)
-  \item mode of the posterior is 3/4 still
-  \item mean is 2/3 (so give 2:1 odds)
-  \item can get ``credible'' intervals from posterior; point estimates
-    from loss functions etc (34\% to 92\%)
-  \item uniform isn't a great way to represent ``no information'', but
-    is very common in econometrics (very problematic in TS)
-  \item Jeffreys prior (1961)
-  \item Reference prior: Bernardo (1979), Berger, Bernardo, and Sun
-    (2009) See Phillips (1991) and Berger and Yang (1994)
-  \item If you have and want to use good domain knowledge, you can
-    specify an informative prior
-  \end{itemize}
-\item Simulation: MCMC (we won't cover), but basically you don't need
-  to be able to directly draw from the posterior distribution as long
-  as you can evaluate it
-\end{itemize}
-
-\subsection{So, IRFs through Bayesian estimators}
-
-\begin{itemize}
-\item specify prior for AR coefficients and VCV
-\item Draw candidate values of the AR coefficients from the posterior
-\item For each one, calculate the IRF as before
-\item Summarize with mean, mode, or credible set
-\item It is \emph{very unlikely} that these are uniformly valid
-  credible sets if you use the uniform prior
-\end{itemize}
 
 \section{Basic ideas for IRF}
 
@@ -199,6 +141,18 @@ the VAR)
 \item BUT, we actually need to know \emph{all} of the elements of
   $A_0$ or $A_0^{-1}$, and $A_0^{-1} A_0^{-1\prime}$ is positive definite
   and so has only $n (n-1) / 2$ unique elements, not the $n^2$.
+\end{itemize}
+
+\section{Bayesian IRFs}
+
+
+\begin{itemize}
+\item specify prior for AR coefficients and VCV
+\item Draw candidate values of the AR coefficients from the posterior
+\item For each one, calculate the IRF as before
+\item Summarize with mean, mode, or credible set
+\item It is \emph{very unlikely} that these are uniformly valid
+  credible sets if you use the uniform prior
 \end{itemize}
 
 \section{Identification}
@@ -337,6 +291,65 @@ Introduced in Blanchard and Quah (1989 AER)
   \item So then $v_t = \hat D(1)^{-1} \hat C(1) e_t$ and $A_0^{-1} =
     \hat D(1)^{-1} \hat C(1)$
   \end{itemize}
+\end{itemize}
+
+\subsection{Partial identification through sign restrictions.}
+
+The basic idea behind partial identification is that we may not have
+enough information to pin down a value precisely, but we might still
+be able to derive economically interesting restrictions.  For example,
+if we define a set of \emph{potential} ``loose'' monetary policy
+shocks to be any innovation that lowers the Federal Funds rate, and
+\emph{any} shock that meets that minor condition leads to a rise in
+GDP growth, we can conclude that monetary policy shocks cause GDP
+growth to rise.
+
+\begin{itemize}
+\item The key difference between this approach and the previous
+  approaches is that, in this hypothetical example, we don't need to
+  know which of the innovations actually line up with monetary policy
+  shocks, since we know that (hypothetically) GDP growth has a
+  nonnegative response to all of them.
+\item Implementation without worrying about inference is relatively
+  easy:
+  \begin{itemize}
+  \item Estimate the reduced-form VAR,
+    \[ y_t = Φ₀ + ∑_{j=1}^p Φ_j y_{t-j} + e_t \]
+    and the variance-covariance matrix of $e_t$ as usual.
+  \item Cholesky-decompose $\Σh$, so $\Σh = PP'$ with $P$ lower
+    triangular.
+  \item For any orthonormal $D$, $\Σh = PP'$ implies that $\Σh =
+    (PD)(PD)'$, so we're going to proceed as before, but letting
+    $A₀^{-1} = PD$ and letting $D$ range over the whole set of
+    orthonormal matrices.  ``Range'' means that we'll simulate a bunch of
+    orthonormal matrices.
+  
+    One way to let $D$ range over these matrices is to draw a $k×k$
+    matrix of standard normal random variables, call it $L$, and take
+    the QR decomposition of $L$, giving $L=QR$ where $Q$ is
+    orthonormal.  Then let $D=Q$.
+  \item For each draw of $A₀=(PD)^{-1}$, calculate the IRFs.  If they
+    satisfy some economically-motivated constraints, keep that draw of
+    $A₀$ (in the brief example above, the constraint would be that the
+    Federal Funds rate has an immediate positive response).  Otherwise
+    discard it.  Either way, draw many many more candidate values of
+    $A₀$.
+  \item The set of unrejected $A₀$ defines a set of potential IRFs for
+    the economic shock of interest.  Note that there's no way to say
+    that one of these IRFs is ``more plausible'' than any others,
+    since they all correspond to the exact same value of the
+    likelihiood.
+  \end{itemize}
+\item Bayesian estimation works very nicely with the algorithm
+  described above, and makes it computationally easy to account for
+  uncertainty in the estimators of $Φ$ and $Σ$.  But we want to be
+  careful to not accidentally turn the method for generating candidate
+  values of $A₀$ into a prior over different values of $A₀$, which
+  will happen if we treat uncertainty over $A₀$ the same as
+  uncertainty over the values of $Φ$ and $Σ$.  (Need to add references)
+\item I need to add notes and references on handling estimation
+  uncertainty for classical estimation and for Bayesian estimation
+  when we don't want to impose a prior on $A₀$.
 \end{itemize}
 
 %%% Local Variables: 
