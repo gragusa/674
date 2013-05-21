@@ -2,26 +2,34 @@
 % distribute and/or modify this document under the terms of the GNU
 % Free Documentation License, Version 1.3 or any later version
 % published by the Free Software Foundation; with no Invariant
-% Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of
-% the license is included in the section entitled "GNU Free
-% Documentation License."
+% Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% 
+% You should have received a copy of this license along with this
+% document.  If not, you can find one at
+% <http://www.gnu.org/copyleft/fdl.html>
 
-\part{Lectures on estimation (VARMA, VAR)}
+\part*{Lectures on estimation (VARMA, VAR)}
+\addcontentsline{toc}{part}{Lectures on estimation (VARMA, VAR)}
 
-Textbooks:
+There are already a lot of textbook treatments of estimation for
+stationary and nonstationary VAR and VARMA processes; they've been
+around for a while.  Some especially good references for this material
+are
 \begin{itemize}
-\item Chapters 5 of Hamilton
-\item Brockwell and Davis
+\item \citet{Ham_1994}
+\item Brockwell and Davis (need to add to bibtex file)
 \end{itemize}
 
 \section{Parameter estimation}
 
+There are a few different approaches that we can take for estimation
 \begin{itemize}
 \item Method of moments
 \item Maximum Likelihood (and conditional MLE)
+\item Bayesian estimation
 \end{itemize}
 
-\subsection{Estimation of VAR parameters}
+\subsection{Estimation for VAR parameters (no MA component).}
 
 Have the model (again):
 \[y_t = μ + ∑_{i=1}^p φ_i y_{t-i} + e_t\] $k$ equations, $k p + 1$
@@ -282,6 +290,104 @@ Result: Suppose that $y_t = μ + θ(L) e_t$ where
   holds)
 \end{itemize}
 Then $\sqrt{T} (\bar y - μ ) → N( 0, σ^2 θ(1)^2 )$ in distribution
+
+\section{Bayesian estimation of multivariate time-series models}
+\begin{itemize}
+\item Bayesian estimation is becoming \emph{massively} popular in
+  Macroeconometrics
+\item Basic idea: ``completely'' (in some sense) model our uncertainty
+  about the unknown parameter values: $φ$, $Σ$ (in this case)
+\item suppose we have 5 observations $Y ∼ bernoulli(p)$
+\item \emph{Frequentist statistics}: something like MLE
+  \[f_Y(y; p) ∼ ∏ p_i^{y_i} (1 - p_i)^{1 - y_1}\]
+  \begin{itemize}
+  \item Point estimation; hypothesis test; confidence intervals
+    (artificial decision making)
+  \item Doesn't work very well for more nuanced decision making
+    (imagine that you have four observations: 1, 0, 1, 1)
+  \item mean is 3/4; 90\% CI is about 25\% to 97\% (47\% to 90\%?)
+  \item Suppose you were going to use this information to bet… how?
+  \end{itemize}
+\item \emph{Bayesian statistics}: model uncertainty about $p$ as a
+  distribution
+  \begin{itemize}
+  \item Simple (probably wrong) approach: take the likelihood function
+    to give the distribution conditional on $p$
+  \item Model the uncertainty about $p$ as (for now) uniform(0,1)
+  \item Update uncertainty to condition on the data set $f_P(p ∣ Y)$
+  \item use Bayes's rule:
+    \[f_P(p ∣ Y) = f_Y(y ∣ p) f_P(p) / f_Y(y)\]
+  \item $f_Y(y) = ∫ f_Y(y ∣ p) f_P(p) dp$ (but usually ignore)
+  \item so posterior is proportional to 
+    \[∏ p_i^{y_i} (1 - p_i)^{1 - y_i}\] for $p ∈ [0,1]$ (draw curve)
+  \item mode of the posterior is 3/4 still
+  \item mean is 2/3 (so give 2:1 odds)
+  \item can get ``credible'' intervals from posterior; point estimates
+    from loss functions etc (34\% to 92\%)
+  \item uniform isn't a great way to represent ``no information'', but
+    is very common in econometrics (very problematic in TS)
+  \item Jeffreys prior (1961)
+  \item Reference prior: Bernardo (1979), Berger, Bernardo, and Sun
+    (2009) See Phillips (1991) and Berger and Yang (1994)
+  \item If you have and want to use good domain knowledge, you can
+    specify an informative prior
+  \end{itemize}
+\item Simulation: MCMC (we won't cover), but basically you don't need
+  to be able to directly draw from the posterior distribution as long
+  as you can evaluate it
+\end{itemize}
+
+\subsection{Using a conjugate prior}
+Some priors can lend themselves to easier theoretical analysis than
+others.  This is less important in applications of Bayesian
+Econometrics than it was when these techniques were first proposed,
+because we can simulate from most arbitrarly posteriors relatively
+easily.  But knowing about these approaches can make it easier to
+derive, for example, asymptotic properties of Bayesian estimators.
+
+\begin{itemize}
+\item For some sets of likelihoods, there is a family of prior
+  densities such that any posterior density based on any prior and
+  likelihood from those sets must belong to the same family as the
+  prior.  These priors are called \emph{conjugate priors}.  There is
+  usually an explicit formula for the densities of posteriors based on
+  conjugate priors, making them especially easy to work with.
+\item The natural likelihood to work with is still normality.  We can
+  show that the conjugate prior is the Normal-Wishart familiy of
+  densities:
+  \begin{align*}
+    \vec(β) ∣ Σ &∼ N(\vec(β₀), Σ ⊗ N₀^{-1}) \\
+    Σ &∼ \invWishart(v₀ S₀, v₀)
+  \end{align*}
+  where $v₀$, $S₀$, and $N₀$ are parameters that the define the prior
+  that need to be chosen by the researcher.
+
+  Given this prior, the posterior is
+  \begin{align*}
+    vec(β) ∣ Σ,\ data &∼ \N(vec(\bar B), Σ ⊗ N₀^{-1}) \\
+    Σ   &= \invWishart(v_T S_T, v_T) \\
+    v_T &= T + v₀ \\
+    N_T &= N₀ + X'X \\
+    \bar B &= N_T^{-1} (N₀ β₀ + X'X \βh) \\
+    S_T &= \tfrac{v₀}{v_T} S₀ + \tfrac{T}{v_T} \Σh 
+    + \tfrac{1}{v_T} (\βh - β₀)'N₀N_T^{-1} X'X(\βh - β₀)
+  \end{align*}
+  where $\βh$ and $\Σh$ are the usual OLS estimators.
+\item Looking at the posterior makes it relatively easy to interpret
+  the parameters of the prior.  It's like we had more data generated
+  by a known process where 
+  \begin{itemize}
+  \item $v₀$ is the size of this additonal dataset.
+  \item $N₀$ is the second sample moment of the series in this dataset
+    (the $X'X$ matrix, basically).
+  \item $β₀$ is the linear projection of the series onto past values
+    (the $\βh$ vector).
+  \end{itemize}
+  This suggests that one way we could implement this prior is by
+  simulating another dataset that satisfied these constraints and then
+  just run OLS on the pooled data, which we can (and will show up as
+  a way to implement other, more complicated, priors).
+\end{itemize}
 
 \section{Last bits}
 
