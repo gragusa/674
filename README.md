@@ -12,7 +12,7 @@ know, Hamilton's *Time Series Analysis* is the most recent
 comprehensive Econometric time-series book, but it was written in 1994
 and doesn't cover many important recent developments.
 
-The project is just getting started and is in version 0.1.2.  Use at
+The project is just getting started and is in version 0.1.3.  Use at
 your own risk!
 
 Chapters
@@ -46,12 +46,14 @@ To build the pdfs, you'll need XeLaTeX (you may need to install some
 packages manually if you use an older LaTeX distribution).
 
 You can manually run XeLaTeX on `textbook.tex` or run
-
 ```
-latexmk -pdf -pdflatex=xelatex -bibtex- textbook.tex
+latexmk -pdf -pdflatex=xelatex textbook.tex
 ```
-
-on the command line in the main directory of this project.
+on the command line in the main directory of this project.  Running
+```
+latexmk -c textbook.tex
+```
+will clean up most of the files that LaTeX created in the first step.
 
 The `latex-shared` and `tufte-latex` subdirectories are shared across
 several projects.  Please do not submit patches that contain changes

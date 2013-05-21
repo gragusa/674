@@ -1,6 +1,14 @@
 Project news
 ============
 
+### Version 0.1.3 
+* Finishes the process of importing Calhoun's lecture notes; adds to
+  the VAR and Cointegration notes and in particular some Bayesian
+  stuff.
+* Changes the name and author to be slightly more descriptive.
+* Fixes some formatting and numbering issues.
+* Starts a bibliography section (admittedly, without entries yet).
+
 ### Version 0.1.2
 Another bugfix release: the previous patch messed up sectioning in the
 GNU FDL section; that's been fixed.
