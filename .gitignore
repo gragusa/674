@@ -1,4 +1,5 @@
-pdf/
+VERSION.tex
+
 auto/
 .Rhistory
 _region_.tex
