@@ -86,4 +86,11 @@ If you find an error in the text, please let us know through one of
 those methods.  If you'd like to contribute to this project, please
 subscribe to the mailing list.
 
-Thanks!
+Tracking development
+--------------------
+
+* The mailing-list mentioned above is a good place to start.
+
+* You can track commits via RSS
+    * to [the master branch of the project](https://github.com/EconometricsLibrary/MacroeconometricsText/commits/master.atom)
+    * to [the development branch of the project](https://github.com/EconometricsLibrary/MacroeconometricsText/commits/dev.atom)
