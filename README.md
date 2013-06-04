@@ -4,7 +4,7 @@ A free graduate Macroeconometrics textbook
 The goal of this project is to produce and maintain as a community a
 free textbook/research monograph on Macroeconometrics suitable for
 teaching a PhD elective and make it available through the [GNU Free
-Documentation License](http://www.gnu.org/copyleft/fdl.html).
+Documentation License][FDL].
 
 There are a few reasons to do this. Perhaps the most important is that
 there aren't appropriate textbooks for these classes: as far as I
@@ -28,8 +28,7 @@ License
 -------
 
 Permission is granted to copy, distribute and/or modify this document
-under the terms of the [GNU Free Documentation
-License](http://www.gnu.org/copyleft/fdl.html), Version 1.3 or any
+under the terms of the [GNU Free Documentation License][FDL], Version 1.3 or any
 later version published by the Free Software Foundation; with no
 Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. A
 copy of the license is included in the textbook Appendix "GNU Free
@@ -47,7 +46,7 @@ packages manually if you use an older LaTeX distribution).
 
 You can manually run XeLaTeX on `textbook.tex` or run
 ```
-latexmk -pdf -pdflatex=xelatex textbook.tex
+latexmk -xelatex textbook.tex
 ```
 on the command line in the main directory of this project.  Running
 ```
@@ -69,14 +68,19 @@ Contact information and support
 -------------------------------
 
 There are two "best" ways of contacting us.  The first is through the
-mailing list for the
-[Econometrics Free Library](http://www.econometricslibrary.org),
+mailing list for the [Econometrics Free Library Project][EFL],
 <econometricslibrary@librelist.com> (this is the mailing list for our
-parent organization); the [Librelist homepage](http://librelist.com/) has more information about sending messages to this discussion list.  The second is by
-[filing an issue report for the project](https://github.com/EconometricsLibrary/MacroeconometricsText/issues/new).
+parent project); the [Librelist homepage][] has more information about 
+sending messages to this discussion list.  The second is by
+[filing an issue report for the project][issues].
 
 If you find an error in the text, please let us know through one of
 those methods.  If you'd like to contribute to this project, please
 subscribe to the mailing list.
 
 Thanks!
+
+[FDL]: http://www.gnu.org/copyleft/fdl.html
+[EFL]: http://www.econometricslibrary.org
+[Librelist homepage]: http://librelist.com/
+[issues]: https://github.com/EconometricsLibrary/MacroeconometricsText/issues/new
