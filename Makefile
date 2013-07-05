@@ -41,4 +41,4 @@ VERSION.tex:
 	echo $(dateinfo) > $@
 
 dateinfo := "\\date{$(shell git show -s --date=short --format=%cd HEAD), \
-  version $(shell git describe --tags)}"
+  $(shell git describe --tags)}"
