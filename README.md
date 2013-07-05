@@ -4,7 +4,7 @@ A free graduate Macroeconometrics textbook
 The goal of this project is to produce and maintain as a community a
 free textbook/research monograph on Macroeconometrics suitable for
 teaching a PhD elective and make it available through the [GNU Free
-Documentation License](http://www.gnu.org/copyleft/fdl.html).
+Documentation License][FDL].
 
 There are a few reasons to do this. Perhaps the most important is that
 there aren't appropriate textbooks for these classes: as far as I
@@ -31,12 +31,13 @@ Copyright © 2013, the authors of the "Notes on Macroeconometrics"
 textbook.  A list of authors is presented in the file AUTHORS.tex.
 
 Permission is granted to copy, distribute and/or modify this document
-under the terms of the [GNU Free Documentation
-License](http://www.gnu.org/copyleft/fdl.html), Version 1.3 or any
-later version published by the Free Software Foundation; with no
-Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. A
-copy of the license is included in the textbook Appendix "GNU Free
-Documentation License" and in the file LICENSE.tex.
+under the terms of the [GNU Free Documentation License][FDL], Version
+1.3 or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts and no Back-Cover
+Texts. A copy of the license is included in the textbook Appendix "GNU
+Free Documentation License" and in the file LICENSE.tex.
+
+[FDL]: http://www.gnu.org/copyleft/fdl.html
 
 Dependencies and installation
 -----------------------------
@@ -74,13 +75,15 @@ Contact information and support
 -------------------------------
 
 There are two "best" ways of contacting us.  The first is through the
-mailing list for the [Econometrics Free
-Library](http://www.econometricslibrary.org),
+mailing list for the [Econometrics Free Library Project][EFL],
 <econometricslibrary@librelist.com> (this is the mailing list for our
-parent organization); the [Librelist homepage](http://librelist.com/)
-has more information about sending messages to this discussion list.
-The second is by [filing an issue report for the
-project](https://github.com/EconometricsLibrary/MacroeconometricsText/issues/new).
+parent project); the [Librelist homepage][] has more information about
+sending messages to this discussion list.  The second is by [filing an
+issue report for the project][issues].
+
+[EFL]: http://www.econometricslibrary.org
+[Librelist homepage]: http://librelist.com/
+[issues]: https://github.com/EconometricsLibrary/MacroeconometricsText/issues/new
 
 If you find an error in the text, please let us know through one of
 those methods.  If you'd like to contribute to this project, please
@@ -92,5 +95,10 @@ Tracking development
 * The mailing-list mentioned above is a good place to start.
 
 * You can track commits via RSS
-    * to [the master branch of the project](https://github.com/EconometricsLibrary/MacroeconometricsText/commits/master.atom)
-    * to [the development branch of the project](https://github.com/EconometricsLibrary/MacroeconometricsText/commits/dev.atom)
+    * to [the master branch of the project][rssmaster]
+    * to [the development branch of the project][rssdev]
+
+[rssmaster]: https://github.com/EconometricsLibrary/MacroeconometricsText/commits/master.atom
+[rssdev]: https://github.com/EconometricsLibrary/MacroeconometricsText/commits/dev.atom
+
+Thanks!
