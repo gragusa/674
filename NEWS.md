@@ -1,6 +1,14 @@
 Project news
 ============
 
+### Version 0.1.4 (minor changes)
+* Updates the makefile to generate date and version information
+  automatically with 'make ver'
+* Moves material from shared repositories into this repo to free us up
+  from worring about interop while we're doing the first real draft.
+* Adds some material to the README file (rss feed location)
+* Moves the authors into a separate tex file and appendix for convenience
+
 ### Version 0.1.3 
 * Finishes the process of importing Calhoun's lecture notes; adds to
   the VAR and Cointegration notes and in particular some Bayesian
