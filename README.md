@@ -24,11 +24,17 @@ Chapters
 * Stochastic integrals
 * Cointegration
 
+Project status
+--------------
+
+The author of this project is Gray Calhoun: <gcalhoun@iastate.edu>.  I
+am not working on it very much right now, but will try to correct any
+typos or other errors that are pointed out to me.
+
 License
 -------
 
-Copyright © 2013, the authors of the "Notes on Macroeconometrics"
-textbook.  A list of authors is presented in the file AUTHORS.tex.
+Copyright © 2013 Gray Calhoun
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the [GNU Free Documentation License][FDL], Version
@@ -67,38 +73,5 @@ in the same directory.  Running
 latexmk -c textbook.tex
 ```
 will clean up most of the files that LaTeX created in the first step.
-
-Please email the mailing list if you run into problems or have any
-other questions.
-
-Contact information and support
--------------------------------
-
-There are two "best" ways of contacting us.  The first is through the
-mailing list for the [Econometrics Free Library Project][EFL],
-<econometricslibrary@librelist.com> (this is the mailing list for our
-parent project); the [Librelist homepage][] has more information about
-sending messages to this discussion list.  The second is by [filing an
-issue report for the project][issues].
-
-[EFL]: http://www.econometricslibrary.org
-[Librelist homepage]: http://librelist.com/
-[issues]: https://github.com/EconometricsLibrary/MacroeconometricsText/issues/new
-
-If you find an error in the text, please let us know through one of
-those methods.  If you'd like to contribute to this project, please
-subscribe to the mailing list.
-
-Tracking development
---------------------
-
-* The mailing-list mentioned above is a good place to start.
-
-* You can track commits via RSS
-    * to [the master branch of the project][rssmaster]
-    * to [the development branch of the project][rssdev]
-
-[rssmaster]: https://github.com/EconometricsLibrary/MacroeconometricsText/commits/master.atom
-[rssdev]: https://github.com/EconometricsLibrary/MacroeconometricsText/commits/dev.atom
 
 Thanks!

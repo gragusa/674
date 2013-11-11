@@ -1,6 +1,11 @@
 Project news
 ============
 
+Version 0.2.0
+-------------
+Changes project ownership to 'Gray Calhoun' and removes the project
+from EFLP (because it's underdeveloped).
+
 ### Version 0.1.4 (minor changes)
 * Updates the makefile to generate date and version information
   automatically with 'make ver'

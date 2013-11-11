@@ -10,17 +10,25 @@
 # LICENSE.tex and is also available online at
 # <http://www.gnu.org/copyleft/fdl.html>.
 
-.PHONY: all clean burn ver
+.PHONY: all clean burn VERSION.tex
 .DELETE_ON_ERROR:
 
+SHELL=/bin/bash
 latexmk := latexmk
 crud := .aux .log .out .toc .fdb_latexmk .fls
 latexmkFLAGS := -xelatex -silent
 
-all: textbook.pdf
 
-textbook.pdf: textbook.tex AUTHORS.tex LICENSE.tex $(wildcard tex/*.tex) \
-  tex/tufte-handout.cls tex/tufte-common.def tex/references.bib VERSION.tex
+dateinfo := "\\date{$(shell git show -s --date=short --format=%cd HEAD), \
+  version $(shell git describe --tags)}"
+
+all: main.pdf
+
+VERSION.tex:
+	echo $(dateinfo) > $@
+
+main.pdf: main.tex LICENSE.tex tex/references.bib \
+  $(wildcard tex/*.tex) | VERSION.tex
 	$(latexmk) $(latexmkFLAGS) $< && $(latexmk) -c $<
 
 clean:
@@ -28,17 +36,3 @@ clean:
 
 burn: clean
 	rm -f *.pdf *.dvi
-
-# The rest of the Makefile extracts the last tag and the date of the
-# current commit from the gitrep, and writes it to the file
-# VERSION.tex formatted to be used as the date for the LaTeX textbook.
-
-ver:
-	echo $(dateinfo) > VER.tmp
-	if diff --brief VERSION.tex VER.tmp; then rm VER.tmp; \
-  else mv -f VER.tmp VERSION.tex; fi
-VERSION.tex:
-	echo $(dateinfo) > $@
-
-dateinfo := "\\date{$(shell git show -s --date=short --format=%cd HEAD), \
-  $(shell git describe --tags)}"
