@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.2.1
+* Switches back from unicode to ascii characters
+
 Version 0.2.0
 -------------
 Changes project ownership to 'Gray Calhoun' and removes the project
