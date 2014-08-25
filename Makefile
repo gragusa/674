@@ -10,29 +10,23 @@
 # LICENSE.tex and is also available online at
 # <http://www.gnu.org/copyleft/fdl.html>.
 
-.PHONY: all clean burn VERSION.tex
+.PHONY: all clean burn
 .DELETE_ON_ERROR:
 
 SHELL=/bin/bash
 latexmk := latexmk
 crud := .aux .log .out .toc .fdb_latexmk .fls
-latexmkFLAGS := -xelatex -silent
+latexmkFLAGS := -silent -pdf
 
-
-dateinfo := "\\date{$(shell git show -s --date=short --format=%cd HEAD), \
-  version $(shell git describe --tags)}"
-
-all: main.pdf
-
-VERSION.tex:
-	echo $(dateinfo) > $@
-
-main.pdf: main.tex LICENSE.tex tex/references.bib \
-  $(wildcard tex/*.tex) | VERSION.tex
-	$(latexmk) $(latexmkFLAGS) $< && $(latexmk) -c $<
+all: macroeconometrics.pdf
+macroeconometrics.pdf: $(wildcard tex/lec*.tex) \
+                   references.bib tex/preamble.tex tex/macros.tex LICENSE.tex
+	$(latexmk) $(latexmkFLAGS) $(@F)
 
 clean:
-	rm -f $(foreach ext,$(crud),*.$(ext)) *~
+	$(latexmk) -c macroeconometrics.pdf
+	rm -f *~ tex/*~ *.dvi
 
 burn: clean
+	$(latexmk) -C macroeconometrics.pdf
 	rm -f *.pdf *.dvi

@@ -1,4 +1,4 @@
-% Copyright © 2013 Gray Calhoun
+% Copyright © 2013-2014 Gray Calhoun
 
 % Permission is granted to copy, distribute and/or modify this
 % document under the terms of the GNU Free Documentation License,
@@ -8,12 +8,13 @@
 % LICENSE.tex and is also available online at
 % <http://www.gnu.org/copyleft/fdl.html>.
 
-\part*{Stochastic integration}
-\addcontentsline{toc}{part}{Stochastic Integration}
+\section{Stochastic integration}
+
+\subsection{Start}
 
 \begin{itemize}
 \item
-  $W(λ)$ is a \emph{Weiner process} or \emph{Brownian Motion} if it is
+  $W(\lambda)$ is a \emph{Weiner process} or \emph{Brownian Motion} if it is
   \begin{itemize}
   \item continuous and mean zero
   \item $W(t) - W(s) \sim N(0, t-s)$ for any $t$ and $s$
@@ -21,13 +22,13 @@
   \end{itemize}
 \item Draw diagram of sample paths w/ $\sqrt T$ envelope
 \item Obviously, if $e_t$ is an MDS with variance 1, we have
-  \[1/\sqrt{T} \sum_{t=1}^{[λT]} e_t →^d W(λ)\]
+  \[1/\sqrt{T} \sum_{t=1}^{[\lambda T]} e_t \to^d W(\lambda)\]
   under reasonable assumptions; want to be able to write this as an
-  integral $\int_0^λ dW$
+  integral $\int_0^\lambda dW$
 
   \begin{itemize}
   \item
-    $\lim 1/T \sum_{t=1}^{[λT]}$ maps to $\int_0^λ dt$
+    $\lim 1/T \sum_{t=1}^{[\lambda T]}$ maps to $\int_0^\lambda dt$
   \item
     $\lim e_t \sqrt{T}$ must map to $dW/dt$
 
@@ -35,33 +36,33 @@
     \item $e_t/\sqrt{T} ≈ dW$
     \item i.e. $dW^2 ≈ dt$
     \item You can also see this from writing out
-      \[dW/dt = \lim_{h → 0} (W(t+h) - W(t)) / h\]
+      \[dW/dt = \lim_{h \to 0} (W(t+h) - W(t)) / h\]
     \end{itemize}
   \item This is just intuition; proving is a little more difficult.
-  \item Implies that $W(λ)$ is not differentiable a.e.
+  \item Implies that $W(\lambda)$ is not differentiable a.e.
   \end{itemize}
 \item We only need a few basic results; there are entire classes you
   can take on working with Ito integrals and SDEs
 \end{itemize}
 
-\section{Application \& use}
+\subsection{Application \& use}
 
 \begin{itemize}
 \item Continuous mapping theorem: if $f$ is a continuous functional on
-  $[0,1]$ then \[f(1/\sqrt{T} \sum_{t=1}^{[λT]} e_t) →^d f(W(λ))\]
-  and, generally, if $g_t →^d g$ where $g$ is a random process on
-  $[0,1]$ then $f(g_t) →^d f(g)$
+  $[0,1]$ then \[f(1/\sqrt{T} \sum_{t=1}^{[\lambda T]} e_t) \to^d f(W(\lambda))\]
+  and, generally, if $g_t \to^d g$ where $g$ is a random process on
+  $[0,1]$ then $f(g_t) \to^d f(g)$
 \item Functional delta-method is similar
 \item Also can use integration results
 \end{itemize}
 
-\section{Unit roots in regression}
+\subsection{Unit roots in regression}
 
-\subsection{Spurious regression}
+\subsection{sub- Spurious regression}
 
 Suppose that we have a multivariate unit root process
 \[y_t = y_{t-1} + e_t\] and we run the regression
-\[y_{1t} = β y_{2,t-1} + u_t\]
+\[y_{1t} = \beta y_{2,t-1} + u_t\]
 
 Define
 
@@ -73,52 +74,52 @@ Define
 The OLS coefficients can be written as
 \begin{equation}
   \begin{split}
-    \hat β &= \Big(\sum_{t=2}^T v_2' y_{t-1} y_{t-1}' v_2\Big)^{-1}
+    \hat \beta &= \Big(\sum_{t=2}^T v_2' y_{t-1} y_{t-1}' v_2\Big)^{-1}
     \sum_{t=2}^T v_2' y_{t-1} y_t' v_1 \\
     &= \Big(v_2' \sum_{t=2}^T y_{t-1} y_{t-1}' v_2 \Big)^{-1} \Big(
     1/T^2 v_2' \sum_{t=2}^T y_{t-1} y_{t-1}' v_1
     + 1/T^2 v_2' \sum_{t=2}^T y_{t-1} e_t v_1 \Big) \\
-    &→^d \Big(v_2' Σ^{1/2} \int_0^1 W(s) W(s)' ds Σ^{1/2}
-    v_2\Big)^{-1} v_2' Σ^{1/2} \int_0^1 W(s) W(s)' ds Σ^{1/2} v_1
+    &\to^d \Big(v_2' \Sigma^{1/2} \int_0^1 W(s) W(s)' ds \Sigma^{1/2}
+    v_2\Big)^{-1} v_2' \Sigma^{1/2} \int_0^1 W(s) W(s)' ds \Sigma^{1/2} v_1
 \end{split}
 \end{equation}
-This is interesting because it means that $\hat β$ is not consistent
-(i.e.~doesn't converge to $β$). You can also show that $t$-stats don't
+This is interesting because it means that $\hat \beta$ is not consistent
+(i.e.~doesn't converge to $\beta$). You can also show that $t$-stats don't
 work (the statistic diverges so the test rejects with probability 1 in
 the limit)
 
 Relevant texts:
 \begin{itemize}
-\item Granger and Newbold (1974)
-\item Phillips (1986)
+\item \citet{GN74}
+\item \citet{Phi86}
 \end{itemize}
 
-\section{Regress I(1) on I(0)}
+\subsection{Regress I(1) on I(0)}
 
 Take the last example, but suppose that we include a covariance
 stationary I(0) regressor $x_{t-1}$ (but this is going to work for any
 collection of I(0) regressors as well),
-\[y_t = β_0 x_{t-1} + β_1 + β_2 y_{t-1} + u_t\] and say we want to get
+\[y_t = \beta_0 x_{t-1} + \beta_1 + \beta_2 y_{t-1} + u_t\] and say we want to get
 limiting distributions for OLS. Without loss of generality, assume that
 $E x_t = 0$; otherwise rewrite the equation as
-\[y_t = β_0 (x_{t-1} - E x_{t-1}) + (β_1 + β_0 E x_{t-1}) + β_2 y_{t-1} + u_t\]
-Also assume that $var e_t$ is 1 to keep the notation as simple as
+\[y_t = \beta_0 (x_{t-1} - E x_{t-1}) + (\beta_1 + \beta_0 E x_{t-1}) + \beta_2 y_{t-1} + u_t\]
+Also assume that $\var e_t$ is 1 to keep the notation as simple as
 possible.
 
-How to get asymp dist of $\hat β - β$? Key thing is that the different
+How to get asymp dist of $\hat \beta - \beta$? Key thing is that the different
 elements are going to converge at different rates; let
-\[Λ = diag(\sqrt{T}, \sqrt{T}, T)\] so
+\[\Lambda = diag(\sqrt{T}, \sqrt{T}, T)\] so
 \begin{equation}
 \begin{split}
-  Λ (\hat β - β) &=  \left( Λ^{-1} \sum_{t=2}^T
+  \Lambda (\hat \beta - \beta) &=  \left( \Lambda^{-1} \sum_{t=2}^T
     \begin{pmatrix}
       x_{t-1}^2       & x_{t-1}   & x_{t-1} y_{t-1} \\
-      x_{t-1}         & 1         & y_{t-1} \\ 
+      x_{t-1}         & 1         & y_{t-1} \\
       x_{t-1} y_{t-1} & y_{t-1}   & y_{t-1}^2
-    \end{pmatrix} Λ^{-1} \right)^{-1}
-  Λ^{-1} \sum_{t=2}^T 
+    \end{pmatrix} \Lambda^{-1} \right)^{-1}
+  \Lambda^{-1} \sum_{t=2}^T
   \begin{pmatrix}
-    x_{t-1} e_t \\ e_t \\ y_{t-1} e_t 
+    x_{t-1} e_t \\ e_t \\ y_{t-1} e_t
   \end{pmatrix}\\
   & \to^d
   \begin{pmatrix}
@@ -130,12 +131,12 @@ elements are going to converge at different rates; let
 \end{split}
 \end{equation}
 Where the 0 terms in the X'X matrix come from
-\[T^{-1} \sum_{t=2}^T x_{t-1} →^p 0\] from the LLN and
-\[T^{-1} \sum_{t=2}^T x_{t-1} y_{t-1} →^d \int_0^1 W_y(s) dW_x(s)\] so
-\[T^{-3/2} \sum_{t=2}^T x_{t-1} y_{t-1} →^p 0.\]
+\[T^{-1} \sum_{t=2}^T x_{t-1} \to^p 0\] from the LLN and
+\[T^{-1} \sum_{t=2}^T x_{t-1} y_{t-1} \to^d \int_0^1 W_y(s) dW_x(s)\] so
+\[T^{-3/2} \sum_{t=2}^T x_{t-1} y_{t-1} \to^p 0.\]
 
 Since the $X'X$ component is block diagonal, the asymptotic distribution
-of the first element of $\hat β$ is $(E x_t^2)^{-1} W(1)$, making it
+of the first element of $\hat \beta$ is $(E x_t^2)^{-1} W(1)$, making it
 consistent and asymptotically normal at the usual rate. The coefficient
 on the I(1) term and on the constant are both not Normal.
 
@@ -148,26 +149,26 @@ estimator of the intercept is not.
 \textbf{Additional lag structure}
 
 Suppose now you run the regression
-\[y_t = β_0 + β_1 y_{t-1} + β_2 y_{t-2} + u_t\]
+\[y_t = \beta_0 + \beta_1 y_{t-1} + \beta_2 y_{t-2} + u_t\]
 
 \begin{itemize}
-\item know that OLS estimator of $β_0$ is normal and correctly centered
+\item know that OLS estimator of $\beta_0$ is normal and correctly centered
 \item we can rewrite the relationship as
-  \[y_t = β_0 + β_1 Δy_{t-1} + (β_2 + β_1) y_{t-2} + u_t\] and
-  estimating $β_1$ in this equation will give
+  \[y_t = \beta_0 + \beta_1 \Delta y_{t-1} + (\beta_2 + \beta_1) y_{t-2} + u_t\] and
+  estimating $\beta_1$ in this equation will give
 
   \begin{itemize}
   \item A numerically identical estimate as in the previous equation
-  \item A consistent and asymptotically normal estimator of $β_1$
-  \item Note that our estimate of $β_1 + β_2$ will have an awkward
+  \item A consistent and asymptotically normal estimator of $\beta_1$
+  \item Note that our estimate of $\beta_1 + \beta_2$ will have an awkward
     distribution
-  \item So the OLS estimate of $β_1$ in the original regression is
+  \item So the OLS estimate of $\beta_1$ in the original regression is
     consistent and asymptotically normal
   \end{itemize}
-\item Similarly, we can show that the OLS estimate of $β_2$ in the
+\item Similarly, we can show that the OLS estimate of $\beta_2$ in the
   original regression is consistent and asymptotically normal.
-\item Note that the estimate of $β$ is not jointly normal, since
-  $β_1+β_2$ has a non-normal distribution.
+\item Note that the estimate of $\beta$ is not jointly normal, since
+  $\beta_1+\beta_2$ has a non-normal distribution.
 \item This is true whenever you can rewrite the expressions so that
   coefficients appear on I(0) components and has implications for
   cointegration.
@@ -175,13 +176,29 @@ Suppose now you run the regression
 
 Relevant texts:
 \begin{itemize}
-\item Sims, Stock, and Watson (1990)
+\item \citet{SSW90}
 \end{itemize}
 
-\section{Regress I(0) on I(1)}
+\subsection{Regress I(0) on I(1)}
 To be added\ldots
 
-%%% Local Variables: 
+\subsection{Additional references to add from syllabus}
+\begin{itemize}
+\item \citet{Wa94}
+\item \citet{Da94}%
+\footnote{Comprehensive overview of probability theory and asymptotic
+  results for dependent data. Some of the CLTs and LLNs have been improved
+  on since this book was published, often by Davidson and his coauthors.} %
+\item \citet{Ga97}%
+\footnote{Introductory text for probability theory focused on econometrics;
+  I have assigned it in Econ 671 some years. Great to review results you
+  should know but may have forgotten.} %
+\item \citet{Wh01}%
+\footnote{Introduction, but focuses on OLS and IV and extends coverage
+  to dependent data.} %
+\end{itemize}
+
+%%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../main"
-%%% End: 
+%%% TeX-master: "../macroeconometrics"
+%%% End:

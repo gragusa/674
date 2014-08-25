@@ -1,4 +1,4 @@
-% Copyright © 2013 Gray Calhoun
+% Copyright © 2013-2014 Gray Calhoun
 
 % Permission is granted to copy, distribute and/or modify this
 % document under the terms of the GNU Free Documentation License,
@@ -8,127 +8,101 @@
 % LICENSE.tex and is also available online at
 % <http://www.gnu.org/copyleft/fdl.html>.
 
-\part*{Structural VARs}
-\addcontentsline{toc}{part}{Structural VARs}
+\section{Structural Vector Autoregressions}
 
-Textbook material:
+\subsection{Forecasting with VARs}
+
 \begin{itemize}
-\item Greene 6th edition, Chapter 19
-\item Greene 7th edition, Chapter 20
-\end{itemize}
-Review articles:
-\begin{itemize}
-\item Kilian's recent (2011?) handbook chapter
-\item Stock and Watson (2001) \emph{JEP}. ``Vector Autoregressions''
-\item Watson (1994) \emph{Handbook}. ``Vector autoregressions and
-  cointegration'' (but it's pretty old at this point).
-\end{itemize}
-Important background:
-\begin{itemize}
-\item Sims (1980) Macroeconomics and Reality
-\end{itemize}
-Other books that students may want to consult:
-\begin{itemize}
-\item Jim Hamilton (1994), \emph{Time series analysis}.
+\item Textbook material: \citet[Chapter 20]{Gr12}
+\item Review articles: \citet{Ki13}, \citet{Wa94},
+\item Key papers: \citet{Si80}
 \end{itemize}
 
-\section{Quick: forecast from VAR(p)}
+\subsection{Quick: forecast from VAR(p)}
 
 \begin{itemize}
 \item Iterated forecasts
 \item Direct forecasts
 \end{itemize}
 
-\subsection{Uncertainty}
-
-\begin{itemize}
-\item Want confidence intervals associated with these IRFs (draw)
-\item $δ$-method (example for AR(1)): 
-  \[y_t = ρ y_{t-1} + e_t,\]
-  then we know that 
-  \[  y_{t+k} - y_{t-1} = ρ^k Δe_t;\] 
-  so we'd like to make a confidence region for
-\end{itemize}
-\[\sqrt{T} (\hat ρ^1 - ρ^1,…,\hat ρ^k - ρ^k)\]
-for any $j$, $\sqrt{T} (\hat ρ^j - ρ^j) → N(0, (j ρ^{j-1}) 2 σ²)$,
-which breaks if $ρ = 0$!
+\subsubsection{Uncertainty}
 
 \begin{itemize}
 \item For matrices, spots where it breaks are less obvious and depend
   on the derivative of the AR coefficients.
 \item Bootstrap also used (but suffers from some of the same problems
-  as $δ$-method)
+  as $\delta$-method)
 \item grid bootstrap (Mikusheva 2012)
 \item mostly get pointwise CIs
 \end{itemize}
 
 (Add material on Bayesian CIs too)
 
-\section{Basic ideas for IRF}
+\subsection{Basic ideas for IRF}
 
 AR and MA models that we discussed earlier are \emph{descriptive}
 models, but don't necessarily have any economic content
-\[φ(L) y_t = θ(L) e_t\]
+\[\phi(L) y_t = \theta(L) e_t\]
 describes the second moments of $y_t$; the usual concerns about
 simultaneity apply here (and even more forcefully than usual).
 
 \begin{itemize}
 \item Interested in dynamics
-\item Want to know, what happens to $y_{t+1}, y_{t+2},…, y_{t+h},…$
+\item Want to know, what happens to $y_{t+1}, y_{t+2},\dots, y_{t+h},\dots$
   given an exogenous change to $y_{1,t}$?
 \item What is an exogenous change to $y_{1,t}$? Can it be isolated
   from changes to $y_{2,t}$, $y_{3,t}$, etc?
 \item Monetary shock
 \item Technology shock
-\item Financial shock (credit…)
+\item Financial shock (credit\dots)
 \item Oil price shock
 \item UNANTICIPATED
 \end{itemize}
 
-Look at $MA(∞)$ representation (assuming stationarity, etc) zero mean
-for simplicity \[y_t = C(L) e_t\] where $C(L) = φ(L)^{-1} θ(L) e_t$
+Look at $MA(\infty)$ representation (assuming stationarity, etc) zero mean
+for simplicity \[y_t = C(L) e_t\] where $C(L) = \phi(L)^{-1} \theta(L) e_t$
 
 we want to transform/rotate $e_t$ so that we have ``structural''
 shocks $u_t$,
 \[u_t = V e_t\] typically $u_t$ is normalized so that
-\[var( u_t ) = I\] (uncorrelation is kind of the definition of a macro
+\[\var( u_t ) = I\] (uncorrelation is kind of the definition of a macro
 shock) and we have
 \[y_t = C(L) V^{-1} u_t\ (rewrite\ as)\ B(L) u_t\]
 
 So then
-\[y_t = B_0 u_t + B_1 u_{t-1} + B_2 u_{t-2} + ⋯\]
+\[y_t = B_0 u_t + B_1 u_{t-1} + B_2 u_{t-2} + \cdots\]
 and the effect of
 \begin{itemize}
-\item $u_{1t}$ shock to $y_t$ is $B_0 (1 0 0 … 0)$
-\item $u_{1t}$ shock to $y_{t+1}$ is $B_1 (1 0 0 … 0)'$
+\item $u_{1t}$ shock to $y_t$ is $B_0 (1 0 0 \dots 0)$
+\item $u_{1t}$ shock to $y_{t+1}$ is $B_1 (1 0 0 \dots 0)'$
 \item etc.
-\item $u_{1t}$ shock to $y_{t+k}$ is $B_k (1 0 0 … 0)'$
+\item $u_{1t}$ shock to $y_{t+k}$ is $B_k (1 0 0 \dots 0)'$
 \end{itemize}
 notice that $V$ is not identified and so the shocks are not identified:
 if $W$ is any orthonormal matrix, so that $W W' = I$, then $W u_t$ has
 variance $I$ as well, and
 \[C(L) e_t = C(L) V^{-1} u_t = C(L) (VW)^{-1} ( W u_t )\]
 
-\subsection{VAR representation}
+\subsubsection{VAR representation}
 
 (mention rank conditions)
 
 \[B(L)^{-1} = A(L);\]
 \begin{itemize}
-\item structural form: $A_0 y_t = A_1 y_{t-1} + ⋯ + A_p y_{t-p} + u_t$
-\item reduced form: $y_t = A_0^{-1} A_1 y_{t-1} + ⋯ + A_0^{-1} A_p
+\item structural form: $A_0 y_t = A_1 y_{t-1} + \cdots + A_p y_{t-p} + u_t$
+\item reduced form: $y_t = A_0^{-1} A_1 y_{t-1} + \cdots + A_0^{-1} A_p
   y_{t-p} + A_0^{-1} u_t$
 \end{itemize}
 in this notation, the effect of
 \begin{itemize}
-\item $u_{1t}$ shock to $y_t$ is $A_0^{-1} (1 0 … 0)'$
+\item $u_{1t}$ shock to $y_t$ is $A_0^{-1} (1 0 \dots 0)'$
 \item $u_{1t}$ shock to $y_{t+1}$ is $A_0^{-1} A_1 × shocked\ y_t =
-  A_0^{-1} A_1 A_0^{-1} (1 0 … 0)'$
+  A_0^{-1} A_1 A_0^{-1} (1 0 \dots 0)'$
 \item $u_{1t}$ shock to $y_{t+2} = A_0^{-1} A_1 × shocked\ y_{t+1} +
   A_0^{-1} A_2 × shocked\ y_t = (A_0^{-1} A_1) × (A_0^{-1} A_1)
-  A_0^{-1} (1 0 ⋯ 0)'$
+  A_0^{-1} (1 0 \cdots 0)'$
   \begin{itemize}
-  \item $(A_0^{-1} A_2) * A_0^{-1} (1 0 ⋯ 0)'$
+  \item $(A_0^{-1} A_2) * A_0^{-1} (1 0 \cdots 0)'$
   \end{itemize}
 \end{itemize}
 etc (these formulas are really easy if you use the canonical form of
@@ -143,19 +117,7 @@ the VAR)
   and so has only $n (n-1) / 2$ unique elements, not the $n^2$.
 \end{itemize}
 
-\section{Bayesian IRFs}
-
-
-\begin{itemize}
-\item specify prior for AR coefficients and VCV
-\item Draw candidate values of the AR coefficients from the posterior
-\item For each one, calculate the IRF as before
-\item Summarize with mean, mode, or credible set
-\item It is \emph{very unlikely} that these are uniformly valid
-  credible sets if you use the uniform prior
-\end{itemize}
-
-\section{Identification}
+\subsection{Identification}
 
 \begin{itemize}
 \item Short run identification: Constrain $A_0$ or $A_0^{-1}$, not
@@ -168,7 +130,7 @@ the VAR)
 \item Partial identification
 \end{itemize}
 
-\subsection{Short-run identification}
+\subsubsection{Short-run identification}
 
 Suppose we know that
 \begin{itemize}
@@ -193,10 +155,10 @@ identified.
 \item probably want to leave the other coefficients of the interest
   rate equation unspecified so that you're allowing it to be forward
   looking (or include additional forward looking variables)
-\item could specify 
+\item could specify
   \begin{equation*}
     R_t = R^* + coef * (inflation_t - inflation^*) + coef * (unemp_t - unemp^*) + coefs *
-    R_{t-1} + ⋯ + e_{Rt}
+    R_{t-1} + \cdots + e_{Rt}
   \end{equation*}
 \item but now this equation needs to be right (if it is, another
   source of identification)
@@ -207,11 +169,11 @@ identified.
   shock this way;
 \end{itemize}
 
-\subsection{semi-structural}
-\[y_t = (Δ gdp_t,\ inflation_t,\ fed\ funds_t)\]
-``identify'' with recursive structure: 
+\subsubsection{semi-structural}
+\[y_t = (\Delta  gdp_t,\ inflation_t,\ fed\ funds_t)\]
+``identify'' with recursive structure:
 \begin{itemize}
-\item $Δ gdp_t$ only responds to
+\item $\Delta  gdp_t$ only responds to
 ``first shock''
 \item $inflation_t$ only responds to ``first shock'' and
 ``second shock''
@@ -232,20 +194,20 @@ to everything
   taking care of the endogenous component of both)
 \end{itemize}
 
-\subsection{Kilian (2010) has other examples}
+\subsubsection{Kilian (2010) has other examples}
 
 \begin{itemize}
 \item Any economic argument to pin down particular values of
   $A_0^{-1}$ or $A_0$ can do the same trick.
 \end{itemize}
 
-\subsection{Long-run identification}
+\subsubsection{Long-run identification}
 
 Introduced in Blanchard and Quah (1989 AER)
 
 \begin{itemize}
-\item Their model: bivariate VAR ($Δ gdp_t$, $u_t$)
-\item $Δ gdp_t$ is I(0)
+\item Their model: bivariate VAR ($\Delta  gdp_t$, $u_t$)
+\item $\Delta  gdp_t$ is I(0)
 \item Assume for argument's sake that $gdp_0 = 0$
 \item Assumption: want to identify the shocks that have a long-run
   effect on $gdp_t$ (they argue that these have interpretation as a
@@ -253,23 +215,23 @@ Introduced in Blanchard and Quah (1989 AER)
 \item Start with structural MA representation:
 \item $v_t$ consists of the policy shocks; first element is ``supply''
   shock
-  \[( Δ gdp_t, u_t ) = C(L) e_t = D(L) v_t\]
+  \[( \Delta  gdp_t, u_t ) = C(L) e_t = D(L) v_t\]
   Simple rewrite:
-  \[ ∑_{s=1}^t (Δ gdp_s, u_s) = D(L) ∑_s v_s \]
+  \[ \sum_{s=1}^t (\Delta  gdp_s, u_s) = D(L) \sum_s v_s \]
 \item Apply the ``beveridge-nelson decomposition'' (note that $D(1) =
-  D_0 + D_1 + …$
+  D_0 + D_1 + \dots$
   \begin{align*}
-    ∑_{s=1}^t D(L) v_s
-    &= ∑_{s=1}^t ∑_{j=0}^∞ D_j v_{s-j} \\
-    &= ∑_{j=0}^∞ v_{t-j} ∑_{s=0}^j D_s \\
-    &= (D(1) - ∑_{j=1}^∞ D_j) v_t + (D(1) - ∑_{j=2}^∞ D_j) v_{t-1} + ⋯ \\
-    &= D(1) ∑_{s=1}^t v_s + D^*(L) v_t
+    \sum_{s=1}^t D(L) v_s
+    &= \sum_{s=1}^t \sum_{j=0}^\infty D_j v_{s-j} \\
+    &= \sum_{j=0}^\infty v_{t-j} \sum_{s=0}^j D_s \\
+    &= (D(1) - \sum_{j=1}^\infty D_j) v_t + (D(1) - \sum_{j=2}^\infty D_j) v_{t-1} + \cdots \\
+    &= D(1) \sum_{s=1}^t v_s + D^*(L) v_t
   \end{align*}
-  where $D_k^* = - ∑_{j=k+1}^∞ D_j$ and
-  $D(1) = \begin{pmatrix} 
+  where $D_k^* = - \sum_{j=k+1}^\infty D_j$ and
+  $D(1) = \begin{pmatrix}
     D_{11}(1) & D_{12}(1) \\ D_{21}(1) & D_{22}(1)
   \end{pmatrix}$
-\item This gets us $(gdp_t, ∑_{s=1}^t u_s) = sum = D(1) ∑_{s=1}^t v_s
+\item This gets us $(gdp_t, \sum_{s=1}^t u_s) = sum = D(1) \sum_{s=1}^t v_s
   + D(L) v_t$
 \item second part are purely transitory shocks
 \item $D(1)$ part are the ``permanent shocks''
@@ -282,77 +244,30 @@ Introduced in Blanchard and Quah (1989 AER)
   \[vcv(v_s) = I vcv(C(1) e_t) = vcv(D(1) v_t),\]
   so
   \begin{itemize}
-  \item $C(1) Σ C(1)`= D(1) D(1)'$ (and LHS can be estimated
+  \item $C(1) \Sigma C(1)`= D(1) D(1)'$ (and LHS can be estimated
     consistently);
   \item here $D(1)$ can be estimated as the choleski decomposition of
-    estimated $C(1) Σ C(1)'$ (and know that, if we have the reduced
-    form VAR model $Φ(L) y_t = e_t$ then $Φ(L)^{-1} = C(L)$ (and this
+    estimated $C(1) \Sigma C(1)'$ (and know that, if we have the reduced
+    form VAR model $\Phi(L) y_t = e_t$ then $\Phi(L)^{-1} = C(L)$ (and this
     holds for $L = 1$)
   \item So then $v_t = \hat D(1)^{-1} \hat C(1) e_t$ and $A_0^{-1} =
     \hat D(1)^{-1} \hat C(1)$
   \end{itemize}
 \end{itemize}
 
-\subsection{Partial identification through sign restrictions.}
-
-The basic idea behind partial identification is that we may not have
-enough information to pin down a value precisely, but we might still
-be able to derive economically interesting restrictions.  For example,
-if we define a set of \emph{potential} ``loose'' monetary policy
-shocks to be any innovation that lowers the Federal Funds rate, and
-\emph{any} shock that meets that minor condition leads to a rise in
-GDP growth, we can conclude that monetary policy shocks cause GDP
-growth to rise.
-
+\subsection{Additional references (to be incorporated from syllabus)}
 \begin{itemize}
-\item The key difference between this approach and the previous
-  approaches is that, in this hypothetical example, we don't need to
-  know which of the innovations actually line up with monetary policy
-  shocks, since we know that (hypothetically) GDP growth has a
-  nonnegative response to all of them.
-\item Implementation without worrying about inference is relatively
-  easy:
-  \begin{itemize}
-  \item Estimate the reduced-form VAR,
-    \[ y_t = Φ₀ + ∑_{j=1}^p Φ_j y_{t-j} + e_t \]
-    and the variance-covariance matrix of $e_t$ as usual.
-  \item Cholesky-decompose $\Σh$, so $\Σh = PP'$ with $P$ lower
-    triangular.
-  \item For any orthonormal $D$, $\Σh = PP'$ implies that $\Σh =
-    (PD)(PD)'$, so we're going to proceed as before, but letting
-    $A₀^{-1} = PD$ and letting $D$ range over the whole set of
-    orthonormal matrices.  ``Range'' means that we'll simulate a bunch of
-    orthonormal matrices.
-  
-    One way to let $D$ range over these matrices is to draw a $k×k$
-    matrix of standard normal random variables, call it $L$, and take
-    the QR decomposition of $L$, giving $L=QR$ where $Q$ is
-    orthonormal.  Then let $D=Q$.
-  \item For each draw of $A₀=(PD)^{-1}$, calculate the IRFs.  If they
-    satisfy some economically-motivated constraints, keep that draw of
-    $A₀$ (in the brief example above, the constraint would be that the
-    Federal Funds rate has an immediate positive response).  Otherwise
-    discard it.  Either way, draw many many more candidate values of
-    $A₀$.
-  \item The set of unrejected $A₀$ defines a set of potential IRFs for
-    the economic shock of interest.  Note that there's no way to say
-    that one of these IRFs is ``more plausible'' than any others,
-    since they all correspond to the exact same value of the
-    likelihiood.
-  \end{itemize}
-\item Bayesian estimation works very nicely with the algorithm
-  described above, and makes it computationally easy to account for
-  uncertainty in the estimators of $Φ$ and $Σ$.  But we want to be
-  careful to not accidentally turn the method for generating candidate
-  values of $A₀$ into a prior over different values of $A₀$, which
-  will happen if we treat uncertainty over $A₀$ the same as
-  uncertainty over the values of $Φ$ and $Σ$.  (Need to add references)
-\item I need to add notes and references on handling estimation
-  uncertainty for classical estimation and for Bayesian estimation
-  when we don't want to impose a prior on $A₀$.
+\item \citet{BD91}%
+\footnote{The ``classic'' treatment of weakly-stationary univariate
+  processes.} %
+\item \citet{FR07}
+\item \citet{Ki13}
+\item \citet{Si80}
+\item \citet{SW01}
+\item \citet{Wa94}
 \end{itemize}
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../main"
-%%% End: 
+%%% End:

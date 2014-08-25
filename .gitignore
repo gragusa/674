@@ -27,6 +27,7 @@ _region_.tex
 *.pdf
 *.pdfsync
 *.ps
+*.sbb
 *.snm
 *.synctex.gz
 *.toc
