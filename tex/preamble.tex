@@ -12,13 +12,14 @@
   amsmath,
   bibentry,
   booktabs,
+  chngcntr,
   enumitem,
   fancyhdr,
   fancyvrb,
   graphicx,
   ifdraft,
-  natbib,
   ragged2e,
+  sourcesanspro,
   subfig,
   tabularx,
   textcomp,
@@ -32,7 +33,8 @@
 \usepackage[bitstream-charter]{mathdesign}
 \usepackage[letterspace=35]{microtype}
 \usepackage[osf]{sourcecodepro}
-\usepackage{sourcesanspro}
+\usepackage[round,comma]{natbib}
+\usepackage[top=1in,bottom=1.25in,left=1.25in,right=1.25in]{geometry}
 
 % Change to ragged-right without inline math breaks; this helps avoid
 % awkward line breaks or extensions into the right margin in math or
@@ -47,8 +49,8 @@
 
 \urlstyle{same}
 \DeclareUrlCommand\url{%
-\def\UrlLeft{\guilsinglleft}%
-\def\UrlRight{\guilsinglright}%
+\def\UrlLeft{\guillemotleft}%
+\def\UrlRight{\guillemotright}%
 \urlstyle{same}}
 
 % This will make copy and pasting easier, and will prevent the
@@ -57,6 +59,10 @@
 % has very, very few ligatures anyway.
 \DisableLigatures{family = tt*}
 \frenchspacing
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{1}
+\counterwithout{section}{chapter}
+\renewcommand\thesection{\arabic{section}}
 
 \ifoptionfinal{
   % If the 'final' option is set, \try[etc] just includes or inputs

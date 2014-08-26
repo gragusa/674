@@ -16,72 +16,82 @@ specialty time series books (\citealp{BD91} and \citealp{Ha94}).
 
 \subsection{Basic definitions}
 
-\begin{description}
-\item[Stochastic process:]
-A stochastic process is a collection of random variables (or
-random vectors) indexed by a parameter $t$ indicating time.
-\end{description}
+\begin{defn}[stochastic process]
+  A \emph{stochastic process} is a collection of random variables (or
+  random vectors) indexed by a parameter $t$ indicating time.
+\end{defn}
 
 Want to discuss how this can be viewed as a sequence of random
 variables or as a random function of $t$ (sample path).
 
-Often we need to deal with \textbf{triangular stochastic arrays} in a
-formal sense:
+Often we need to deal with \emph{triangular stochastic arrays} in a
+formal sense. A stochastic array is essentially a stochastic process
+indexed by more than one parameter.
 
-\begin{description}
-\item[Motivation for stochastic array:]
-  Suppose $\{y_t; t=1,...,n\}$ is a stochastic process where each
-  $y_t$ is i.i.d standard normal. Let $s^2_n$ be the sample variance
-  of this process. Is $z_t = (y_t - \bar y) / s$ a stochastic process?
-  (no)
+\paragraph{Motivation for stochastic array:}
+Suppose $\{y_t; t=1,...,n\}$ is a stochastic process where each $y_t$
+is i.i.d standard normal. Let $s^2_n$ be the sample variance of this
+process. Is $z_t = (y_t - \bar y) / s$ a stochastic process?  (no)
 
-  So we introduce two sets of indices and write $z_{t,n} = (y_t - \bar
-  y) / s_n$; where $n = 1,2,...$ and $t = 1,...,n$.  Now $\{z_{t,n}\}$
-  is a stochastic array.
-\item[Strict stationarity:]
-  The stochastic process $\{y_t\}$ is a \textbf{strictly stationary
-    time series} if, for all finite s, t, and k, we have
-  \[(y_s,...,y_{s+k}) =^d (y_t,...,y_{t+k})\]
+So we introduce two sets of indices and write $z_{t,n} = (y_t - \bar
+y) / s_n$; where $n = 1,2,...$ and $t = 1,...,n$.  Now $\{z_{t,n}\}$
+is a stochastic array.
 
-  Example of strict stationarity: suppose that $y_t$ is i.i.d.; then
-  it is strictly stationary.
+\begin{defn}[strict stationarity]
+  The stochastic process $\{y_t\}$ is a \emph{strictly stationary time
+    series} if, for all finite s, t, and k, we have
+  \begin{equation*}
+    (y_s,...,y_{s+k}) =^d (y_t,...,y_{t+k}).
+  \end{equation*}
+\end{defn}
 
-  Another example: suppose that, for any $t$, $(y_t, y_{t+1},
-  y_{t+2})$ is distributed $N(\mu,\Sigma)$, and that $y_t$ and $y_{t+3}$ are
-  independent for all $t$; then $y_t$ is obviously strictly
-  stationary.
+Example of strict stationarity: suppose that $y_t$ is i.i.d.; then it
+is strictly stationary.
 
-  A counter-example. Suppose that $\Delta y_t$ is i.i.d. $N(0,1)$ and $y_0$
-  is zero. Then $\E y_i = 0$ for all $i$, but
-  \[\var(y_i) = \sum_{t=1}^i \var(\Delta y_t) = i\]
+Another example: suppose that, for any $t$, $(y_t, y_{t+1}, y_{t+2})$
+is distributed $N(\mu,\Sigma)$, and that $y_t$ and $y_{t+3}$ are
+independent for all $t$; then $y_t$ is obviously strictly stationary.
 
-  so the series is not stationary.
+A counter-example. Suppose that $\Delta y_t$ is i.i.d. $N(0,1)$ and
+$y_0$ is zero. Then $\E y_i = 0$ for all $i$, but
+\[\var(y_i) = \sum_{t=1}^i \var(\Delta y_t) = i\]
 
-  Other examples too (e.g. breaks)
-\end{description}
+so the series is not stationary.
+
+Other examples too (e.g. breaks)
 
 Strict stationary is usually ``unnecessarily'' restrictive; usually
 asymptotic properties come from the first two moments, so we have a
 variation of stationarity that applies to the first two moments.
 
-\begin{description}
-\item[Weak stationarity:]
-  The stochastic process $\{y_t\}$ is a \textbf{weakly stationary time
+\begin{defn}[weak stationarity]
+  The stochastic process $\{y_t\}$ is a \emph{weakly stationary time
     series} if
-  \[ \E y_t = \mu \forall t \] and
-  \[\cov(y_t, y_{t+k}) = \cov(y_s, y_{s+k}) \forall\ s,t, k\] informally, the
-  first two moments do not depend on $t$.
-\item[Autocovariance, Autocorrelation:]
-  The \textbf{autocovariance} function of a weakly stationary time
-  series is defined as
-  \[\Gamma(k) = \cov(y_t, y_{t-k})\] (univariate or multivariate) The
-  \textbf{autocorrelation} function of a weakly stationary time series
-  is defined as
-  \[
-  \Rho(k) = \var(y_t)^{-1} \Gamma(k)
-  \]
+  \begin{equation*}
+    \E y_t = \mu
+  \end{equation*}
+  for all $t$ and
+  \begin{equation*}
+    \cov(y_t, y_{t+k}) = \cov(y_s, y_{s+k})
+  \end{equation*}
+  for all $s$, $t$, and $k$.
+  Informally, the first two moments do not depend on $t$.
+\end{defn}
 
-  ``Weak dependence'' requires that $\Gamma(k) \to 0$ as $k \to \infty$.
+\begin{defn}[autocovariance, autocorrelation]
+  The \emph{autocovariance} function of a weakly stationary time
+  series is defined as
+  \begin{equation*}
+    \Gamma(k) = \cov(y_t, y_{t-k}).
+  \end{equation*}
+
+  The \emph{autocorrelation} function of a weakly stationary time
+  series is defined as
+  \begin{equation*}
+    \Rho(k) = \var(y_t)^{-1} \Gamma(k)
+  \end{equation*}
+\end{defn}
+``Weak dependence'' requires that $\Gamma(k) \to 0$ as $k \to \infty$.
 
   Obvious properties if $\Gamma(\cdot)$ is the autocovariance function of
   $y_t$:
@@ -95,16 +105,16 @@ variation of stationarity that applies to the first two moments.
   \item $|\gamma(k)| \leq \gamma(0)$ for all $k$.
   \item The autocovariance function is \emph{nonnegative definite}.
   \end{itemize}
-\item[Nonnegative definite (extends concept for matrices):]
 
-  A real-valued function f is nonnegative definite if, for any natural
-  number $n$, any $a \in R^n$ and any $t \in Z^n$, we have
-  \[\sum_{i=1}^n \sum_{j=1}^n a_i a_j f(t_i - t_j) \geq 0.\]
-\end{description}
-
+  \begin{defn}[nonnegative definite function]
+    A real-valued function f is nonnegative definite if, for any
+    natural number $n$, any $a \in \RR^n$ and any $t \in \ZZ^n$, we have
+    \begin{equation*}
+      \sum_{i=1}^n \sum_{j=1}^n a_i a_j f(t_i - t_j) \geq 0.
+    \end{equation*}
+  \end{defn}
 In this part of the class, we are going to assume that the series are
-already stationary (weak, usually) and are weakly-dependent.
-
+already stationary (weak, usually) and are weakly-dependent, for a few reasons:
 \begin{itemize}
 \item Statistical agencies typically provide seasonally-adjusted data
   and the data are usually aggregated enough that holidays, etc. are
@@ -124,14 +134,13 @@ already stationary (weak, usually) and are weakly-dependent.
   in a general setting.
 \end{itemize}
 
-\begin{description}
-\item[White noise; i.e. $WN(0,\sigma^2)$:]
-  A stochastic process $\{e_t\}$ is $WN(0, \sigma^2)$ if each $e_t ∼ (0,
-  \sigma^2)$ and $\cov(e_t, e_s) = 0$ when $s \neq t$.
+\begin{defn}[White noise]
+  A stochastic process $\{e_t\}$ is $WN(0, \sigma^2)$ if each
+  $e_t ∼ (0, \sigma^2)$ and $\cov(e_t, e_s) = 0$ when $s \neq t$.
+\end{defn}
 
-  Obviously, the same definition applies when the $e_t$ are random
-  vectors.
-\end{description}
+Obviously, the same definition applies when the $e_t$ are random
+vectors.
 
 To build $y_t$ from a white noise process $e_t$, there are two obvious
 approaches:
@@ -142,15 +151,15 @@ approaches:
   $e_t$ and past $y_t$.
 \end{itemize}
 
-\begin{description}
-\item[(Vector) Moving average process of order $q$:]
-
+\begin{defn}[Moving average of order $q$]
   $y_t$ is a VMA(q) if it is a stationary solution to the equation
-  \[y_t = \mu + e_t + \sum_{i=1}^q \theta_i e_{t-i}\] where $e_t$ is $WN(0,
-  \Sigma)$, $\mu$ is a constant $k$-vector, and $\theta_i$ is a $k$ by $k$ matrix.
+  \[y_t = \mu + e_t + \sum_{i=1}^q \theta_i e_{t-i}\] where $e_t$ is
+  $WN(0, \Sigma)$, $\mu$ is a constant $k$-vector, and $\theta_i$ is a
+  $k$ by $k$ matrix.
+\end{defn}
 
-  Finding the moments of an $MA(q)$ process is easy and it is obvious
-  that it is covariance stationary.
+Finding the moments of an $MA(q)$ process is easy and it is obvious
+that it is covariance stationary.
 
   \begin{itemize}
   \item $\E y_t = \mu + \E e_t + \sum_{i=1}^q \theta_i \E e_{t-i} = \mu$.
@@ -164,12 +173,16 @@ approaches:
     This is zero if $i \geq q$ (note that if $e_t$ is Normal, $MA(q)$
     processes are $q$-dependent).
   \end{itemize}
-\item[(Vector) Autoregressive process of order p:]
-  $y_t$ is a VAR(p) if it is a stationary solution to the difference
-  equation
-  \[y_t = \mu + \sum_{i=1}^p \phi_i y_{t-1} + e_t\]
-  where $e_t$ is $WN(0, \Sigma)$, $\mu$ is a constant, and $\phi_i$ are $k$ by
-  $k$ matrices
+
+\begin{defn}[Autoregressive process of order $p$]
+  $y_t$ is a \VAR($p$) if it is a stationary solution to the
+  difference equation
+  \begin{equation*}
+    y_t = \mu + \sum_{i=1}^p \phi_i y_{t-1} + e_t
+  \end{equation*}
+  where $e_t$ is $WN(0, \Sigma)$, $\mu$ is a constant, and $\phi_i$
+  are $k$ by $k$ matrices
+\end{defn}
 
   To get the mean, suppose that the process is covariance
   stationary. Then $\E y_t = \E y_{t-i}$ and so
@@ -201,7 +214,8 @@ approaches:
 
   Note that the autocovariance dies out slowly over time for AR
   processes.
-\item[Canonical representation of a VAR(p):]
+
+\paragraph{Canonical representation of a VAR(p):}
 If we define:
 \begin{align}
   w_t &= (y_t, y_{t-1}, \dots, y_{t-p+1})' \\
@@ -216,7 +230,6 @@ If we define:
 \end{align}
 Then we can write a VAR($p$) model as the VAR(1):
 \[w_t = \Psi w_{t-1} + e_t\]
-\end{description}
 
 \subsection{Lag polynomials:}
 
