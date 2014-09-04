@@ -16,72 +16,92 @@ specialty time series books (\citealp{BD91} and \citealp{Ha94}).
 
 \subsection{Basic definitions}
 
-\begin{description}
-\item[Stochastic process:]
-A stochastic process is a collection of random variables (or
-random vectors) indexed by a parameter $t$ indicating time.
-\end{description}
+\begin{defn}[stochastic process]
+  A \emph{stochastic process} is a collection of random variables (or
+  random vectors) indexed by a parameter $t$ indicating time.
+\end{defn}
 
 Want to discuss how this can be viewed as a sequence of random
 variables or as a random function of $t$ (sample path).
 
-Often we need to deal with \textbf{triangular stochastic arrays} in a
-formal sense:
+Often we need to deal with \emph{triangular stochastic arrays} in a
+formal sense. A stochastic array is essentially a stochastic process
+indexed by more than one parameter.
 
-\begin{description}
-\item[Motivation for stochastic array:]
-  Suppose $\{y_t; t=1,...,n\}$ is a stochastic process where each
-  $y_t$ is i.i.d standard normal. Let $s^2_n$ be the sample variance
-  of this process. Is $z_t = (y_t - \bar y) / s$ a stochastic process?
-  (no)
+\paragraph{Motivation for stochastic array:}
+Suppose $\{y_t; t=1,...,n\}$ is a stochastic process where each $y_t$
+is i.i.d standard normal. Let $s^2_n$ be the sample variance of this
+process. Is $z_t = (y_t - \bar y) / s_n$ a stochastic process?  (no)
 
-  So we introduce two sets of indices and write $z_{t,n} = (y_t - \bar
-  y) / s_n$; where $n = 1,2,...$ and $t = 1,...,n$.  Now $\{z_{t,n}\}$
-  is a stochastic array.
-\item[Strict stationarity:]
-  The stochastic process $\{y_t\}$ is a \textbf{strictly stationary
-    time series} if, for all finite s, t, and k, we have
-  \[(y_s,...,y_{s+k}) =^d (y_t,...,y_{t+k})\]
+So we introduce two sets of indices and write $z_{t,n} = (y_t - \bar
+y) / s_n$; where $n = 1,2,...$ and $t = 1,...,n$.  Now $\{z_{t,n}\}$
+is a stochastic array.
 
-  Example of strict stationarity: suppose that $y_t$ is i.i.d.; then
-  it is strictly stationary.
+\begin{defn}[strict stationarity]
+  The stochastic process $\{y_t\}$ is a \emph{strictly stationary time
+    series} if, for all finite $s$, $t$, and $k$, we have
+  \begin{equation*}
+    (y_s,...,y_{s+k}) =^d (y_t,...,y_{t+k}).
+  \end{equation*}
+\end{defn}
 
-  Another example: suppose that, for any $t$, $(y_t, y_{t+1},
-  y_{t+2})$ is distributed $N(\mu,\Sigma)$, and that $y_t$ and $y_{t+3}$ are
-  independent for all $t$; then $y_t$ is obviously strictly
-  stationary.
+\begin{ex}
+  Suppose that $y_t$ is i.i.d.; then it is strictly stationary.
+\end{ex}
 
-  A counter-example. Suppose that $\Delta y_t$ is i.i.d. $N(0,1)$ and $y_0$
-  is zero. Then $\E y_i = 0$ for all $i$, but
-  \[\var(y_i) = \sum_{t=1}^i \var(\Delta y_t) = i\]
+\begin{ex}
+  Suppose that, for any $t$, $(y_t, y_{t+1}, y_{t+2})$ is distributed
+  $N(\mu,\Sigma)$, and that $y_t$ and $y_{t+3}$ are independent for
+  all $t$; then $y_t$ is obviously strictly stationary.
+\end{ex}
 
+\begin{ex}
+  Suppose that $\Delta y_t$ is i.i.d. $N(0,1)$ and $y_0$ is zero. Then
+  $\E y_i = 0$ for all $i$, but
+  \begin{equation*}
+    \var(y_i) = \sum_{t=1}^i \var(\Delta y_t) = i
+  \end{equation*}
   so the series is not stationary.
+\end{ex}
 
-  Other examples too (e.g. breaks)
-\end{description}
+Other examples too (e.g. breaks)
 
 Strict stationary is usually ``unnecessarily'' restrictive; usually
 asymptotic properties come from the first two moments, so we have a
 variation of stationarity that applies to the first two moments.
 
-\begin{description}
-\item[Weak stationarity:]
-  The stochastic process $\{y_t\}$ is a \textbf{weakly stationary time
+\begin{defn}[weak stationarity]
+  The stochastic process $\{y_t\}$ is a \emph{weakly stationary time
     series} if
-  \[ \E y_t = \mu \forall t \] and
-  \[\cov(y_t, y_{t+k}) = \cov(y_s, y_{s+k}) \forall\ s,t, k\] informally, the
-  first two moments do not depend on $t$.
-\item[Autocovariance, Autocorrelation:]
-  The \textbf{autocovariance} function of a weakly stationary time
-  series is defined as
-  \[\Gamma(k) = \cov(y_t, y_{t-k})\] (univariate or multivariate) The
-  \textbf{autocorrelation} function of a weakly stationary time series
-  is defined as
-  \[
-  \Rho(k) = \var(y_t)^{-1} \Gamma(k)
-  \]
+  \begin{equation*}
+    \E y_t = \mu
+  \end{equation*}
+  for all $t$ and
+  \begin{equation*}
+    \cov(y_t, y_{t+k}) = \cov(y_s, y_{s+k})
+  \end{equation*}
+  for all $s$, $t$, and $k$.
+  Informally, the first two moments do not depend on $t$.
+\end{defn}
 
-  ``Weak dependence'' requires that $\Gamma(k) \to 0$ as $k \to \infty$.
+The first two moments of a weakly stationary process must
+\emph{exist}, which is not true of a strictly stationary process, so
+it is not strictly weaker than strict stationarity.
+
+\begin{defn}[autocovariance, autocorrelation]
+  The \emph{autocovariance} function of a weakly stationary time
+  series is defined as
+  \begin{equation*}
+    \Gamma(k) = \cov(y_t, y_{t-k}).
+  \end{equation*}
+
+  The \emph{autocorrelation} function of a weakly stationary time
+  series is defined as
+  \begin{equation*}
+    \Rho(k) = \var(y_t)^{-1} \Gamma(k)
+  \end{equation*}
+\end{defn}
+``Weak dependence'' requires that $\Gamma(k) \to 0$ as $k \to \infty$.
 
   Obvious properties if $\Gamma(\cdot)$ is the autocovariance function of
   $y_t$:
@@ -92,28 +112,68 @@ variation of stationarity that applies to the first two moments.
 
   Properties if $y_t$ is univariate
   \begin{itemize}
-  \item $|\gamma(k)| \leq \gamma(0)$ for all $k$.
+  \item $|\gamma(k)| \leq \gamma(0)$ for all $k$. (This is an
+    immediate consequence of the Cauchy-Schwarz inequality.)
   \item The autocovariance function is \emph{nonnegative definite}.
   \end{itemize}
-\item[Nonnegative definite (extends concept for matrices):]
 
-  A real-valued function f is nonnegative definite if, for any natural
-  number $n$, any $a \in R^n$ and any $t \in Z^n$, we have
-  \[\sum_{i=1}^n \sum_{j=1}^n a_i a_j f(t_i - t_j) \geq 0.\]
-\end{description}
+  \begin{defn}[nonnegative definite function]
+    A real-valued function f is nonnegative definite if, for any
+    natural number $n$, any $a \in \RR^n$ and any $t \in \ZZ^n$, we have
+    \begin{equation*}
+      \sum_{i=1}^n \sum_{j=1}^n a_i a_j f(t_i - t_j) \geq 0.
+    \end{equation*}
+  \end{defn}
 
 In this part of the class, we are going to assume that the series are
-already stationary (weak, usually) and are weakly-dependent.
-
+already stationary (weak, usually) and are weakly-dependent, for a few reasons:
 \begin{itemize}
 \item Statistical agencies typically provide seasonally-adjusted data
   and the data are usually aggregated enough that holidays, etc. are
   ignored.
 \item Accounting for trends and permanent shocks is a big deal in
-  macro; I'll try to add notes in the future.
+  macro; we're going to talk about it at length later in the semester.
 \end{itemize}
 
-\subsection{VAR and VMA processes}
+\subsection{Lag polynomials:}
+
+\begin{defn}[lag operator]
+  The lag operator $\Lag$ is defined as the operator such that
+  $\Lag y_t = y_{t-1}$
+\end{defn}
+
+\begin{itemize}
+\item The inverse is $L^{-1} y_t = y_{t+1}$.
+\item The lag operator behaves formally like premultiplication by a
+  constant:
+  \begin{itemize}
+  \item $\Lag(c y_t) = c y_{t-1} = c \cdot \Lag y_t$.
+  \item $\Lag (a + y_t) = a + y_{t-1} = a + \Lag y_t$.
+  \item $\Lag^k y_t = \Lag(\cdots \Lag(\Lag(\Lag y_t)) \cdots) =
+    \Lag(\cdots \Lag(\Lag y_{t-1}) \cdots) = y_{t-k}$
+  \end{itemize}
+\item Lets us write ``lag polynomials'': if we define the polynomial
+  $\theta(z) = \sum_{i=0}^k \theta_i z^i$, then
+  \begin{equation*}
+    \theta(\Lag) y_t = \sum_{i=0}^k \theta_i y_{t-i}.
+  \end{equation*}
+\item Quick detour: how would we handle infinite sums? The question
+  we'd want to answer is, if we define the new stochastic array
+  $\{z_{kt}\}$ with
+  \begin{equation*}
+    z_{kt} = \sum_{i=0}^k \theta_i y_{t-i},
+  \end{equation*}
+  is $\lim_{k \to \infty} \{z_{kt}\}$ a stochastic process?
+
+  Obviously not for all polynomials: if $\theta_i = 1$ and $y_{t-i}$
+  is i.i.d., then $z_{kt} ``\to" \sum_{i=0}^{\infty} y_{t-i}$ which
+  is not tight.
+
+  It's easier to check for weakly-dependent sequences: is
+  $\theta(\Lag) y_t$ weakly-dependent?... (need to fill in details)
+\end{itemize}
+
+\paragraph{Quick introduction to AR and MA processes}
 
 \begin{itemize}
 \item As a starting point, we are going to build dynamic processes as
@@ -124,14 +184,13 @@ already stationary (weak, usually) and are weakly-dependent.
   in a general setting.
 \end{itemize}
 
-\begin{description}
-\item[White noise; i.e. $WN(0,\sigma^2)$:]
-  A stochastic process $\{e_t\}$ is $WN(0, \sigma^2)$ if each $e_t ∼ (0,
-  \sigma^2)$ and $\cov(e_t, e_s) = 0$ when $s \neq t$.
+\begin{defn}[White noise]
+  A stochastic process $\{e_t\}$ is $WN(0, \sigma^2)$ if each
+  $e_t ∼ (0, \sigma^2)$ and $\cov(e_t, e_s) = 0$ when $s \neq t$.
+\end{defn}
 
-  Obviously, the same definition applies when the $e_t$ are random
-  vectors.
-\end{description}
+Obviously, the same definition applies when the $e_t$ are random
+vectors.
 
 To build $y_t$ from a white noise process $e_t$, there are two obvious
 approaches:
@@ -142,66 +201,156 @@ approaches:
   $e_t$ and past $y_t$.
 \end{itemize}
 
-\begin{description}
-\item[(Vector) Moving average process of order $q$:]
+\begin{defn}[Moving average of order $q$]
+  $y_t$ is an MA($q$) if it is a stationary solution to the equation
+  \begin{equation*}
+    y_t = \mu + \theta(L) e_t
+  \end{equation*}
+  where $e_t$ is white noise, $\mu$ is a constant, $\theta(z)$ is a
+  polynomial of order $q$ s.t. $\theta(0) = 1$.
+\end{defn}
 
-  $y_t$ is a VMA(q) if it is a stationary solution to the equation
-  \[y_t = \mu + e_t + \sum_{i=1}^q \theta_i e_{t-i}\] where $e_t$ is $WN(0,
-  \Sigma)$, $\mu$ is a constant $k$-vector, and $\theta_i$ is a $k$ by $k$ matrix.
-
-  Finding the moments of an $MA(q)$ process is easy and it is obvious
-  that it is covariance stationary.
-
-  \begin{itemize}
-  \item $\E y_t = \mu + \E e_t + \sum_{i=1}^q \theta_i \E e_{t-i} = \mu$.
-  \item $\var(y_t) = \var(e_t) + \sum_{i=1}^q \theta_i \var(e_{t-i}) \theta_i' =
-    \sum_{i=0}^q \theta_i \Sigma \theta_i'$ where $\theta_0 = 1$.
-  \item The autocovariances are straightforward too. Assume zero mean,
-    then:
-    \[\E y_t y_{t-j}' = \E \sum_{i=0}^q \theta_i e_{t-i} \sum_{k=0}^q e_{t-j-k}' \theta_k'
-    = \sum_{i=j}^q \theta_i \E e_{t-i} e_{t-i}' \theta_{i-j}'
-    = \sum_{i=1}^q \theta_i \Sigma \theta_{i-j}'\]
-    This is zero if $i \geq q$ (note that if $e_t$ is Normal, $MA(q)$
-    processes are $q$-dependent).
-  \end{itemize}
-\item[(Vector) Autoregressive process of order p:]
-  $y_t$ is a VAR(p) if it is a stationary solution to the difference
+\begin{defn}[Autoregressive process of order $p$]
+  $y_t$ is an AR($p$) if it is a stationary solution to the
   equation
-  \[y_t = \mu + \sum_{i=1}^p \phi_i y_{t-1} + e_t\]
-  where $e_t$ is $WN(0, \Sigma)$, $\mu$ is a constant, and $\phi_i$ are $k$ by
-  $k$ matrices
+  \begin{equation*}
+    \phi(L) y_t = \mu + e_t
+  \end{equation*}
+  where $e_t$ is white noise, $\mu$ is a constant, and $\phi$ is a
+  polynomial of order $p$ s.t. $\phi(0) = 1$.
+\end{defn}
 
-  To get the mean, suppose that the process is covariance
+\begin{defn}[ARMA process of orders $p$ and $q$]
+  $y_t$ is a ARMA($p$,$q$) process if it is the
+  stationary solution to the difference equation
+  \begin{equation*}
+    \phi(L) y_t = \mu + \theta(L) e_t
+  \end{equation*}
+  where $e_t$ is white noise, $\mu$ is a constant, and $\phi$ and
+  $\theta$ are polynomials of order $p$ and $q$ such that $\phi(0) =
+  \theta(0) = 1$.
+\end{defn}
+
+\paragraph{Invertibility of lag polynomials} Suppose $\theta(z) = (1 -
+\theta z)$ and $|\theta| < 1$. Then we can invert the polynomial:
+\begin{equation*}
+  (1 - \theta z)^{-1} = \sum_{j=0}^\infty \theta^j z^j
+\end{equation*}
+as long as $z \neq \theta^{-1}$. (PROOF OF EXISTENCE?)
+
+Arguments similar to before imply that the limit is well defined, and
+\begin{align*}
+  (1 - \theta z) \sum_{j=0}^\infty \theta^j z^j
+  &= \sum_{j=0}^\infty \theta^j z^j - \sum_{j=1}^\infty \theta^j z^j \\
+  &= \theta^0 z^0 \\
+  &= 1
+\end{align*}
+so this summation satisfies the definition of $(1 - \theta z)^{-1}$.
+If we have a second order lag polynomial, so
+$\theta(z) = (1 + \lambda_1 z) (1 + \lambda_2 z)$, then we can invert
+both pieces separately as long as $|\lambda_1|$ and $|\lambda_2|$ are
+both less than 1. For the general case, we can invert a lag polynomial
+$\theta(z)$ as long as all of its roots lie outside the unit circle,%
+\footnote{The roots can be complex in general, even when the polynomial
+  coefficients are real.} %
+so $\theta(z) \neq 0$ for all $z$ s.t. $|z| \leq 1$.
+
+\begin{defn}[invertible MA processes]
+  Suppose that $y_t$ is the MA($q$) process $y_t = \theta(L) e_t$. If
+  $\theta(L) \neq 0$ for all complex $z$ s.t. $|z| \leq 1$, then $y_t$
+  is an \emph{invertible} MA process and can be expressed as the
+  AR($\infty$) process: $\theta(L)^{-1} y_t = e_t$. This result
+  continues to hold if $\theta$ is an infinite-order polynomial.
+\end{defn}
+
+\begin{defn}
+  Suppose that $y_t$ satisfies $\phi(L) y_t = e_t$. If $\phi(z) \neq
+  0$ for all (complex) $z$ s.t. $|z| \leq 1$, then $y_t$ is a
+  \emph{causal} AR process and can be expressed as the MA($\infty$):
+  \[y_t = \phi(L)^{-1} e_t.\]
+  This result continues to hold if $\phi$ is an infinite-order
+  polynomial.
+\end{defn}
+
+\begin{itemize}
+\item If $\phi(z) = 0$ or $\theta(z) = 0$ for $|z| = 1$ then the
+  process is said to have a unit root. For $\phi(z) = 0$ this is
+  analagous to the cumulative sums we looked at.
+\item If $\phi(z) = 0$ for $|z| = 1$, the order of the solution is the
+  number of unit roots and will affect the series behavior.
+\item Side note: this all holds for vector-valued processes as
+  well. Instead of $|\phi(z)| \neq 0$ for all $z$ s.t. $|z| \leq 1$,
+  we need $\det(z) \neq 0$ for all such $z$.
+\item If $\phi(z)$ and $\theta(z)$ have the same roots/zeros, so
+  $\phi(L) = a(L) b(L)$ and $\theta(L) = a(L) c(L)$ then we can
+  typically factor out and remove $a(L)$, giving a VARMA process with
+  the same dynamics: $b(L) y_t = \mu^* + c(L) e_t$; so we typically
+  assume that there are no common roots
+\end{itemize}
+
+\paragraph{Moments, covariance of ARMA processes}
+
+\begin{itemize}
+\item For MA($q$), mean
+  \begin{align*}
+    \E y_t &= \mu + \E e_t + \sum_{i=1}^q \theta_i \E e_{t-i} \\
+    &= \mu.
+  \end{align*}
+  and autocovariances
+  \begin{align*}
+    \cov( y_t, y_{t-j}) &= \E \sum_{i=0}^q \theta_i e_{t-i} \sum_{k=0}^q e_{t-j-k} \theta_k\\
+    &= \sum_{i=j}^q \theta_{i+j} \theta_i \sigma^2 \\
+    &= \sigma^2 \sum_{i=0}^q \theta_i \theta_{i+j}.
+  \end{align*}
+  This is zero if $j \geq q$ (note that if $e_t$ is Normal, $MA(q)$
+  processes are $q$-dependent). This remains finite as $q \to \infty$
+  as long as $\sum_{j=0}^\infty \theta_i^2$ is finite.
+\item For AR($p$), mean: suppose that the process is covariance
   stationary. Then $\E y_t = \E y_{t-i}$ and so
-  \[\E y_t = \mu + \sum_{i=1}^p \phi_i \E y_t + 0.\]
-
-  If $I - \sum_{i=1}^p \phi_i$ is invertible, then we have
-  \[\E y_t = (I - \sum_{i=1}^p \phi_i )^{-1} \mu\]
+  \begin{equation*}
+    \E y_t = \mu + \sum_{i=1}^p \phi_i \E y_t + 0.
+  \end{equation*}
+  If $1 - \sum_{i=1}^p \phi_i$ is invertible, then we have
+  \begin{equation*}
+    \E y_t = (I - \sum_{i=1}^p \phi_i )^{-1} \mu
+  \end{equation*}
   (invertibility of this matrix turns out to be a necessary condition
   for covariance stationarity).
 
-  For the autocovariances (which will give us the variance), assume
-  0-mean, covariance stationary. Since
-  \[y_t = \sum_{i=1}^p \phi_i y_{t-i} + e_t,\]
+  For the autocovariances assume 0-mean, covariance stationary. Since
+  \begin{equation*}
+    y_t = \sum_{i=1}^p \phi_i y_{t-i} + e_t,
+  \end{equation*}
   we can post-multiply by $y_{t-j}$ to get
-  \[y_t y_{t-j}' = \sum_{i=1}^p \phi_i y_{t-1} y_{t-j}' + e_t y_{t-j}'\]
+  \begin{equation*}
+    y_t y_{t-j} = \sum_{i=1}^p \phi_i y_{t-1} y_{t-j} + e_t y_{t-j}
+  \end{equation*}
   and (assuming $e_t$ and $y_{t-j}$ are uncorrelated)
-  \[\E y_t y_{t-j}' = \sum_{i=1}^p \phi_i \E y_{t-i} y_{t-j}'.\]
+  \begin{equation*}
+    \E y_t y_{t-j} = \sum_{i=1}^p \phi_i \E y_{t-i} y_{t-j}.
+  \end{equation*}
 
   This gives a recursive definition for the autocovariances. To get
   the initial conditions, we have $(j = 1,\dots,p)$
-  \[\Gamma(0) = \sum_{i=1}^p \phi_i \Gamma(i) + \Sigma \Gamma(j) = \sum_{i=1}^p \phi_i \Gamma(j-i) \]
+  \begin{align*}
+    \gamma(0) &= \sum_{i=1}^p \phi_i \gamma(i) + \sigma^2 \gamma(j) \\
+    \gamma(j) &= \sum_{i=1}^p \phi_i \gamma(j-i).
+  \end{align*}
+  This gives us a system of equations that can
+  be solved for $\gamma(0),\dots,\gamma(p)$. Then, for higher-order autocovariances,
+   we have the relationship (if $j > p$)
+   \begin{equation*}
+     \gamma(j) = \sum_{i=1}^p \phi(i) \gamma(j-i),
+   \end{equation*}
+   which can be solved recursively or explicitly through difference
+   equations.
 
-  Since $\Gamma(-j) = \Gamma(j)'$ this gives us a system of equations that can
-  be solved for $\Gamma(0),\dots,\Gamma(p)$. Then, for higher-order autocovariances,
-  we have the relationship (if $j \geq p$)
-  \[\Gamma(j) = \sum_{i=1}^p \phi(i) \Gamma(j-i),\]
-  which can be solved recursively or explicitly through difference
-  equations.
+   Note that the autocovariance dies out slowly over time for AR
+   processes.
+ \item For ARMA, see book...
+\end{itemize}
 
-  Note that the autocovariance dies out slowly over time for AR
-  processes.
-\item[Canonical representation of a VAR(p):]
+\paragraph{Canonical representation of a VAR(p):}
 If we define:
 \begin{align}
   w_t &= (y_t, y_{t-1}, \dots, y_{t-p+1})' \\
@@ -216,88 +365,6 @@ If we define:
 \end{align}
 Then we can write a VAR($p$) model as the VAR(1):
 \[w_t = \Psi w_{t-1} + e_t\]
-\end{description}
-
-\subsection{Lag polynomials:}
-
-\begin{description}
-\item[Lag operator:]
-
-  The lag operator $L$ is defined as the operator s.t. $L y_t =
-  y_{t-1}$
-
-  The inverse is $L^{-1} y_t = y_{t+1}$.
-
-  Behaves formally like premultiplication by a constant:
-  \begin{itemize}
-  \item $c \cdot (L y_t) = (c y_t)$
-  \item $a + L y_t = L (a + y_t)$
-  \item $L^k y_t = L(\cdots L(L(L y_t)) \cdots) = L(\cdots L(L y_{t-1}) \cdots) = y_{t-k}$
-  \end{itemize}
-  Lets us write ``lag polynomials'':
-  if $\theta(z) = \sum_{i=0}^k \theta_i z^i$ then
-  \[\theta(L) y_t = \sum_{i=0}^k \theta_i y_{t-i}.\]
-\end{description}
-
-Notice that we can write the AR(p) process as
-\[\phi(L) y_{t} = \mu + e_t \]
-where $\phi(L) = I - \sum_{i=1}^p \phi_i L^i$.
-
-and the MA(q) as
-\[y_t = \mu + \theta(L) e_t\]
-where $\theta(L) = I + \sum_{i=1}^q \theta_i L^i$.
-
-The notation suggests that we can ``solve'' for $y_t$ or ``solve'' for
-$e_t$:
-\[y_t = \phi(L)^{-1} \mu + \phi(L)^{-1} \theta(L) e_t\]
-(making an MA process, possibly MA($\infty$)) or
-\[\theta(L)^{-1} \phi(L) y_t = \theta(L)^{-1} \mu + e_t\]
-(making an AR process, possibly AR($\infty$)).
-
-Under some restrictions on the polynomials, we can do this; it's
-essentially the same as taking a Taylor-series approximation for the
-polynomial $\theta(z)^{-1} or \phi(z)^{-1}$.
-
-\begin{itemize}
-\item Suppose that $y_t$ satisfies $\phi(L) y_t = e_t$. If $\det \phi(z) \neq 0$
-  for all (complex) $z$ s.t. $|z| \leq 1$, then $y_t$ is covariance
-  stationary and can be expressed as the MA($\infty$):
-  \[y_t = \phi(L)^{-1} e_t.\]
-  \begin{itemize}
-  \item This is called a \emph{causal} autoregressive process
-  \item \emph{unit root}(s) if $det \phi(z) = 0$ for $|z| = 1$; number of
-    ``unit roots'' is the order of the solution.
-  \item Give AR(1) example
-  \item Mention non-causal AR processes as well
-  \end{itemize}
-\item Suppose that $y_t$ is the MA($q$) process $y_t = \theta(L) e_t$. If
-  $\det \theta(L) \neq 0$ for all complex $z$ s.t. $|z| \leq 1$, then $y_t$ can be
-  expressed as the AR($\infty$) process: $\theta(L)^{-1} y_t = e_t$
-
-  \begin{itemize}
-  \item This is called an \emph{invertible} moving average process
-  \end{itemize}
-\item Both of these results hold even if $\phi$ or $\theta$ are infinite-order
-  polynomials.
-\end{itemize}
-
-\subsection{VARMA(p,q) models}
-
-\begin{description}
-\item[(V)ARMA(p, q):] $y_t$ is a $VARMA(p,q)$ process if it is the
-  stationary solution to the difference equation $\phi(L) y_t = \mu + \theta(L)
-  e_t$ where $e_t$ is $WN(0, \sigma^2)$ and $\mu$ is a constant, $\phi$ and $\theta$
-  are polynomials of order $p$ and $q$ such that $\phi(0) = \theta(0) = I$.
-
-  Note that if $\phi(z)$ and $\theta(z)$ have the same roots/zeros, so $\phi(L) =
-  a(L) b(L)$ and $\theta(L) = a(L) c(L)$ then we can typically factor out
-  and remove $a(L)$, giving a VARMA process with the same dynamics:
-  $b(L) y_t = \mu^* + c(L) e_t$; so we typically assume that there are
-  no common roots
-
-  Same conditions as above apply if we want causality and
-  invertiblity.
-\end{description}
 
 \subsection{Dynamics:}
 
