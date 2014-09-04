@@ -1,0 +1,117 @@
+Parameter estimation in AR models and time-series
+#+AUTHOR: Gray Calhoun
+#+DATE: version \version
+
+* Behavior of the sample mean of a time-series
+** Law of Large Numbers
+   + Suppose $y_t$ is second-order stationary with mean $\mu$. Then
+     \begin{align*}
+       var (\bar y - \mu)
+         &= (1/n^2) \sum_{s=1}^n \sum_{t=1}^n cov(y_s, y_t) \\
+         &= (1/n^2) \Big(\gamma(0) + 2 \sum_{k=1}^n \gamma(k) (1 - k/n)\Big) \\
+         &\leq (1/n^2) \Big(\gamma(0) + 2 \sum_{k=1}^n \gamma(k)\Big)
+     \end{align*}
+     + if $\sum_j |\gamma(j)|$ is finite, this converges to zero
+     + i.e. we have a formal result: if $y_t$ is weakly stationary with
+       absolutely summable autocovariances, then $\bar y \to E \bar y$
+       in $L_2$.
+   + This autocovariance condition is a form of weak dependence
+     + We can see that if it's violated, sample average might not
+       converge
+     + Other forms of weak dependence can imply it
+   + LLN for stationary and ergodic sequences: If $\{z_t\}$ is a
+     stationary and ergodic sequence with finite mean $\mu$, then
+     \[
+       (1/n) \sum z_t \to \mu
+     \]
+     in $L_1$.
+     + Doesn't require finite variances.
+     + A stationary sequence $\{x_t\}$ is /ergodic/ if, for any
+       bounded functions $f$ and $g$, as $n \to \infty$,
+       \[
+         E f( x_t, \dots, x_{t + k}) g(x_{t + n}, \dots, x_{ t + n + l} )
+           \to E f( x_t, \dots, x_{ t + k } ) E g(x_{ t + n }, \dots, x_{ t + n + l} )
+       \]
+     + This is an "asymptotic independence" condition
+     + Stationarity is usually strong than we want to impose
+** Central Limit Theorem
+   + We can get a nice result by considering only MA(\infty)
+     processes: let
+     \[
+     y_t = \theta(L) e_t = \sum_{j=0}^{\infty} \theta_j e_{t-j}
+     \]
+     then
+     \begin{align*}
+        T^{1/2} \bar y
+          &= 1/T^{1/2} \sum_{t=1}^T \sum_{j=0}^\infty \theta_j e_{t-j} \\
+          &= \sqrt{1/T} ( \theta_0 e_T + ( \theta_0 + \theta_1 ) e_{T-1} +
+                        ( \theta_0 + \theta_1 + \theta_2 )  e_{T-2} + \dots
+                        ( \theta_0 + \dots + \theta_{T-1} ) e_1 + \dots ) \\
+          &= \sqrt{1/T} \Big( \Big( \theta(1) - \sum_1^\infty \theta_j \Big) e_T +
+                              \Big( \theta(1) - \sum_2^\infty \theta_j \Big) e_{T-1} + \dots
+                              \Big( \theta(1) - \sum_T^\infty \theta_j \Big) e_1 + \dots \Big) \\
+          &= \sqrt{1/T} \theta(1) \sum_{t=1}^T e_t + \sqrt{1/T} \theta^*(L) e_t
+     \end{align*}
+     where $\theta_j^* = - \sum_{i=j+1}^\infty \theta_i$.
+     + $\theta(1)$ has the bulk of the dependence, so the first term
+       obeys a CLT and the second can converge to zero i.p.
+   + Formal result: suppose that $y_t = \mu + \theta(L) e_t$ where
+     1) $\sum_{s=0}^\infty s |\theta_s| < \infty$
+     2) $1/\sqrt{T} \sum_t e_t \to N(0, \sigma^2)$ in distribution (i.e. any CLT
+	holds)
+	+ Conditions that can imply a CLT: mixing, MDS, ergodicity, etc.
+     Then $\sqrt{T} (\bar y - \mu ) \to N( 0,\sigma^2 \theta(1)^2 )$
+     in distribution.
+   + Estimating $\theta(1)$ is not trivial: you have to estimate "all"
+     of the lag coefficients.
+* Parameter Estimation for VAR
+** Pseudo-likelihood function for the VAR
+   + To estimate the VAR coefficients, we can use the usual pseudo-MLE
+     approach and assume that the innovations are normal when deriving
+     our estimator, then show it is consistent and normal otherwise.
+
+   + The model becomes (with multivariate $y_t$)
+     \[
+     y_t = \mu + \sum_{i=1}^p \phi_i y_{t-i} + e_t
+     \]
+     $k$ equations, $k p + 1$ regression coefficients; $e_t \sim N(0, \Sigma)$
+     + Under assumptions of causality, we know that $e_t$ is
+       uncorrelated with $y_s$ for $s < t$.
+   + The joint pseudo-likelihood can be taken as the product of the
+     conditional likelihoods:
+     \begin{multline*}
+       L(\Phi, \Sigma; y_1,\dots,y_T) = 
+         f_T(y_T \mid y_{T-1},\dots, y_1) \\
+         \times f_{T-1}(y_{T-1} \mid y_{T-2},\dots, y_1) \cdots
+         f_{p+1}(y_{p+1} \mid y_p,\dots,y_1) f_p(y_p,\dots,y_1)
+     \end{multline*}
+   + Assuming normality and correct specification,
+     \[
+       f_t(y_t \mid y_{t-1},\dots, y_1) = f_t(y_t \mid z_t).
+     \]
+     where
+     + $z_t' = (1 y_{t-1}' \cdots y_{t-p}')$
+     + $\Phi = [ \mu \phi_1 \dots \phi_p ]'$
+   + Then $y_t' = z_t'\Phi' + e_t'$ and we can do equation-by-equation
+     OLS, which is equivalent to
+     \[
+       \hat \Phi' = \Big(\sum_{t=p+1}^T z_t z_t'\Big)^{-1} \sum_{t=p+1}^T z_t y_t'
+     \]
+   + We should think a little about what we're doing.
+     + OLS essentially conditions on the first $p$ observations
+     + We could do full MLE using the likelihood and that will use
+       those observations. To do this, use
+       \[
+         y_t \mid z_t ∼ N(\Phi z_t, \Sigma).
+       \]
+     + Both are asymptotically equivalent
+     
+* COMMENT settings for org and emacs
+#+LaTeX_HEADER: \usepackage[margin=1in]{geometry}
+#+LaTeX_HEADER: \usepackage[charter]{mathdesign}
+#+LaTeX_HEADER: \usepackage{amsmath}
+#+LaTeX_HEADER: \input{VERSION}
+#+OPTIONS: toc:2
+#+LaTeX_CLASS_OPTIONS: [fleqn]
+#+LaTeX_HEADER: \newcommand{\RR}{\mathbb{R}}
+#+LaTeX_HEADER: \newcommand{\textif}{\text{if}}

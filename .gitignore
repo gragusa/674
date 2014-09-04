@@ -3,6 +3,7 @@ VERSION.tex
 auto/
 .Rhistory
 _region_.tex
+var_lectures.tex
 
 *~
 *.aux
