@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.2.2
+* Restores ARMA estimation material
+
 ### Version 0.2.1
 * Switches back from unicode to ascii characters
 
