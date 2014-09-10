@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.2.4
+* Mention GNU FDL license in VAR IJulia notebook
+
 ### Version 0.2.3
 * Lecture notebook on VAR estimation and forecasting
 
