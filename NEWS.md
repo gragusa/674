@@ -1,6 +1,15 @@
 Project news
 ============
 
+### Version 0.2.5
+* Add SVAR lecture notes
+
+### Version 0.2.4
+* Mention GNU FDL license in VAR IJulia notebook
+
+### Version 0.2.3
+* Lecture notebook on VAR estimation and forecasting
+
 ### Version 0.2.2
 * Restores ARMA estimation material
 

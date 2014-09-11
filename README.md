@@ -12,7 +12,7 @@ know, Hamilton's *Time Series Analysis* is the most recent
 comprehensive Econometric time-series book, but it was written in 1994
 and doesn't cover many important recent developments.
 
-The project is in early development, edition 0.2.1 (pre-alpha).  Use
+The project is in early development, version 0.2.5 (pre-alpha).  Use
 at your own risk!
 
 Sections
