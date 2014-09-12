@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.2.6
+* Add copyright info to notebooks
+
 ### Version 0.2.5
 * Add SVAR lecture notes
 
