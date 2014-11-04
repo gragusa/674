@@ -100,7 +100,7 @@ Stochastic Integration
      \[
        y_t = y_{t-1} + e_t = y_0 + \sum_{s=1}^{t} e_s
      \]
-     with $e_t \sim MDS(0, \sigma^2)$
+     with $e_t \sim MDS(0, \sigma^2 I)$
    + We run the regression
      \[
        y_{1t} = \beta y_{2,t-1} + u_t
