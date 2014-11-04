@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.3.2
+Add stochastic integration figures to repo
+
 ### Version 0.3.1
 Fix some minor errors in the stochastic integrals slides
 
