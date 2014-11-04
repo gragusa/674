@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.3.1
+Fix some minor errors in the stochastic integrals slides
+
 ### Version 0.3.0
 Add slides for stochastic intergrals & spurious correlation
 
