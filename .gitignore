@@ -1,7 +1,9 @@
+lectures/stochastic_integration.tex
+
 irfs.csv
 irfsboot.csv
 .ipynb_checkpoints/
-VERSION.tex
+.juliahistory
 
 auto/
 .Rhistory
@@ -11,6 +13,7 @@ _region_.tex
 *.aux
 *.bbl
 *.blg
+*.png
 *.dvi
 *.fdb_latexmk
 *.fls
