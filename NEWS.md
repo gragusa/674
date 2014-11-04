@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.3.0
+Add slides for stochastic intergrals & spurious correlation
+
 ### Version 0.2.6
 * Add copyright info to notebooks
 
