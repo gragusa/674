@@ -1,0 +1,63 @@
+Cointegration lecture 2
+#+AUTHOR: Gray Calhoun
+#+DATE: November 9th, 2014, version \version
+
+* Working with unknown cointegrating vectors.
+** Johansen
+  In that case, you'd use Johansen's reduced rank regression; fit the
+  model with OLS (or MLE) under the constraint that $\Pi =
+  \alpha\beta'$ has reduced rank $r$.  Operationally, this requires
+  - First, test the null that $\Pi = 0$ in
+    \[
+    \Delta y_t = a_0 \Pi y_{t-1} + \pi(L) \Delta y_{t-1} + e_t,
+    \]
+
+    i.e. test the null hypothesis that there is no cointegration
+    (we've already decided/determined that $y_t$ is $I(1)$.
+  - If you reject the first null, test the null that $r=1$ against
+    the alternative that $r>1$.
+  - If you reject, continue testing $r=j$ vs $r>j$ for
+    $j=2,3,\dots,n-1$.
+  - When you finally fail to reject, set that value for $r$.
+
+  Obviously, these pre-testing procedures are really problematic in
+  finite samples.
+* End matter
+** License and copying
+   Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
+   distribute and/or modify this document under the terms of the GNU
+   Free Documentation License, Version 1.3 or any later version
+   published by the Free Software Foundation; with no Invariant
+   Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of
+   the license is included in the file LICENSE.tex and is also
+   available online at [[http://www.gnu.org/copyleft/fdl.html]].
+** COMMENT slide setup
+#+BEAMER_FRAME_LEVEL: 2
+#+OPTIONS: toc:nil
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,fleqn,t,serif,10pt]
+#+STARTUP: beamer
+#+LaTeX_HEADER: \usepackage{url,microtype,tikz}
+#+LaTeX_HEADER: \urlstyle{same}
+#+LaTeX_HEADER: \frenchspacing
+#+LaTeX_HEADER: \usepackage{xcolor}
+#+LaTeX_HEADER: \usepackage[osf]{sourcecodepro}
+#+LaTeX_HEADER: \usepackage[charter]{mathdesign}
+#+LaTeX_HEADER: \usecolortheme{dove}
+#+LaTeX_HEADER: \usemintedstyle{pastie}
+#+LaTeX_HEADER: \DisableLigatures{family = tt*}
+#+LaTeX_HEADER: \setbeamertemplate{navigation symbols}{}
+#+LaTeX_HEADER: \setbeamertemplate{items}[circle]
+#+LaTeX_HEADER: \setbeamerfont{sec title}{parent=title}
+#+LaTeX_HEADER: \setbeamercolor{sec title}{parent=titlelike}
+#+LaTeX_HEADER: \setbeamerfont{frametitle}{size=\normalsize}
+#+LaTeX_HEADER: \setbeamertemplate{frametitle}{\vspace{\baselineskip}\underline{\insertframetitle\vphantom{g}}}
+#+LaTeX_HEADER: \setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{0pt}}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate item}{\insertenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate mini template}{\insertenumlabel}
+#+LaTeX_HEADER: \input{../VERSION.tex}
+#+LaTeX_HEADER: \input{../tex/slide_macros.tex}
+
+#+MACRO: s \vspace{\baselineskip}
