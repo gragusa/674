@@ -1,0 +1,289 @@
+Cointegration lecture 1
+#+AUTHOR: Gray Calhoun
+#+DATE: November 4th, 2014, version \version
+
+* Introduction
+** Simple example of cointegration
+   + Start with $k$-dimensional VAR(1)
+     \[
+       y_t = a_0 + A y_{t-1} + e_t
+     \]
+     + Stationarity implies that eigenvalues of $A$ are all less
+       than 1.
+     + Suppose that some are equal to 1 and some less than 1
+     + Last class, we (essentially) worked with the case where all of
+       the eigenvalues equaled 1
+   + Let $\Pi = A - I$ and rewrite the VAR as
+     \[
+       \Delta  y_t = a_0 + \Pi y_{t-1} + e_t
+     \]
+     + Unit eigenvalues of $A$ become zero eigenvalues of $\Pi$, so
+       $\Pi$ will not have full rank
+   + Suppose $\Pi$ has rank $r$, then we can write
+     \[
+     \Pi = \alpha\beta'
+     \]
+     where $\alpha$ and $\beta$ both are $k \times r$ with full rank.
+   + Then $\Delta y_t = a_0 + \alpha \beta'y_{t-1} + e_t$
+** Simple example of cointegration
+   + Intuitively, $\Delta y_t \sim I(0)$ since $y_t \sim I(1)$
+   + Then we must have $\beta'y_t \sim I(0)$ as well
+   + $r$ is the "cointegrating rank" of the system
+     + $r = 0$ implies "no cointegration"
+     + $r = k-1$ implies that there is a single unit root process
+       driving all of the series
+   + Formally:
+     \begin{align*}
+       y_t
+       &= a_0 + A y_{t-1} + e_t \\
+       &= y_0 + t a_0 + \sum_{s=1}^t A^{t-s} e_t \\
+       &= y_0 + t a_0 + \sum_{s=1}^t \Gamma \Lambda^{t-s} \Gamma' e_s \\
+       y_{t-1}
+       &= y_0 + (t-1) a_0 + \sum_{s=1}^{t-1} \Gamma \Lambda^{t-s-1} \Gamma' e_s \\
+     \end{align*}
+** Simple example of cointegration
+   \begin{align*}
+     y_t - y_{t-1}
+     &= a_0 + e_t + \sum_{s=1}^{t-1}
+        \Gamma (\Lambda^{t-s} - \Lambda^{t-s-1}) \Gamma' e_s \\
+     &\equiv a_0 + e_t + \sum_{s=1}^{t-1} \Psi_{t-s} e_s
+   \end{align*}
+   with
+   \begin{align*}
+     \Lambda^{t-s} - \Lambda^{t-s-1}
+     &= \diag(\underbrace{1, \dots, 1}_r,
+              \lambda_1^{t-s}, \dots, \lambda_{k-r}^{t-s}) \\
+     &\quad- \diag(\underbrace{1, \dots, 1}_r,
+                   \lambda_1^{t-s-1}, \dots, \lambda_{k-r}^{t-s-1}) \\
+     &= \diag(\underbrace{0, \dots, 0}_r,
+              \lambda_1^{t-s}(1 - \lambda_1^{-1}),
+              \dots,
+              \lambda_{k-r}^{t-s}(1 - \lambda_{k-r}^{-1}))
+   \end{align*}
+   - Since $\sum_{j} \Psi_j$ is (summable?), $\Delta y_t \sim I(0)$.
+** Simple example of cointegration
+   - For $\beta' y_{t-1}$, we have
+     \begin{align*}
+     \alpha_0 + \alpha \beta'y_{t-1} + e_t &= \Delta y_t \\
+     &= a_0 + e_t + \sum_{s=1}^{t-1} \Psi_{t-s} e_s \\
+     \alpha'\alpha \beta'y_{t-1} &= \sum_{s=1}^{t-1} \alpha' \Psi_{t-s} e_s \\
+     \beta'y_{t-1} &= \sum_{s=1}^{t-1} (\alpha'\alpha)^{-1} \alpha' \Psi_{t-s} e_s
+     \end{align*}
+   - $\alpha$ and $\beta$ are not unique
+     \[
+     \Pi = \alpha \beta' = (\alpha R) (\beta R^{\prime -1})' = \tilde\alpha \tilde\beta'
+     \]
+   - They are unique up to rotations, so they define the same dynamics
+** Granger-Representation Theorem
+   + Let $y_t$ be a $k$-dimensional VAR($p$):
+     \[
+       y_t = a_0 + \sum_{i=1}^p A_i y_{t-1} + e_t.
+     \]
+   + Let $\Pi = I - A_1 - \cdots A_p$ and let $r = \rank(\Pi)$.
+   + Let $C_j = - \sum_{i=j+1}^p A_i$
+   + There are $r$ stationary linear combinations of the variables in
+     $y_t$, and we can write the VAR as a VECM
+     \[
+       \Delta  y_t = a_0 + \alpha\beta' y_{t-1} + \sum_{i=1}^{p-1} C_j \Delta  y_{t-i} + e_t
+     \]
+   + $\alpha$ and $\beta$ are both $k \times r$ and $\beta'y_t$ is
+     stationary
+** Interpretation
+   + Unit-root components represent stochastic trends
+   + Cointegrating vectors can represent long-run equilibria
+   + The same sort of behavior can hold for /any/ persistent process
+     (irregular breaking patterns, etc.)
+     + i.e., a single process exhibiting instability, and a second
+       process that is the first plus a stationary error component
+     + Typically called /comovement/ or /cobreaking/ in that case
+     + We can imagine a "structural" VECM, just like SVAR:
+       \[
+         C_0 \Delta  y_t = a_0 + \alpha\beta' y_{t-1} + \sum_{i=1}^{p-1} C_j \Delta  y_{t-i} + e_t
+       \]
+       + Same identification issues as with VARs: we can't estimate
+         all of the elements of $C_0$ without imposing external
+         economic theory
+       + Same approaches as with VARs can apply here
+
+* Estimation
+** Estimating the VECM
+   + If $\beta$ is known, OLS is consistent and asymptotically normal
+     + "Known" can mean "known under the null hypothesis," so this
+       isn't as crazy as it might appear
+   + If $\beta$ is not known we need to estimate it
+   + Typically we will need to also estimate $r$
+   + Identifying specific cointegrating vectors can be tricky as well
+** Park-Phillips triangular representation
+     If $\beta'y_t$ is stationary, so is (assuming \(\beta_{11}, \beta_{12}, \dots, \beta_{1r} \neq 0\))
+     \begin{equation*}
+       \begin{pmatrix}
+       1 & \beta_{21}/\beta_{11} & \beta_{31}/\beta_{11} & \cdots & \beta_{k1}/\beta_{11} \\
+       1 & \beta_{22}/\beta_{12} & \beta_{32}/\beta_{12} & \cdots & \beta_{k2}/\beta_{12} \\
+       \vdots \\
+       1 & \beta_{2r}/\beta_{1r} & \beta_{3r}/\beta_{1r} & \cdots & \beta_{kr}/\beta_{1r}
+       \end{pmatrix}
+       \begin{pmatrix} y_{1t} \\ y_{2t} \\ \vdots \\ y_{kt} \end{pmatrix}
+     \end{equation*}
+     and
+     \begin{equation*}\scriptsize
+       \begin{pmatrix}
+       1 & \beta_{21}/\beta_{11} & \beta_{31}/\beta_{11} & \cdots & \beta_{k1}/\beta_{11} \\
+       0 & \beta_{22}/\beta_{12} - \beta_{21}/\beta_{11} & \beta_{32}/\beta_{12} - \beta_{31}/\beta_{11} & \cdots & \beta_{k2}/\beta_{12} - \beta_{k1}/\beta_{11} \\
+       \vdots \\
+       0 & \beta_{2r}/\beta_{1r} - \beta_{21}/\beta_{11} & \beta_{3r}/\beta_{1r} - \beta_{31}/\beta_{11}& \cdots & \beta_{kr}/\beta_{1r} - \beta_{k1}/\beta_{11}
+       \end{pmatrix}
+       \begin{pmatrix} y_{1t} \\ y_{2t} \\ \vdots \\ y_{kt} \end{pmatrix}
+     \end{equation*}
+     and (dot dot dot)
+     \begin{equation*}
+       \begin{pmatrix}
+       1 & 0 & \dots & 0 & b_{r+1,1} & \cdots & b_{k1} \\
+       0 & 1 & \dots & 0 & b_{r+1,2} & \cdots & b_{k2} \\
+       \vdots \\
+       0 & 0 & \dots & 1 & b_{r+1,r} & \cdots & b_{kr}
+       \end{pmatrix}
+     \begin{pmatrix} y_{1t} \\ y_{2t} \\ \vdots \\ y_{kt} \end{pmatrix} = [I \ B']\, y_t
+     \end{equation*}
+** Park-Phillips triangular representation
+   + Partition $y_t'$ as $(y_{1t}', y_{2t}')$.
+   + Now define
+     \begin{align*}
+     \mu_1 &= \E([I \ B']\, y_t) \\
+     u_{1t} &= [I \ B']\, y_t - \mu_1
+     \end{align*}
+   + We can also define
+     \begin{align*}
+     \mu_2 &= \E \Delta y_{2t} \\
+     u_{2t} &= \Delta y_{2t} - \mu_2
+     \end{align*}
+   + Then
+     \begin{align*}
+     y_{1t} &= \mu_1 - B' y_{2t} + u_{1t} \\
+     \Delta y_{2t} &= \mu_2 + u_{2t}
+     \end{align*}
+   + Note that $u_t = (u_{1t}', u_{2t}')'$ will be an MA process.
+** Engle-Granger approach to estimating cointegrating vector
+   + At first, assume $r$ is known to be 1
+   + We can estimate
+     \[
+     y_{1t} = \mu_1 - B' y_{2t} + u_{1t}
+     \]
+     with OLS: let $D_T = \diag(T^{1/2}, T)$
+     \[
+     D_T^{-1} \sum_{t=1}^{T} \begin{pmatrix} 1 & y_{2t}' \\ y_{2t} & y_{2t} y_{2t}' \end{pmatrix} D_T^{-1}
+     \Rightarrow
+     \begin{pmatrix} 1 & \int_0^1 W'_2(s) ds \Sigma_2' \\ \Sigma_2 \int_0^1 W_2(s) ds & \Sigma_2 \int_0^1 W_2(s) W_2(s)' ds \Sigma_2' \end{pmatrix}
+     \]
+     and
+     \[
+     D_T^{-1} \sum_{t=1}^{T} \begin{pmatrix} u_{1t} \\ y_{2t} u_{1t} \end{pmatrix}
+     \Rightarrow
+     \begin{pmatrix} \omega_1 W_1(1) \\ \Sigma_2 \int_0^1 W_2(s) dW_1(s) \sigma_1 + \omega_1/2 \end{pmatrix}
+     \]
+   + $\hat\mu_1 = \mu_1 + O_p(T^{-1/2})$
+   + $\hat B = B + O_p(T^{-1})$
+** Engle-Granger approach
+   + If you know:
+     + $r$
+     + Which elements of $y_t$ are _certain_ to be in the cointegrating relationships
+     then you can estimate the cointegrating vector with OLS
+   + This estimator is _superconsistent_ (you can treat it as known in future inference steps)
+     1. Estimate cointegrating relationships with OLS:
+	\[
+	y_{1t} = \mu_1 - B' y_{2t} + u_{1t}
+	\]
+     2. Plug in $\hat B$ and estimate VECM with OLS
+	\[
+        \Delta  y_t = a_0 + \alpha [I\ \hat B'] y_{t-1} + \sum_{i=1}^{p-1} \Delta  y_{t-i} + e_t
+	\]
+     3. We can ignore estimation error in $\hat B$ in this second equation.
+** Engle-Granger approach:
+   + This also leads to a test for cointegration:
+   + When we estimate
+     \[
+     y_{1t} = \mu_1 - B' y_{2t} + u_{1t}
+     \]
+     we get superconsistency only if $u_{1t}$ is I(0), which requires
+     cointegration to hold
+   + Otherwise, $y_{1t} + B' y_{2t}$ has a unit root, so $u_{1t}$ has
+     a unit root.
+   + We can test whether $\hat u_{1t}$ has a unit root by doing an
+     ADF-type test and regressing $\hat u_{1t}$ on $\hat u_{1,t-1}$:
+     \[
+     \hat\rho = \frac{\sum_{t=2}^T \hat u_{1,t-1} \hat u_{1,t}}{\sum_{t=2}^T \hat u_{1,t-1}^2}
+     \]
+   + $\hat\rho$ has a /nonstandard/ nonstandard distribution, so you
+     can't use the ADF tables. (see Hamiltion Proposition 19.4)
+* First-differenced cointegrated processes do not have VAR representations.
+** Why not just work with the differences?
+   + $\Delta y_t$ is stationary, so can't we just invoke Wold representation
+     theorem:
+     \[
+     \Delta  y_t = C(L) e_t
+     \]
+   + Use Beveridge-Nelson decomposition ($C^*_j = - \sum_{s=j+1}^\infty C_s$)
+     \[
+     \Delta y_t = C(1) e_t + C^*(L) (e_t - e_{t-1})
+     \]
+     so
+     \[
+       y_t = y_0 + \sum_{t=0}^t \Delta  y_t = y_0 + C(1) w_t + C^*(L) e_t
+     \]
+     where $w_t = \sum_{s=0}^t e_t$ (a unit root process)
+** Why not just work with the differences?
+   + Cointegration implies that $\beta'y_t$ is I(0), so
+     \[
+     \beta'y_0 + \beta'C(1) w_t + \beta'C^*(L) e_t
+     \]
+     must be I(0) as well, which only happens if the $w_t$ term is a.s. zero,
+     so we need
+     \[
+     \beta'C(1) = 0
+     \]
+     as a consequence of cointegration.
+   + Remember that for an MA($\infty$) to be invertible, we need the
+     solutions to $\det(C(z)) = 0$ to all be outside the unit circle,
+     which we just ruled out.
+   + $\Delta y_t$ *does not have a VAR representation*
+   + $t^{-1/2} y_t$ has limiting variance of $C(1) \Sigma C(1)'$,
+   + $\avar(T^{-1/2} \sum_{t=1}^T \Delta y_t)$ has the same asymptotic
+     variance, which doesn't have full rank.
+* End matter
+** License and copying
+   Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
+   distribute and/or modify this document under the terms of the GNU
+   Free Documentation License, Version 1.3 or any later version
+   published by the Free Software Foundation; with no Invariant
+   Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of
+   the license is included in the file LICENSE.tex and is also
+   available online at [[http://www.gnu.org/copyleft/fdl.html]].
+** COMMENT slide setup
+#+BEAMER_FRAME_LEVEL: 2
+#+OPTIONS: toc:nil
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,fleqn,t,serif,10pt]
+#+STARTUP: beamer
+#+LaTeX_HEADER: \usepackage{url,microtype,tikz}
+#+LaTeX_HEADER: \urlstyle{same}
+#+LaTeX_HEADER: \frenchspacing
+#+LaTeX_HEADER: \usepackage{xcolor}
+#+LaTeX_HEADER: \usepackage[osf]{sourcecodepro}
+#+LaTeX_HEADER: \usepackage[charter]{mathdesign}
+#+LaTeX_HEADER: \usecolortheme{dove}
+#+LaTeX_HEADER: \usemintedstyle{pastie}
+#+LaTeX_HEADER: \DisableLigatures{family = tt*}
+#+LaTeX_HEADER: \setbeamertemplate{navigation symbols}{}
+#+LaTeX_HEADER: \setbeamertemplate{items}[circle]
+#+LaTeX_HEADER: \setbeamerfont{sec title}{parent=title}
+#+LaTeX_HEADER: \setbeamercolor{sec title}{parent=titlelike}
+#+LaTeX_HEADER: \setbeamerfont{frametitle}{size=\normalsize}
+#+LaTeX_HEADER: \setbeamertemplate{frametitle}{\vspace{\baselineskip}\underline{\insertframetitle\vphantom{g}}}
+#+LaTeX_HEADER: \setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{0pt}}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate item}{\insertenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate mini template}{\insertenumlabel}
+#+LaTeX_HEADER: \input{../VERSION.tex}
+#+LaTeX_HEADER: \input{../tex/slide_macros.tex}
+
+#+MACRO: s \vspace{\baselineskip}
