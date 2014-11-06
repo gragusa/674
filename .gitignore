@@ -1,4 +1,4 @@
-lectures/stochastic_integration.tex
+cointegration/*.tex
 
 irfs.csv
 irfsboot.csv
@@ -33,6 +33,7 @@ _region_.tex
 *.pdf
 *.pdfsync
 *.ps
+*.pyg
 *.sbb
 *.snm
 *.synctex.gz
