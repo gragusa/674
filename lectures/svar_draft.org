@@ -1,0 +1,204 @@
+Structural Vector Autoregressions
+
+* Forecasting with VARs
+  - Textbook material: \citet[Chapter 20]{Gr12}
+  - Review articles: \citet{Ki13}, \citet{Wa94},
+  - Key papers: \citet{Si80}
+* Quick: forecast from VAR(p)
+  - Iterated forecasts
+  - Direct forecasts
+** Uncertainty
+   - For matrices, spots where it breaks are less obvious and depend
+     on the derivative of the AR coefficients.
+   - Bootstrap also used (but suffers from some of the same problems
+     as $\delta$-method)
+   - grid bootstrap (Mikusheva 2012)
+   - mostly get pointwise CIs
+
+   (Add material on Bayesian CIs too)
+
+* Basic ideas for IRF
+  AR and MA models that we discussed earlier are \emph{descriptive}
+  models, but don't necessarily have any economic content
+  \[
+  \phi(L) y_t = \theta(L) e_t
+  \]
+  describes the second moments of $y_t$; the usual concerns about
+  simultaneity apply here (and even more forcefully than usual).
+  - Interested in dynamics
+  - Want to know, what happens to $y_{t+1}, y_{t+2},\dots,
+    y_{t+h},\dots$ given an exogenous change to $y_{1,t}$?
+  - What is an exogenous change to $y_{1,t}$? Can it be isolated
+    from changes to $y_{2,t}$, $y_{3,t}$, etc?
+  - Monetary shock
+  - Technology shock
+  - Financial shock (credit\dots)
+  - Oil price shock
+  - UNANTICIPATED
+
+  Look at $MA(\infty)$ representation (assuming stationarity, etc)
+  zero mean for simplicity
+  \[
+  y_t = C(L) e_t
+  \]
+  where $C(L) = \phi(L)^{-1} \theta(L) e_t$
+
+  we want to transform/rotate $e_t$ so that we have "structural"
+  shocks $u_t$,
+  \[u_t = V e_t\]
+  typically $u_t$ is normalized so that
+  \[\var( u_t ) = I\]
+  (uncorrelation is kind of the definition of a macro shock) and we
+  have
+  \[y_t = C(L) V^{-1} u_t\ (rewrite\ as)\ B(L) u_t\]
+
+  So then
+  \[y_t = B_0 u_t + B_1 u_{t-1} + B_2 u_{t-2} + \cdots\]
+  and the effect of
+  - $u_{1t}$ shock to $y_t$ is $B_0 (1 0 0 \dots 0)$
+  - $u_{1t}$ shock to $y_{t+1}$ is $B_1 (1 0 0 \dots 0)'$
+  - etc.
+  - $u_{1t}$ shock to $y_{t+k}$ is $B_k (1 0 0 \dots 0)'$
+  notice that $V$ is not identified and so the shocks are not
+  identified: if $W$ is any orthonormal matrix, so that $W W' = I$, then
+  $W u_t$ has variance $I$ as well, and
+  \[C(L) e_t = C(L) V^{-1} u_t = C(L) (VW)^{-1} ( W u_t )\]
+
+** VAR representation
+   (mention rank conditions)
+   \[B(L)^{-1} = A(L);\]
+   - structural form: $A_0 y_t = A_1 y_{t-1} + \cdots + A_p y_{t-p} + u_t$
+   - reduced form: $y_t = A_0^{-1} A_1 y_{t-1} + \cdots + A_0^{-1} A_p y_{t-p} + A_0^{-1} u_t$
+   in this notation, the effect of
+   - $u_{1t}$ shock to $y_t$ is $A_0^{-1} (1 0 \dots 0)'$
+   - $u_{1t}$ shock to $y_{t+1}$ is $A_0^{-1} A_1 × shocked\ y_t = A_0^{-1} A_1 A_0^{-1} (1 0 \dots 0)'$
+   - $u_{1t}$ shock to $y_{t+2} = A_0^{-1} A_1 × shocked\ y_{t+1} + A_0^{-1} A_2 × shocked\ y_t = (A_0^{-1} A_1) × (A_0^{-1} A_1) A_0^{-1} (1 0 \cdots 0)'$
+     - $(A_0^{-1} A_2) * A_0^{-1} (1 0 \cdots 0)'$
+   etc (these formulas are really easy if you use the canonical form of
+   the VAR)
+   - With OLS, we can consistently estimate $A_0^{-1} A_1$, $A_0^{-1}
+     A_2$, etc and $A_0^{-1} A_0^{-1\prime}$ (i.e. the
+     variance-covariance matrix of the reduced form error).
+   - BUT, we actually need to know \emph{all} of the elements of $A_0$
+     or $A_0^{-1}$, and $A_0^{-1} A_0^{-1\prime}$ is positive definite
+     and so has only $n (n-1) / 2$ unique elements, not the $n^2$.
+* Identification
+  - Short run identification: Constrain $A_0$ or $A_0^{-1}$, not
+    $(A_0^{-1} A_i)$.
+  - that would be the typical simultaneous equations approach, IV, etc
+  - Long-run identification (we'll discuss in a bit) -- based on the
+    idea that some shocks (productivity shocks for example)
+    permanently affect the level of some variables (per-capita output,
+    for example)
+  - Partial identification
+** Short-run identification
+   Suppose we know that
+   - $y_{1t}$ ignores $u_{2t}$ through $u_{nt}$
+   - $y_{2t}$ ignores $u_{3t}$ through $u_{nt}$
+   - dot dot dot
+   - $y_{n-1,t}$ ignores $u_{nt}$
+   - $y_{n,t}$ responds to all of the shocks
+   Then you know that $A_0^{-1}$ is lower triangular and so it's
+   identified.
+   - Sounds sort of ridiculous, but this was Sims's (1980) first
+     identification approach;
+   - You could imagine that the Federal Reserve sees what's happened
+     in the economy before acting, so it would be at the bottom;
+     $u_{nt}$ would represent a monetary policy shock (the equation
+     for $y_{nt}$ would be something like a Taylor rule and $y_{nt}$
+     needs to be an interest rate).
+   - ie imagine inflation, unemployment, and interest rates
+   - probably want to leave the other coefficients of the interest
+     rate equation unspecified so that you're allowing it to be
+     forward looking (or include additional forward looking variables)
+   - could specify
+     \begin{equation*}
+       R_t = R^* + coef * (inflation_t - inflation^*) + coef * (unemp_t - unemp^*) + coefs *
+       R_{t-1} + \cdots + e_{Rt}
+     \end{equation*}
+   - but now this equation needs to be right (if it is, another source
+     of identification)
+   - This has the "advantage" of being especially easy to calculate
+     (comes from a Choleski decomposition of the sample covariance
+     matrix).
+   - This is kind of old-fashioned; you can't usually identify every
+     shock this way;
+** semi-structural
+   \[y_t = (\Delta  gdp_t,\ inflation_t,\ fed\ funds_t)\]
+   "identify" with recursive structure:
+   - $\Delta  gdp_t$ only responds to "first shock"
+   - $inflation_t$ only responds to "first shock" and
+     "second shock"
+   - $fed\ funds_t$ is set by monetary policy and responds
+     to everything
+   - important thing is that it happens last
+   - identify "monetary policy shock" as deviations from
+     "endogenous policy"
+   - don't identify any other shocks (recursive structure for first
+     two is really just a normalization device).
+
+   - This could be more convincing with higher-frequency data (ie
+     kalman filter/ state space models) or better policy knowledge
+   - An argument that prices respond more quickly than quantities
+     seems plausible overall (remembering that the VAR is supposed to
+     be taking care of the endogenous component of both)
+** Kilian (2010) has other examples
+   Any economic argument to pin down particular values of
+   $A_0^{-1}$ or $A_0$ can do the same trick.
+** Long-run identification
+   Introduced in Blanchard and Quah (1989 AER)
+   - Their model: bivariate VAR ($\Delta  gdp_t$, $u_t$)
+   - $\Delta  gdp_t$ is I(0)
+   - Assume for argument's sake that $gdp_0 = 0$
+   - Assumption: want to identify the shocks that have a long-run
+     effect on $gdp_t$ (they argue that these have interpretation as a
+     supply shock)
+   - Start with structural MA representation:
+   - $v_t$ consists of the policy shocks; first element is "supply"
+     shock
+     \[( \Delta  gdp_t, u_t ) = C(L) e_t = D(L) v_t\]
+     Simple rewrite:
+     \[ \sum_{s=1}^t (\Delta  gdp_s, u_s) = D(L) \sum_s v_s \]
+   - Apply the "beveridge-nelson decomposition" (note that $D(1) = D_0 + D_1 + \dots$
+     \begin{align*}
+       \sum_{s=1}^t D(L) v_s
+       &= \sum_{s=1}^t \sum_{j=0}^\infty D_j v_{s-j} \\
+       &= \sum_{j=0}^\infty v_{t-j} \sum_{s=0}^j D_s \\
+       &= (D(1) - \sum_{j=1}^\infty D_j) v_t + (D(1) - \sum_{j=2}^\infty D_j) v_{t-1} + \cdots \\
+       &= D(1) \sum_{s=1}^t v_s + D^*(L) v_t
+     \end{align*}
+     where $D_k^* = - \sum_{j=k+1}^\infty D_j$ and
+     $D(1) = \begin{pmatrix}
+       D_{11}(1) & D_{12}(1) \\ D_{21}(1) & D_{22}(1)
+     \end{pmatrix}$
+   - This gets us $(gdp_t, \sum_{s=1}^t u_s) = sum = D(1) \sum_{s=1}^t v_s + D(L) v_t$
+   - second part are purely transitory shocks
+   - $D(1)$ part are the "permanent shocks"
+   - model makes no claim about permanent shock on summed unemployment
+   - does make claim about shock on $gdp_t$
+   - second element of $v_t$ can't have permanent effect, so
+     $D_{12}(1)$ must be zero!
+     \[vcv(v_s) = I vcv(C(1) e_t) = vcv(D(1) v_t),\]
+     so
+     - $C(1) \Sigma C(1)`= D(1) D(1)'$ (and LHS can be estimated
+       consistently);
+     - here $D(1)$ can be estimated as the choleski decomposition of
+       estimated $C(1) \Sigma C(1)'$ (and know that, if we have the
+       reduced form VAR model $\Phi(L) y_t = e_t$ then $\Phi(L)^{-1} =
+       C(L)$ (and this holds for $L = 1$)
+     - So then $v_t = \hat D(1)^{-1} \hat C(1) e_t$ and $A_0^{-1} = \hat D(1)^{-1} \hat C(1)$
+* Additional references (to be incorporated from syllabus)
+  - \citet{BD91} (The "classic" treatment of weakly-stationary univariate processes.)
+  - \citet{FR07}
+  - \citet{Ki13}
+  - \citet{Si80}
+  - \citet{SW01}
+  - \citet{Wa94}
+* License and copying
+  Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
+  distribute and/or modify this document under the terms of the GNU
+  Free Documentation License, Version 1.3 or any later version
+  published by the Free Software Foundation; with no Invariant
+  Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of
+  the license is included in the file LICENSE.tex and is also
+  available online at [[http://www.gnu.org/copyleft/fdl.html]].

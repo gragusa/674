@@ -1,0 +1,93 @@
+Inference and partial identification in SVARs
+
+* Simple confidence intervals for VARs
+** Intervals based on asymptotic normality of coefficients
+   - Want confidence intervals associated with these IRFs (draw)
+   - $\delta$-method (example for AR(1)):
+     \[y_t = \rho y_{t-1} + e_t,\]
+     then we know that
+     \[  y_{t+k} - y_{t-1} = \rho^k \Delta e_t;\]
+     so we'd like to make a confidence region for
+     \[\sqrt{T} (\hat \rho^1 - \rho^1,\dots,\hat \rho^k - \rho^k)\]
+    for any $j$, $\sqrt{T} (\hat \rho^j - \rho^j) \to N(0, (j \rho^{j-1}) 2 \sigma²)$,
+    which breaks if $\rho = 0$!
+** Problems with these intervals
+** Proposed solutions to these problems
+* Uniformly valid confidence intervals for VARs
+  \citep{Mik07}, \citep{Mik12}
+* Bayesian intervals
+  - specify prior for AR coefficients and VCV
+  - Draw candidate values of the AR coefficients from the posterior
+  - For each one, calculate the IRF as before
+  - Summarize with mean, mode, or credible set
+  - It is /very unlikely/} that these are uniformly valid
+    credible sets if you use the uniform prior
+* Partial identification through sign restrictions.
+  The basic idea behind partial identification is that we may not have
+  enough information to pin down a value precisely, but we might still
+  be able to derive economically interesting restrictions.  For
+  example, if we define a set of /potential/ ``loose'' monetary policy
+  shocks to be any innovation that lowers the Federal Funds rate, and
+  /any/ shock that meets that minor condition leads to a rise in GDP
+  growth, we can conclude that monetary policy shocks cause GDP growth
+  to rise.
+
+  - The key difference between this approach and the previous
+    approaches is that, in this hypothetical example, we don't need to
+    know which of the innovations actually line up with monetary policy
+    shocks, since we know that (hypothetically) GDP growth has a
+    nonnegative response to all of them.
+  - Implementation without worrying about inference is relatively
+    easy:
+    - Estimate the reduced-form VAR,
+      \[ y_t = \Phi_0 + \sum_{j=1}^p \Phi_j y_{t-j} + e_t \]
+      and the variance-covariance matrix of $e_t$ as usual.
+    - Cholesky-decompose $\Sigmah$, so $\Sigmah = PP'$ with $P$ lower
+      triangular.
+    - For any orthonormal $D$, $\Sigmah = PP'$ implies that $\Sigmah =
+      (PD)(PD)'$, so we're going to proceed as before, but letting
+      $A_0^{-1} = PD$ and letting $D$ range over the whole set of
+      orthonormal matrices.  ``Range'' means that we'll simulate a bunch of
+      orthonormal matrices.
+
+      One way to let $D$ range over these matrices is to draw a $k×k$
+      matrix of standard normal random variables, call it $L$, and take
+      the QR decomposition of $L$, giving $L=QR$ where $Q$ is
+      orthonormal.  Then let $D=Q$.
+    - For each draw of $A_0=(PD)^{-1}$, calculate the IRFs.  If they
+      satisfy some economically-motivated constraints, keep that draw of
+      $A_0$ (in the brief example above, the constraint would be that the
+      Federal Funds rate has an immediate positive response).  Otherwise
+      discard it.  Either way, draw many many more candidate values of
+      $A_0$.
+    - The set of unrejected $A_0$ defines a set of potential IRFs for
+      the economic shock of interest.  Note that there's no way to say
+      that one of these IRFs is ``more plausible'' than any others,
+      since they all correspond to the exact same value of the
+      likelihiood.
+  - Bayesian estimation works very nicely with the algorithm
+    described above, and makes it computationally easy to account for
+    uncertainty in the estimators of $\Phi$ and $\Sigma$.  But we want to be
+    careful to not accidentally turn the method for generating candidate
+    values of $A_0$ into a prior over different values of $A_0$, which
+    will happen if we treat uncertainty over $A_0$ the same as
+    uncertainty over the values of $\Phi$ and $\Sigma$.  (Need to add references)
+  - I need to add notes and references on handling estimation
+    uncertainty for classical estimation and for Bayesian estimation
+    when we don't want to impose a prior on $A_0$.
+  - Problem with Bayesian inference: naive credible sets are invalid
+    as confidence sets.\cite{MS12}.
+  - One possibility: conduct inference on the identified set, not
+    the parameter value.\cite{KT13}
+* Further reading
+  - \citep{Ki13} reviews SVARs in general, with some material on
+    inference and sign restrictions.
+  - \citep{FP11} reviews sign restrictions in SVARs.
+* License and copying
+  Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
+  distribute and/or modify this document under the terms of the GNU Free
+  Documentation License, Version 1.3 or any later version published by
+  the Free Software Foundation; with no Invariant Sections, no
+  Front-Cover Texts, and no Back-Cover Texts. A copy of the license is
+  included in the file LICENSE.tex and is also available online at
+  [[http://www.gnu.org/copyleft/fdl.html]].
