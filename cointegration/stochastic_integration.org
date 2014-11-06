@@ -265,7 +265,7 @@ Stochastic Integration
 #+LaTeX_HEADER: \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}
 #+LaTeX_HEADER: \setbeamertemplate{enumerate mini template}{\insertenumlabel}
 #+LaTeX_HEADER: \input{../VERSION.tex}
-#+LaTeX_HEADER: \input{macros.tex}
+#+LaTeX_HEADER: \input{../tex/slide_macros.tex}
 
 #+MACRO: s \vspace{\baselineskip}
 
