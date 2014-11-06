@@ -60,7 +60,7 @@ Cointegration lecture 1
               \dots,
               \lambda_{k-r}^{t-s}(1 - \lambda_{k-r}^{-1}))
    \end{align*}
-   - Since $\sum_{j} \Psi_j$ is (summable?), $\Delta y_t \sim I(0)$.
+   - Since $\sum_{j} \|\Psi_j\|$ is finite, $\Delta y_t \sim I(0)$.
 ** Simple example of cointegration
    - For $\beta' y_{t-1}$, we have
      \begin{align*}
@@ -96,14 +96,14 @@ Cointegration lecture 1
      + i.e., a single process exhibiting instability, and a second
        process that is the first plus a stationary error component
      + Typically called /comovement/ or /cobreaking/ in that case
-     + We can imagine a "structural" VECM, just like SVAR:
-       \[
-         C_0 \Delta  y_t = a_0 + \alpha\beta' y_{t-1} + \sum_{i=1}^{p-1} C_j \Delta  y_{t-i} + e_t
-       \]
-       + Same identification issues as with VARs: we can't estimate
-         all of the elements of $C_0$ without imposing external
-         economic theory
-       + Same approaches as with VARs can apply here
+   + We can imagine a "structural" VECM, just like SVAR:
+     \[
+       C_0 \Delta  y_t = a_0 + \alpha\beta' y_{t-1} + \sum_{i=1}^{p-1} C_j \Delta  y_{t-i} + e_t
+     \]
+     + Same identification issues as with VARs: we can't estimate
+       all of the elements of $C_0$ without imposing external
+       economic theory
+     + Same approaches as with VARs can apply here
 
 * Estimation
 ** Estimating the VECM
@@ -163,7 +163,6 @@ Cointegration lecture 1
      \end{align*}
    + Note that $u_t = (u_{1t}', u_{2t}')'$ will be an MA process.
 ** Engle-Granger approach to estimating cointegrating vector
-   + At first, assume $r$ is known to be 1
    + We can estimate
      \[
      y_{1t} = \mu_1 - B' y_{2t} + u_{1t}
@@ -284,6 +283,6 @@ Cointegration lecture 1
 #+LaTeX_HEADER: \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}
 #+LaTeX_HEADER: \setbeamertemplate{enumerate mini template}{\insertenumlabel}
 #+LaTeX_HEADER: \input{../VERSION.tex}
-#+LaTeX_HEADER: \input{../tex/slide_macros.tex}
+#+LaTeX_HEADER: \input{../tex/macros.tex}
 
 #+MACRO: s \vspace{\baselineskip}
