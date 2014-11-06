@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.4.0
+Add slides on estimation in cointegration
+
 ### Version 0.3.2
 Add stochastic integration figures to repo
 
