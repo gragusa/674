@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.5.0
+Add cointegration inference slides
+
 ### Version 0.4.0
 Add slides on estimation in cointegration
 
