@@ -2,26 +2,125 @@ Cointegration lecture 2
 #+AUTHOR: Gray Calhoun
 #+DATE: November 9th, 2014, version \version
 
+
 * Working with unknown cointegrating vectors.
-** Johansen
-  In that case, you'd use Johansen's reduced rank regression; fit the
-  model with OLS (or MLE) under the constraint that $\Pi =
-  \alpha\beta'$ has reduced rank $r$.  Operationally, this requires
-  - First, test the null that $\Pi = 0$ in
-    \[
-    \Delta y_t = a_0 \Pi y_{t-1} + \pi(L) \Delta y_{t-1} + e_t,
-    \]
+** Problem with our last results
+   + We used a normalization:
+     \[
+     y_{1t} = B' y_{2t} + u_t
+     \]
+     and estimate this with OLS
+   + Requires us to know the number of cointegrating relationships
+     + i.e. the dimension of $y_{1t}$
+   + Normalization fails if some of the terms in $y_{1t}$ don't really
+     belong in the cointegrating relationship
+     + Note that it's okay if some of the terms in $y_{2t}$ don't
+       belong in the relationship, because then we're just estimating
+       zero.
+   + Useful reading: Hamilton Chapter 20, Watson (1994) /Vector
+     Autoregressions and Cointegration/
+** An intermediate approach (Johansen)
+   + Suppose we know there are $r$ cointegrating relationships, but don't
+     have a normalization:
+     \[
+     \Delta y_t = a_0 + \Pi y_{t-1} + \sum_{i=1}^{p-1} A_i \Delta y_{t-i} + e_t
+     \]
+     where $\Pi = \alpha \beta'$ and $\alpha$ and $\beta$ are both $k \times r$
+   + We can estimate this equation by MLE (called reduced rank regression)
+     assuming normality
+   + Asymptotic distribution will not depend on normality
+** An intermediate approach (Johansen)
+   + Given any values of $\hat\alpha$ and $\hat\beta$, MLE of the
+     remaining parameters is easy
+     \[
+     \Delta y_t  - \hat\Pi y_{t-1} = a_0 + \sum_{i=1}^{p-1} A_i \Delta y_{t-i} + e_t
+     \]
+     so the MLE of $a_0$ and $A_i$ come from OLS
+   + Let $\hat u_{t}$ and $\hat v_t$ be the residuals from the regressions
+     \begin{gather*}
+     \Delta y_t = a_0 + \sum_{i=1}^{p-1} A_i \Delta y_{t-i} + u_t \\
+     y_{t-1} = a_0 + \sum_{i=1}^{p-1} A_i \Delta y_{t-i} + v_t
+     \end{gather*}
+     so
+     \[
+     \hat e_t = \hat u_t - \hat \Pi \hat v_t
+     \]
+** An intermediate approach (Johansen)
+   + Given $\hat\beta$ and the other MLEs, we know that the MLE of
+     $\hat\alpha$ comes from regressing $\Delta u_t$ on $\hat\beta'
+     v_{t}$, so
+     \[
+     \hat\alpha' = \Big(\hat\beta' \sum_{t=p+1}^n \hat v_t \hat v_t' \hat\beta\Big)^{-1}
+     \hat\beta' \sum_{t=p}^n \hat v_t \hat u_t
+     \]
+   + Under Normality, assuming MLEs for the other parameters, the
+     log-likelihood of $\beta$ is equal to (plus a constant)
+     \begin{align*}
+     -(n/2) &\log \det \hat \Sigma \\
+     &= (-n/2) \log \det \sum_{t=p}^n
+       (\hat u_t - \hat\alpha \hat\beta' \hat v_t) (\hat u_t - \hat\alpha \hat\beta' \hat v_t)' \\
+     &= (-n/2) \log \det
+         (\hat S_{uu} - \hat S_{uv} \hat\beta (\hat\beta' \hat S_{vv} \hat\beta)^{-1} \hat\beta \hat S_{uv}')
+     \end{align*}
+     with $\hat S_{uu} = \sum \hat u \hat u'$, etc.
+** An intermediate approach (Johansen)
+   + Then $\hat\beta$ minimizes
+     \[\det(\hat S_{uu} - \hat S_{uv} \hat\beta (\hat\beta' \hat S_{vv} \hat\beta)^{-1} \hat\beta \hat S_{uv}') \]
+   + One can show (we won't) that we can proceed by:
+     1) Finding the eigenvalues of $\hat S_{vv}^{-1} \hat S_{uv}' \hat
+        S_{uu}^{-1} \hat S_{uv}$, order them $\hat\lambda_1 > \cdots > \hat\lambda_k$
+     2) Let $\hat b_1,\dots,\hat b_r$ be the eigenvectors associated with
+        the first $h$ eigenvalues of that matrix
+     3) The cointegrating vectors can be written as linear combinations of the $\hat b_i$.
+     4) $\hat\beta = [\hat b_1, \dots, \hat b_r]$
+   + Log likelihood becomes
+     \[-(k n/2) \log 2\pi - (kn/2) - (n/2) \log \det \hat S_{uu} - (n/2) \sum_{i=1}^r \log(1 - \hat \lambda_i) \]
+* Testing
+** Moving from estimation to testing
+   + This gives us an estimate of $\hat\beta$ given a particular value of $r$
+   + May want to conduct inference on $\beta$
+   + May want to conduct inference on $\alpha$ and $A$
+   + May want to conduct inference on $r$.
+** Conducting inference on the number of cointegrating relationships
+   + Inference on $r$ is easy: we have a formula for the maximum of
+     the log-likelihood function under the null that the number of
+     cointegrating relationships is $r$.
+   + We can do an LM test easily
+   + Can do an LRT against the alternative that there are more than
+     $r$ cointegrating relationships:
+     \[
+     2(L_A - L_0) = -n \sum_{i=r+1}^{k-1} \log(1 - \hat\lambda_i)
+     \]
+     (Johansen's, 1988, "trace test")
+   + Or against the alternative that there are $r+1$ relationships:
+     \[
+     2(L_A - L_0) = -n \log(1 - \hat\lambda_{r+1})
+     \]
+     (Johansen's "maximum eigenvalue test")
+   + Asymptotic distribution of these is not chi-square. See Hamilton
+     20.3 for distributional results.
+** Deciding on the number of cointegrating relationships
+   1) Test $r = 0$ against $r > 0$.
+   2) If that test rejects, test $r = 1$ against $r > 1$
+   3) continue until you fail to reject
 
-    i.e. test the null hypothesis that there is no cointegration
-    (we've already decided/determined that $y_t$ is $I(1)$.
-  - If you reject the first null, test the null that $r=1$ against
-    the alternative that $r>1$.
-  - If you reject, continue testing $r=j$ vs $r>j$ for
-    $j=2,3,\dots,n-1$.
-  - When you finally fail to reject, set that value for $r$.
-
-  Obviously, these pre-testing procedures are really problematic in
-  finite samples.
+   This approach will cause problems if we want to do inference on the
+   parameters afterwards, though.
+** Quick summary of results for testing the other VECM parameters
+   + Just like before $\hat\beta$ is superconsistent
+     \[
+     T(\hat \beta - \beta) = O_p(1)
+     \]
+   + Nonstandard terms cancel out: LRT for hypotheses about $\beta$
+     typically is chi-square
+   + Since $\hat\beta$ is superconsistent, other VECM parameters are
+     asymptotically normal and well-behaved
+** Other issues with cointegration
+   + Pretesting issues in cointegrating rank
+     + Typically use "most conservative" critical value
+     + There are ways to formalize
+   + local-to-unity issues with stochastic trends
+   + Bayesian analysis is not especially reassuring
 * End matter
 ** License and copying
    Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
