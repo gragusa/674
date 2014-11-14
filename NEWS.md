@@ -1,6 +1,9 @@
 Project news
 ============
 
+### Version 0.6.0
+Add slides on multiple testing and stepdown procedures
+
 ### Version 0.5.0
 Add cointegration inference slides
 
