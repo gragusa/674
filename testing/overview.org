@@ -1,0 +1,254 @@
+Advanced hypothesis testing
+#+AUTHOR: Gray Calhoun
+#+DATE: November 13th, 2014, version \version
+
+* Introduction
+** Brief list of topics
+   + Sequential hypothesis testing testing
+   + Hypothesis testing with nuisance parameters
+   + Combined use of these approaches
+* Sequential hypothesis testing
+** How to test a boatload of hypotheses
+   + We should know that testing a bunch of hypotheses at once is not
+     reliable
+   
+     #+BEGIN_SRC R
+       y <- rnorm(1000)
+       x <- matrix(rnorm(1000 * 15), 1000, 15)
+       summary(lm(y ~ x))
+     #+END_SRC
+** How to test a boatload of hypotheses
+   #+BEGIN_SRC R
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)  
+(Intercept)  0.010208   0.031954   0.319   0.7495  
+x1           0.001750   0.031773   0.055   0.9561  
+x2          -0.035548   0.032399  -1.097   0.2728  
+x3           0.033969   0.032258   1.053   0.2926  
+x4           0.006661   0.031295   0.213   0.8315  
+x5           0.039517   0.032541   1.214   0.2249  
+x6           0.013614   0.032010   0.425   0.6707  
+x7           0.052953   0.031636   1.674   0.0945 .
+x8          -0.004149   0.031805  -0.130   0.8962  
+x9           0.050640   0.031234   1.621   0.1053  
+x10         -0.036945   0.032535  -1.136   0.2564  
+x11          0.018256   0.032512   0.562   0.5746  
+x12          0.005268   0.031066   0.170   0.8654  
+x13          0.001070   0.032423   0.033   0.9737  
+x14          0.022666   0.032351   0.701   0.4837  
+x15         -0.079088   0.031725  -2.493   0.0128 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.001 on 984 degrees of freedom
+Multiple R-squared:  0.0173,	Adjusted R-squared:  0.002316 
+F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
+   #+END_SRC
+** Problems with naive seminar-style testing
+   + Other settings where this shows up:
+     + Forecast evaluation
+     + Portfolio selection
+     + Every single empirical paper written in economics
+   + Obvious problem (suppose we have $k$ different tests)
+     \begin{align*}
+     \Pr[&\text{at least one test rejects a true null hypothesis}] \\
+     &= 1 - \Pr[\text{no tests reject a true null}] \\
+     &= 1 - \prod_{i=1}^k \Pr[\text{test } i \text{ does not reject}; \text{ null $i$ is true}] \\
+     &= 1 - \prod_{i=1}^k (1 - \Pr[\text{test } i \text{ rejects}; \text{ null $i$ is true}]) \\
+     &= 1 - (1 - \alpha)^k
+     \end{align*}
+** Bonferroni correction
+   + Obvious solution is the Bonferroni correction: test at $\alpha/k$
+     \begin{align*}
+     \Pr[&\text{at least one test rejects a true hypothesis}] \\
+     &= \Pr\Bigg[\bigcup_{i=1}^k \{\omega: \text{test } i \text{ rejects a true null} \Bigg] \\
+     &\leq \sum_{i=1}^k \Pr[\{\omega: \text{test } i \text{ rejects}\}; \text{ null $i$ is true}] \\
+     &\leq \sum_{i=1}^k \alpha/k \\
+     &= \alpha
+     \end{align*}
+   + This may be conservative, since it assumes a worst-case dependence structure
+** Other corrections for multiple testing
+   + We can estimate the dependence structure between the tests (White, 2000)
+   + Suppose we have $k$ asymptotically normal test statistics, $S_1,\dots,S_k$,
+     with
+     \[
+       (S_1,\dots,S_k) \to^d Z \sim N(\mu, \Sigma)
+     \]
+   + Then $\max(|S_1|,\dots,|S_k|) \to^d \max(|Z_1|,\dots,|Z_k|)$
+     \begin{align*}
+     \Pr[&\text{at least one test rejects a true null hypothesis}] \\
+     &= \Pr[\text{at least one } |Z_i| > c \text{ when } \mu_i = 0 ] \\
+     &= \Pr[\max_{i: \mu_i = 0} |Z_i| > c] \\
+     &\leq \Pr[\max_i |Z_i| > c]
+     \end{align*}
+   + choose $c$ so that this last quantity is $\alpha$
+   + Other statistics exist too
+** Stepdown methods for multiple testing
+   + Here's an interesting algorithm.
+   + Suppose we specify an order before testing:
+     1) Test $\mu_1 = 0$ against $\mu_1 \neq 0$ at size $\alpha$
+     2) If we fail to reject, stop. Otherwise, test $\mu_2 = 0$
+        against $\mu_2 \neq 0$ at size $\alpha$.
+     3) If we fail to reject, stop. Otherwise test $\mu_3 = 0$ (and so on...)
+   + Now suppose that $j$ denotes the first true null hypothesis, so
+     $\mu_i \neq 0$ for $i < j$ but $\mu_j = 0$
+     \begin{align*}
+     \Pr[&\text{at least one test rejects a true null hypothesis}] \\
+     &= \Pr[\text{at least one } |Z_i| > c \text{ when } \mu_i = 0 ] \\
+     &\leq \Pr[|Z_j| > c] \\
+     &\leq \alpha
+     \end{align*}
+   + If we order the tests _in advance_ and stop when we fail to
+     reject, we control size at $\alpha$
+** Holm's variation of the Bonferroni correction
+   1. Test all $k$ hypotheses at $\alpha/k$ and let $R_1$ be the
+      number of hypotheses rejected.
+   2. Test the remaining (nonrejected) hypotheses at $\alpha /
+      (k-R_1)$ and let $R_2$ be the number of hypotheses rejected.
+   3. Test again at $\alpha / (k - R_1 - R_2)$ (and so on).
+
+
+   Romano and Wolf's (2005) /StepM/ procedure does the same thing, but
+   with White's bootstrap procedure
+
+   * Either way, this approach lets you find more than one significant
+     result in your paper
+** More details about the stepdown procedure
+   + Suppose we specify an order before testing (again)
+   + In test $j$, assume that the null hypothesis for *all of the
+     previous tests* is false.
+   + Again, suppose that $j$ denotes the first true null hypothesis, so
+     $\mu_i \neq 0$ for $i < j$ but $\mu_j = 0$
+     \begin{align*}
+     \Pr[&\text{at least one test rejects a true null hypothesis}] \\
+     &= \Pr[\text{at least one } |Z_i| > c \text{ when } \mu_i = 0 ] \\
+     &\leq \Pr[|Z_j| > c; \mu_{j-1} \neq 0,\dots,\mu_1 \neq 0] \\
+     &\leq \alpha
+     \end{align*}
+   + So we can assume all of the previous steps were correct in
+     deriving a statistic for each step.
+* Nuisance parameters
+** Next topic: what is a nuisance parameter?
+   + A nuisance parameter affects the (asymptotic) distribution of the
+     statistic we want to study, but is not of interest on its own
+   + If we want to test hypotheses about $b$ in
+     \[
+     y_i = a + b x_i + g z_i + e_i
+     \]
+     where $e_i \sim (0,\sigma)$, then $a$, $g$, and $\sigma$ are all
+     potentially nuisance parameters
+   + If we want to estimate IRFs for the VAR \[ y_t = a_0 +
+     \sum_{i=1}^p A_i y_{t-i} + e_t \] then information about order of
+     integration and cointegrating relationships can be thought of as
+     nuisance parameters
+** Dealing with simple nuisance parameters
+   + Often we have a consistent estimator that we can plug in
+     ($\hat\sigma$ in a t-test)
+   + If not, we can take the supremum over the possible values of the
+     nuisance parameter
+     + i.e. in testing for a break, the date is often a nuisance parameter
+     + This could lead to a "test in levels and test in differences"
+       approach to time-series (we'll see that that's too simplistic next time)
+   + Even if we have a consistent estimator, we may still want to take the
+     second approach
+     + The asymptotic distribution may be well behaved, but the
+       finite-sample distribution may be much worse.
+   + We can use the asymptotic distribution to limit the region that
+     we need to consider for the supremum (McCloskey, 2012)
+** Basic idea for using asymptotic distributions of nuisance parameters
+   + Suppose we have a nuisance parameter $\theta_1$ and a parameter
+     of interest $\mu$.
+   + $\theta_1$ can be vector valued.
+   + Assume we reject if $\hat\mu > c_\alpha$ for some critical value $c_\alpha$
+   + The procedure:
+     1. Construct a $1 - \epsilon$ confidence interval for $\theta_1$ and call it
+	$\hat\Theta_1$.
+     2. For any value $\alpha$, let $c(\alpha, \theta_1)$ be
+	the critical value for a hypotheses is test on $\mu$ assuming
+	$\theta_1$ is the true value. Now find
+	\[
+	c^* = \sup_{\theta_1 \in \hat\Theta_1} c(\alpha - \epsilon, \theta_1)
+	\]
+     3. Reject if $\hat\mu > c^*$
+   + The probability of rejecting the null under the alternative is
+     less than or equal to $\alpha$
+   + Step 2 may be computationally difficult
+** Proof of basic idea
+   + Setup is exactly the same as in the sequential testing example
+   + Assume that the null hypothesis is true
+   + We have
+     \begin{align*}
+     \Pr[\hat\mu > c^*]
+     &= \Pr\big[\hat\mu > c^* \cap (\theta_1 \in \hat\Theta_1 \cup \theta_1 \notin \hat\Theta_1)\big] \\
+     &\leq \Pr\big[(\hat\mu > c^* \cap \theta_1 \in \hat\Theta_1) \cup \theta_1 \notin \hat\Theta_1\big] \\
+     &\leq \Pr[\hat\mu > c(\alpha-\epsilon, \theta_1)] + \Pr[ \theta_1 \notin \Theta_1\big] \\
+     &\leq \alpha - \epsilon + \epsilon
+     \end{align*}
+   + Note that we can then iterate: bound other nuisance parameters
+     and test other hypotheses
+** How does this translate into a research strategy?
+   + As a research strategy:
+   + *Step 1:* decide on a sequence of hypotheses relevant for your paper
+     + Order them: the first should be the _main question_ you want to
+       address in your paper
+     + The next should be the _second most important question_.
+     + Subsequent hypotheses should be refinements/sensitivity
+       analysis, etc.
+   + *Step 2:* What are the nuisance parameters needed to get
+     asymptotic distributions for each of those tests?
+   + *Step 3* Apply the sequential procedure from above:
+     1) Construct $1 - \epsilon$ CI for the first nuisance parameters
+     2) Test the first nuisance parameter at $\alpha - \epsilon$
+     3) Construct $1 - \epsilon$ CI for the second nuisance parameters
+     4) Test the second nuisance parameter at $\alpha - \epsilon$
+     5) Continue, and stop when you fail to reject a hypothesis
+   + More details (in a different setting): Paul Rosenbaum's /Design of observational studies/
+   + Also look at McCloskey's paper
+** Estimation
+   + This approach can work (in theory) if you are interested in
+     testing hypotheses about parameters or constructing confidence intervals
+   + Kind of doesn't work if you want to do estimation; for estimation
+     in this setting you probably want to do Bayesian inference (which
+     we'll talk about in more detail soon)
+   + Actually getting confidence intervals for the nuisance parameters
+     can be tricky.
+   + We'll discuss that next time
+* End matter
+** License and copying
+   Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
+   distribute and/or modify this document under the terms of the GNU
+   Free Documentation License, Version 1.3 or any later version
+   published by the Free Software Foundation; with no Invariant
+   Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of
+   the license is included in the file LICENSE.tex and is also
+   available online at [[http://www.gnu.org/copyleft/fdl.html]].
+** COMMENT slide setup
+#+BEAMER_FRAME_LEVEL: 2
+#+OPTIONS: toc:nil
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,fleqn,t,serif,10pt]
+#+STARTUP: beamer
+#+LaTeX_HEADER: \usepackage{url,microtype,tikz}
+#+LaTeX_HEADER: \urlstyle{same}
+#+LaTeX_HEADER: \frenchspacing
+#+LaTeX_HEADER: \usepackage{xcolor}
+#+LaTeX_HEADER: \usepackage[osf]{sourcecodepro}
+#+LaTeX_HEADER: \usepackage[charter]{mathdesign}
+#+LaTeX_HEADER: \usecolortheme{dove}
+#+LaTeX_HEADER: \usemintedstyle{pastie}
+#+LaTeX_HEADER: \DisableLigatures{family = tt*}
+#+LaTeX_HEADER: \setbeamertemplate{navigation symbols}{}
+#+LaTeX_HEADER: \setbeamertemplate{items}[circle]
+#+LaTeX_HEADER: \setbeamerfont{sec title}{parent=title}
+#+LaTeX_HEADER: \setbeamercolor{sec title}{parent=titlelike}
+#+LaTeX_HEADER: \setbeamerfont{frametitle}{size=\normalsize}
+#+LaTeX_HEADER: \setbeamertemplate{frametitle}{\vspace{\baselineskip}\underline{\insertframetitle\vphantom{g}}}
+#+LaTeX_HEADER: \setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{0pt}}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate item}{\insertenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate mini template}{\insertenumlabel}
+#+LaTeX_HEADER: \input{../VERSION.tex}
+#+LaTeX_HEADER: \input{../tex/macros.tex}
+
+#+MACRO: s \vspace{\baselineskip}
