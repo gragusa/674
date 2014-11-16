@@ -1,0 +1,372 @@
+\begin{filecontents}{syllabus-2014.bib}
+@book{Ca07,
+  title =	 {Methods for Applied Macroeconomic Research},
+  author =	 {Canova, Fabio},
+  year =	 2007,
+  publisher =	 {Princeton University Press}
+}
+
+@book{DD11,
+  title =	 {Structural Macroeconometrics},
+  author =	 {DeJong, David N and Dave, Chetan},
+  year =	 2011,
+  edition =	 {second},
+  publisher =	 {Princeton University Press}
+}
+
+@Article{FR07,
+  title =	 {{ABC}s (and {D}s) of Understanding {VAR}s},
+  author =	 {Fern{\'a}ndez-Villaverde, Jes{\'u}s and
+                  Rubio-Ram{\'\i}rez, Juan F. and Sargent, Thomas
+                  J. and Watson, Mark W.},
+  journal =	 {American Economic Review, Papers and Proceedings},
+  pages =	 {1021-1026},
+  month =	 {June},
+  year =	 2007,
+}
+
+@Book{Ha94,
+  author =	 {James D. Hamilton},
+  title =	 {Time Series Analysis},
+  publisher =	 {Princeton University Press},
+  year =	 1994
+}
+
+@InCollection{Ki13,
+  author =	 {Lutz Kilian},
+  title =	 {Structural {V}ector {A}utoregressions},
+  booktitle =	 {Handbook of Research Methods and Applications in
+                  Empirical Macroeconomics},
+  publisher =	 {Edward Elgar Publishing},
+  year =	 2013,
+  editor =	 {Hashimzade, Nigar and Thornton, Michael A.},
+  pages =	 {515-554}
+}
+
+@Book{Lu06,
+  author =	 {Helmut L{\"u}tkepohl},
+  title =	 {New Introduction to Multiple Time Series Analysis},
+  publisher =	 {Springer},
+  year =	 2006
+}
+
+@inproceedings{Lu76,
+  title =	 {Econometric Policy Evaluation: A Critique},
+  author =	 {Lucas Jr, Robert E.},
+  booktitle =	 {Carnegie-Rochester Conference Series on Public
+                  Policy},
+  volume =	 1,
+  pages =	 {19-46},
+  year =	 1976,
+  organization = {Elsevier}
+}
+
+@Misc{MS08,
+  author =	 {Anna Mikusheva},
+  title =	 {Lecture Notes for Time Series Analysis ({MIT}
+                  14.384)},
+  note =	 {Available at
+                  \url{ocw.mit.edu/courses/economics/14-384-time-series-analysis-fall-2013}. Licensed
+                  under Creative Commons BY-NC-SA},
+  year =	 2013
+}
+
+@article{No11,
+  title =	 {The Prize in Economic Sciences 2011 --- Advanced
+                  Information},
+  author =	 {{Nobel Prize Committee}},
+  year =	 2011,
+  journal =	 {Nobelprize.org},
+  note =	 {Available at
+                  \url{www.nobelprize.org/nobel_prizes/economic-sciences/laureates/2011/advanced-economicsciences2011.pdf}}
+}
+
+@Misc{SW08,
+  author =	 {James Stock and Mark Watson},
+  title =	 {{NBER} {S}ummer {I}nstitute {L}ectures: What's New
+                  in Econometrics --- Time Series},
+  howpublished = {Video and slides available at
+                  \url{www.nber.org/minicourse_2008.html}},
+  month =	 {July},
+  year =	 2008
+}
+
+@Article{Si12,
+  author =	 {Christopher A. Sims},
+  title =	 {Statistical Modeling of Monetary Policy and Its
+                  Effects},
+  journal =	 {American Economic Review},
+  year =	 2012,
+  volume =	 102,
+  number =	 4,
+  pages =	 {1187-1205},
+  month =	 {June},
+}
+
+@Article{Si80,
+  title =	 {Macroeconomics and Reality},
+  author =	 {Sims, Christopher A.},
+  journal =	 {Econometrica},
+  volume =	 48,
+  number =	 1,
+  pages =	 {1-48},
+  year =	 1980
+}
+\end{filecontents}
+
+\documentclass[nofonts,nols]{tufte-handout}
+\title[Econ 674 syllabus]{Econ 674, PhD Macroeconometrics}
+\author{Helle Bunzel and Gray Calhoun}
+\date{Fall semester, 2014}
+
+\morefloats
+\usepackage{
+  booktabs,
+  enumitem,
+  fancyvrb,
+  fancyhdr,
+  marginfix,
+  tabularx,
+  url,
+  verbatim,
+  xcolor,
+}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[letterspace=35]{microtype}
+\usepackage[osf]{sourcecodepro}
+\usepackage{sourcesanspro}
+
+% Change to ragged-right without inline math breaks; this helps avoid
+% awkward line breaks or extensions into the right margin in math or
+% code.
+\RaggedRight
+\relpenalty=10000
+\binoppenalty=10000
+\setlength{\parindent}{1em}
+
+\renewcommand{\smallcaps}[1]{\allcaps{#1}}
+\renewcommand{\allcaps}[1]{\textls{\MakeUppercase{#1}}}
+
+\renewcommand{\FancyVerbFormatLine}[1]{\hspace{\leftmargini}#1}
+\fvset{frame=leftline,rulecolor=\color{lightgray}}
+
+\urlstyle{same}
+\DeclareUrlCommand\url{%
+\def\UrlLeft{\guillemotleft}%
+\def\UrlRight{\guillemotright}%
+\urlstyle{same}}
+
+\DisableLigatures{family = tt*}
+\frenchspacing
+
+\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
+\newcommand{\DSGE}{\allcaps{DSGE}}
+\newcommand{\OH}{\allcaps{OH}}
+\newcommand{\TA}{\allcaps{TA}}
+\newcommand{\VAR}{\allcaps{VAR}}
+
+\renewcommand{\labelitemi}{{$\circ$}}
+\renewcommand{\labelitemii}{\footnotesize$\circ$}
+\renewcommand{\labelitemiii}{\textperiodcentered}
+\renewcommand{\labelitemiv}{\footnotesize\textperiodcentered}
+
+\begin{document}
+\maketitle
+
+\begin{table*}[h]
+\begin{tabularx}{\textwidth}{rXXX}
+  \toprule
+         & Gray Calhoun         & Helle Bunzel        & Pan Liu (\TA)        \\
+  \midrule
+  email  & gcalhoun@iastate.edu & hbunzel@iastate.edu & panliu@iastate.edu   \\
+  office & 467 Heady            & 373 Heady           & 280B Heady           \\
+  \OH    & Tu 2\,--\,3:15       & \allcaps{TBD}       & \allcaps{MW} 2\,--\,3:30 \\
+  \bottomrule
+\end{tabularx}
+\caption{Instructor and TA contact information.}
+\end{table*}
+
+\noindent%
+This is the syllabus for the first part of Econ 674, a
+macroeconometrics elective.  If you have questions about the course
+material, the best times to address them are in the scheduled class
+meetings or during office hours. We can probably resolve questions or
+concerns about the course administration over email, but if you have
+urgent questions please stop by my office.
+
+The required textbook for this class is Jim Hamilton's \emph{Time
+  Series Analysis},\cite{Ha94} which is quite dated in some areas but
+is still reasonably comprehensive. Other recommended resources are
+\begin{itemize}
+\item Helmut L{\"u}tkepohl's \emph{New Introduction to Multiple Time
+    Series Analysis},\cite{Lu06} which is an extremely thorough
+  treatment of \VAR s and cointegration;
+\item Fabio Canova's \emph{Methods for Applied Macroeconomic
+    Research},\cite{Ca07} focusing primarily on structural estimation;
+\item The lecture notes for Anna Mikusheva's time series class at
+  \allcaps{MIT};\cite{MS08}
+\item The \allcaps{NBER} Summer Institute lectures given on time
+  series by Jim Stock and Mark Watson.\cite{SW08} (Videos and slides
+  are available online.)
+\end{itemize}
+There are a few more papers listed on the syllabus and many more
+references on each topic will be given in the lectures.
+Additional material may be posted online as well, at
+\begin{itemize}
+\item \url{www.econ.iastate.edu/~gcalhoun/674}, when Gray
+  teaches;
+\item Blackboard Learn, \url{bb.its.iastate.edu}, when Helle
+  teaches.
+\end{itemize}
+
+You can use any software that you'd like for this class.
+Matlab is the standard software package in macroeconomics and you've
+already used R in the first-year econometric sequence, but I'd
+encourage you to try out Julia%
+\footnote{Available at \url{julialang.org}.} %
+--- it's syntax is very similar to
+Matlab's, but the language is much better designed.%
+\footnote{The similarity of the syntax means that a lot of Matlab code
+  will run almost unmodified.} %
+If you want to learn a more general-purpose programing language,
+Python is a good choice.%
+\footnote{Python here means \emph{SciPy}. See
+  \url{scipy.org}. And you should use Python 3 if you go this
+  route, not Python 2. Version 3.5 is coming soon and will introduce
+  native infix matrix operators, which will help a lot with code
+  readability.} %
+All of these languages are free and open-source (except Matlab) and
+have been designed for scientific and statistical computing. See the
+course webpage for links and additional details.
+
+\section{Grading}
+Your grade will be determined by an oral exam and an original research
+paper --- each count for half of the grade. The exam will be scheduled
+to take place during week 15 and will take each student about 20
+minutes. Students will take the test individually. We will discuss
+specific details of this test in class and you will be given a list of
+topics to prepare before the Thanksgiving break.
+
+For the paper, you will be required to submit a proposal and a first
+draft during the semester, and Helle and I will discuss your proposal
+with you after you submit it. Your course grade will be listed as
+``incomplete'' until you turn in the paper, and the quality of the
+proposal and the first draft will factor into your grade on the paper.
+
+\begin{table*}[t]
+\begin{tabularx}{\textwidth}{lrX}
+  \toprule
+  Lecture topic                                                     & Date & Background reading                                             \\
+  \midrule
+  Introduction                                                      & 8/26 & \citep{Lu76} \citep{No11} \citep{Si12}                         \\
+  Basic concepts in time series                                     & 8/28 & \citep{Ha94} Ch 3 \& 4                                         \\
+  Estimating ARMA models                                            & 9/02 & \citep{Ha94} Ch 5, 7 \& 8                                      \\
+  Structural \VAR s                                                 & 9/04 & \citep{Ha94} Ch 10 \& 11                                       \\
+  Bayesian estimation of \VAR s                                     & 9/09 & \citep{Ha94} Ch 12                                             \\
+  Partial identification and inference                              & 9/11 & \citep{Ki13}                                                   \\
+                                                                                                                                            \\
+  \multicolumn{2}{r}{Part II (Helle Bunzel) \hfill 9/16 -- 10/30}   & Heteroskedasticity, bootstrap, unit roots, and structural breaks      \\
+  \multicolumn{2}{r}{Part III (Gray Calhoun) \hfill 11/04 -- 12/04} & Cointegration, \allcaps{DSGE} models, and forecasting as time permits \\
+                                                                                                                                            \\
+  Assignments                                                                                                                               \\
+  \cmidrule{1-2}
+  Paper proposal due                                                & 10/23                                                                 \\
+  \multicolumn{2}{r}{Oral exam \hfill 12/08 -- 12/12}                                                                                       \\
+  First draft of paper due                                          & 12/19                                                                 \\
+  Final draft of paper due                                          & 1/30                                                                  \\
+  \bottomrule
+\end{tabularx}
+\caption{Lecture outline for the first part of the class; tentative
+  topics to be covered later in the semester; and important
+  deadlines. There is a bibliography with complete citations at the
+  end of this document.}
+\end{table*}
+
+\section{License and copyright}
+To the extent possible under law, Gray Calhoun, the author, has waived
+all copyright and related or neighboring rights to this
+document. Anyone is free to reuse part or all of this syllabus to
+teach a similar class, or for any other purpose. You can download the
+LaTeX source code for this file from the course webpage,
+\url{www.econ.iastate.edu/~gcalhoun/674}.
+
+\section{University policies}
+
+The following policies apply to \emph{every} course at Iowa State
+University. They are listed here for your convenience and reference.
+
+\subsection*{Academic dishonesty}
+
+The class will follow Iowa State University's policy on academic
+dishonesty.  Anyone suspected of academic dishonesty will be reported
+to the Dean of Students Office,
+\url{www.dso.iastate.edu/ja/academic/misconduct.html}.
+
+\subsection*{Disability accommodation}
+
+This material can be provided to you in alternative format. Anyone who
+anticipates difficulties with the content or format of the course due
+to a physical or learning disability should see me immediately in
+order to work out a plan. You may also want to contact the Disability
+Resources (DR) office, located on the main floor of the Student
+Services Building, Room 1076 or call them at 515-294-7220.
+
+\subsection*{Dead week}
+
+For academic programs, the last week of classes is considered to be a
+normal week in the semester except that in developing their syllabi
+faculty shall consider the following guidelines:
+
+\begin{itemize}
+\item Mandatory final examinations in any course may not be given
+  during Dead Week except for laboratory courses and for those classes
+  meeting once a week only and for which there is no contact during
+  the normal final exam week. Take home final exams and small quizzes
+  are generally acceptable. (For example, quizzes worth no more than
+  10 percent of the final grade and/or that cover no more than
+  one-fourth of assigned reading material in the course could be
+  given.)
+\item Major course assignments should be assigned prior to Dead Week
+  (major assignments include major research papers, projects,
+  etc.). Any modifications to assignments should be made in a timely
+  fashion to give students adequate time to complete the assignments.
+\item Major course assignments should be due no later than the Friday
+  prior to Dead Week. Exceptions include class presentations by
+  students, semester-long projects such as a design project in lieu of
+  a final, and extensions of the deadline requested by students.
+\end{itemize}
+
+\subsection*{Harassment and discrimination}
+
+Iowa State University strives to maintain our campus as a place of
+work and study for faculty, staff, and students that is free of all
+forms of prohibited discrimination and harassment based upon race,
+ethnicity, sex (including sexual assault), pregnancy, color, religion,
+national origin, physical or mental disability, age, marital status,
+sexual orientation, gender identity, genetic information, or status as
+a U.S. veteran. Any student who has concerns about such behavior
+should contact his/her instructor, Student Assistance at 515-294-1020,
+or the Office of Equal Opportunity and Compliance at 515-294-7612.
+
+\subsection*{Religious accommodation}
+
+If an academic or work requirement conflicts with your religious
+practices and/or observances, you may request reasonable
+accommodations. Your request must be in writing, and your instructor
+or supervisor will review the request.  You or your instructor may
+also seek assistance from the Dean of Students Office or the Office of
+Equal Opportunity and Compliance.
+
+\subsection*{Contact information}
+
+If you feel that any of your rights as a student have been violated,
+please email \url{academicissues@iastate.edu}.
+
+\newpage
+
+\bibliographystyle{alpha}
+\bibliography{syllabus-2014}
+
+\end{document}
