@@ -188,7 +188,7 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
      and test other hypotheses
 * Closing/continuation
 ** Some more recommended reading
-   + Leeb and P{\"o}tscher, 2005, "Model Selection and Inference: Facts and Fiction"
+   + Leeb and P\"otscher, 2005, "Model Selection and Inference: Facts and Fiction"
    + Rosenbaum, 2008, "Testing hypotheses in order"
    + More details (in a different setting): Paul Rosenbaum's /Design of observational studies/
    + Also look at McCloskey's paper
