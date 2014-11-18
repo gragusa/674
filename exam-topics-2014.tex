@@ -1,0 +1,94 @@
+\documentclass[nofonts,nols]{tufte-handout}
+\title{Final exam topics, Econ 674}
+\author{Helle Bunzel and Gray Calhoun}
+\date{Fall semester, 2014}
+
+\morefloats
+\usepackage{
+  booktabs,
+  enumitem,
+  fancyvrb,
+  fancyhdr,
+  marginfix,
+  tabularx,
+  url,
+  verbatim,
+  xcolor,
+}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[letterspace=35]{microtype}
+\usepackage[osf]{sourcecodepro}
+\usepackage{sourcesanspro}
+
+% Change to ragged-right without inline math breaks; this helps avoid
+% awkward line breaks or extensions into the right margin in math or
+% code.
+\RaggedRight
+\relpenalty=10000
+\binoppenalty=10000
+\setlength{\parindent}{1em}
+
+\renewcommand{\smallcaps}[1]{\allcaps{#1}}
+\renewcommand{\allcaps}[1]{\textls{\MakeUppercase{#1}}}
+
+\renewcommand{\FancyVerbFormatLine}[1]{\hspace{\leftmargini}#1}
+\fvset{frame=leftline,rulecolor=\color{lightgray}}
+
+\urlstyle{same}
+\DeclareUrlCommand\url{%
+\def\UrlLeft{\guillemotleft}%
+\def\UrlRight{\guillemotright}%
+\urlstyle{same}}
+
+\DisableLigatures{family = tt*}
+\frenchspacing
+
+\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
+\newcommand{\ARMA}{\allcaps{ARMA}}
+\newcommand{\DSGE}{\allcaps{DSGE}}
+\newcommand{\OH}{\allcaps{OH}}
+\newcommand{\SVAR}{\allcaps{SVAR}}
+\newcommand{\TA}{\allcaps{TA}}
+\newcommand{\VAR}{\allcaps{VAR}}
+
+\renewcommand{\labelitemi}{{$\circ$}}
+\renewcommand{\labelitemii}{\footnotesize$\circ$}
+\renewcommand{\labelitemiii}{\textperiodcentered}
+\renewcommand{\labelitemiv}{\footnotesize\textperiodcentered}
+
+\begin{document}
+\maketitle
+
+\begin{table*}[h]
+  \begin{tabularx}{\textwidth}{rlX}
+    \toprule
+    \multicolumn{2}{l}{Exam topic}                                                & Suggsested reading                                    \\
+    \midrule
+    1. & Lucas Critique                                       & \citep{Lu76}, \citep{No11}, \citep{Si12}              \\
+    2. & Univariate \ARMA\ models                             & \citep{Ha94} Ch 3 -- 5                                \\
+    3. & Identification in \SVAR s                            & \citep{Si80}, \citep{Ki13}                            \\
+    4. & Statistical aspects of stationary \VAR s             & \citep{Ha94} Ch 10 and 11                             \\
+    \\
+    14. & Nonstationary \VAR s (without cointegration)         & \citep{Ha94} Ch 18                                    \\
+    15. & Estimating and testing cointegrating relationships   & \citep{Ha94} Ch 19,  \citep{Jo14}                     \\
+    16. & Error Correction Models (estimation and inference)   & \citep{Ha94} Ch 20, \citep{Da13}, \citep{Jo14}        \\
+    17. & Multiple hypothesis testing                          & \citep{RW05}, \citep{Ro08}                            \\
+    18. & Bayesian inference                                   & \citep{Ha94} Ch 12, \citep{Ch12}                      \\
+    19. & State space models (focusing on Bayesian estimation) & \citep{Ha94} Ch 12 and 13, \citep{Fe11}, \citep{Ch12} \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
+
+\noindent%
+The recommended resources listed on the syllabus --- \citep{Lu06},
+\citep{Ca07}, \citep{MS08}, and \citep{SW08} --- also have a lot of
+useful material on these topics. You also own several econometrics
+books from the core sequence and they cover some of this material as
+well.
+
+\bibliographystyle{alpha}
+\bibliography{tex/references}
+
+\end{document}
