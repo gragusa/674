@@ -1,0 +1,142 @@
+Bayesian inference
+#+AUTHOR: Gray Calhoun
+#+DATE: November 13th, 2014, version \version
+
+* Introduction
+** Basics of Bayesian inference (review)
+   Suppose we know the data are generated as
+   + Prior: $p(\theta)$
+   + Likelihood: $p(X \mid \theta)$
+
+   Then after observing the data, we can update the prior
+   distribution using Bayes's rule:
+   \[
+   p(\theta \mid X) = \frac{p(X \mid \theta) p(\theta)}{p(X)}
+   \]
+   where
+   \[
+   p(X) = \int p(X \mid \theta) p(\theta) d\theta
+   \]
+   + This conditional probability is the /posterior density of
+     $\theta$/
+   + We can also use this approach even if we don't believe that the
+     prior is correct/meaningful
+** How can we use the posterior density?
+   + *Point estimation*: Often the posterior mean is consistent and asymptotically
+     equivalent to the MLE
+     \[
+     \hat\theta = \int p(\theta \mid X) d\theta
+     \]
+   + *Confidence sets*: if we let $a$ and $b$ be the $\alpha$ and $1 -
+     \beta$ quantiles of $p(\theta \mid X)$, the interval $[a,b]$ is
+     often a good $1 - \alpha - \beta$ confidence interval.
+** Informal argument for asymptotic normality of posterior
+   + Similar to consistency and asymptotic normality of MLE
+   + Assume $\theta$ is in a $1/\sqrt{n}$-neighborhood of $\theta_0$
+   + Expand log-likelihood around $\theta_0$ (assuming i.i.d. for now)
+     \begin{align*}
+     \log p(X \mid \theta) &- \log p(X \mid \theta_0) \\
+     &= \sum_{i=1}^T (\log p(x_i \mid \theta) - \log p(X \mid \theta_0))\\
+     &= \sum_{i=1}^T \tfrac{\partial}{\partial\theta} \log p(x_i \mid \theta_0) (\theta - \theta_0) \\
+     &\quad + \tfrac{1}{2} (\theta - \theta_0)' \Big(\sum_{i=1}^T \tfrac{\partial^2}{\partial\theta^2} \log p(x_i \mid \theta_0)\Big) (\theta - \theta_0) + r
+     \end{align*}
+     (regularity conditions like you've seen in 672 ensure that $r = o_p(1/n)$ uniformly in relevant values of $\theta$
+** Informal argument for asymptotic normality of posterior
+   + This lets us expand the log-posterior around $\theta_0$
+     \begin{align*}
+     \log p(\theta \mid X) &- \log p(\theta_0 \mid X) \\
+     &= \log p(X \mid \theta) - \log p(X \mid \theta_0) - \log p(\theta) + \log p(\theta_0) \\
+     &= \sum_{i=1}^T \tfrac{\partial}{\partial\theta} \log p(x_i \mid \theta_0) (\theta - \theta_0) \\
+     &\quad + \tfrac{1}{2} (\theta - \theta_0)' \Big(\sum_{i=1}^T \tfrac{\partial^2}{\partial\theta^2} \log p(x_i \mid \theta_0)\Big) (\theta - \theta_0) \\
+     &\quad - \log p(\theta) + \log p(\theta_0) + r
+     \end{align*}
+** Informal argument for asymptotic normality of posterior
+   + Scale by $1/n$:
+     \begin{align*}
+     \tfrac{1}{n} (\log p(\theta \mid X) &- \log p(\theta_0 \mid X)) \\
+     &= \tfrac{1}{n} \sum_{i=1}^T \tfrac{\partial}{\partial\theta} \log p(x_i \mid \theta_0) (\theta - \theta_0) \\
+     &\quad + (\theta - \theta_0)' \Big(\tfrac{1}{n} \sum_{i=1}^T \tfrac{\partial^2}{\partial\theta^2} \log p(x_i \mid \theta_0)\Big) (\theta - \theta_0) \\
+     &\quad - \tfrac{1}{n} (\log p(\theta) - \log p(\theta_0) - r) \\
+     & \to^p \tfrac{1}{2} (\theta - \theta_0)' \Big(\plim \tfrac{1}{n} \sum_{i=1}^T \tfrac{\partial^2}{\partial\theta^2} \log p(x_i \mid \theta_0)\Big) (\theta - \theta_0)
+     \end{align*}
+** Informal argument for asymptotic normality of posterior
+   + So in large samples, in a neighborhood of $\theta_0$,
+     \begin{multline*}
+     \log p(\theta \mid X) \approx \log p(\theta_0 \mid X)) + \\ \tfrac{1}{2} (\theta - \theta_0)' \Big(E \sum_{i=1}^T \tfrac{\partial^2}{\partial\theta^2} \log p(x_i \mid \theta_0)\Big) (\theta - \theta_0)
+     \end{multline*}
+   + If $\theta \mid X \sim N(\theta_0, \Sigma)$, we'd have
+     \[
+     \log p(\theta \mid X) = \mathit{constant} - \tfrac{1}{2} (\theta - \theta_0)' \Sigma^{-1} (\theta - \theta_0)
+     \]
+     so we have
+     \[
+     \Sigma \approx  - \Bigg(E \sum_{i=1}^T \tfrac{\partial^2}{\partial\theta^2} \log p(x_i \mid \theta_0)\Bigg)^{-1}
+     \]
+     which is also what we see in MLE
+   + Informally, in large samples where the MLE is consistent and
+     asymptotically normal, the posterior is consistent and
+     asymptotically normal as well for any reasonable prior. (formal citation)
+* Evaluating the posterior
+**  If this is approximately the same as MLE, why be Bayesian?
+   Tight coupling with decision theory
+     + Point forecast for $h$-steps ahead:
+       \begin{align*}
+       \hat y_{T+h} &= \E( y_{T + h} \mid y_1,\dots,y_T) \\
+       &= \int \E(y_{T+h} \mid \theta, y_1,\dots,y_{T+h-1}) p(y_{T+h-1} \mid \theta, y_1,\dots,y_{T+h-2}) \dots \\
+       &\quad \dots p(y_{T+1} \mid y_1,\dots,y_T, \theta) p(\theta \mid y_1,\dots,y_T) d\theta dy_{T+1} \dots dy_{T+h-1}
+       \end{align*}
+     + Density forecast for $h$-steps ahead:
+       \[
+       p_y(y_{T+h} \mid y_1,\dots,y_T)
+       \]
+     + The same estimator gives you the entire joint distribution of parameters and future observations
+     + For MLE, we'd need to construct separate models for point and density forecasts, and would need to explicitly handle estimation uncertainty
+** If this is approximately the same as MLE, why be Bayesian?
+   Some other reasons
+   + Computational convenience
+     + Maximizing the likelihood function can be difficult for some problems
+     + For Bayesian inference, we can evaluate all of the intergrals
+       numerically, which can be done much more easily
+       + I'm not sure that I buy this rationale very much...
+   + Shrinkage
+   + Nuisance parameters
+   + Consistent with accumulation of information
+* End matter
+** License and copying
+   Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
+   distribute and/or modify this document under the terms of the GNU
+   Free Documentation License, Version 1.3 or any later version
+   published by the Free Software Foundation; with no Invariant
+   Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of
+   the license is included in the file LICENSE.tex and is also
+   available online at [[http://www.gnu.org/copyleft/fdl.html]].
+** COMMENT slide setup
+#+BEAMER_FRAME_LEVEL: 2
+#+OPTIONS: toc:nil
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,fleqn,t,serif,10pt]
+#+STARTUP: beamer
+#+LaTeX_HEADER: \usepackage{url,microtype,tikz}
+#+LaTeX_HEADER: \urlstyle{same}
+#+LaTeX_HEADER: \frenchspacing
+#+LaTeX_HEADER: \usepackage{xcolor}
+#+LaTeX_HEADER: \usepackage[osf]{sourcecodepro}
+#+LaTeX_HEADER: \usepackage[charter]{mathdesign}
+#+LaTeX_HEADER: \usecolortheme{dove}
+#+LaTeX_HEADER: \usemintedstyle{pastie}
+#+LaTeX_HEADER: \DisableLigatures{family = tt*}
+#+LaTeX_HEADER: \setbeamertemplate{navigation symbols}{}
+#+LaTeX_HEADER: \setbeamertemplate{items}[circle]
+#+LaTeX_HEADER: \setbeamerfont{sec title}{parent=title}
+#+LaTeX_HEADER: \setbeamercolor{sec title}{parent=titlelike}
+#+LaTeX_HEADER: \setbeamerfont{frametitle}{size=\normalsize}
+#+LaTeX_HEADER: \setbeamertemplate{frametitle}{\vspace{\baselineskip}\underline{\insertframetitle\vphantom{g}}}
+#+LaTeX_HEADER: \setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{0pt}}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate item}{\insertenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel.}
+#+LaTeX_HEADER: \setbeamertemplate{enumerate mini template}{\insertenumlabel}
+#+LaTeX_HEADER: \input{../VERSION.tex}
+#+LaTeX_HEADER: \input{../tex/macros.tex}
+
+#+MACRO: s \vspace{\baselineskip}
