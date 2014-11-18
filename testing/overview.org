@@ -186,6 +186,12 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
      \end{align*}
    + Note that we can then iterate: bound other nuisance parameters
      and test other hypotheses
+* Closing/continuation
+** Some more recommended reading
+   + Leeb and Potscher, 2005, "Model Selection and Inference: Facts and Fiction"
+   + Rosenbaum, 2008, "Testing hypotheses in order"
+   + More details (in a different setting): Paul Rosenbaum's /Design of observational studies/
+   + Also look at McCloskey's paper
 ** How does this translate into a research strategy?
    + As a research strategy:
    + *Step 1:* decide on a sequence of hypotheses relevant for your paper
@@ -202,8 +208,6 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
      3) Construct $1 - \epsilon$ CI for the second nuisance parameters
      4) Test the second nuisance parameter at $\alpha - \epsilon$
      5) Continue, and stop when you fail to reject a hypothesis
-   + More details (in a different setting): Paul Rosenbaum's /Design of observational studies/
-   + Also look at McCloskey's paper
 ** Estimation
    + This approach can work (in theory) if you are interested in
      testing hypotheses about parameters or constructing confidence intervals
@@ -211,8 +215,36 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
      in this setting you probably want to do Bayesian inference (which
      we'll talk about in more detail soon)
    + Actually getting confidence intervals for the nuisance parameters
-     can be tricky.
-   + We'll discuss that next time
+     can be tricky
+** Why not just...?
+   + Why not just pretest?
+     + Pretesting affects the asymptotic distribution of potentially
+       all of the coefficient estimators
+     + Let's look at example code...
+   + Why not just do "model selection"?
+     + Model selection behaves like a pretest
+     + Assume we test $\beta = 0$
+     + As $n \to \infty$, power $\to 1$ _unless_ $\beta = b /
+       \sqrt{n}$ for some $b$
+       \[
+         t = \frac{\sqrt{n} \hat\beta}{\hat\tau}
+           = \frac{\sqrt{n} (\hat \beta - \beta)}{\hat\tau} + \frac{\sqrt{n} \beta}{\hat\tau}
+           \Rightarrow N(b/\tau, 1)
+       \]
+     + /Consistent/ model selection: do t-test but use $c_n =
+       o(\sqrt{n})$ as cutoff (there is more nuance, but this gives the gist)
+     + /Conservative/ model selection: just use fixed cutoff
+       (sometimes chooses too large of a model)
+     + Problem: for any $n$, there exists a $b_n$ that causes the
+       _exact same problems_ as in the pretest scenario
+** Grid bootstrap (dealing with potential unit roots)
+   + Same ideas can apply when test statistics/confidence intervals
+     depend on choice between I(0) and I(1), etc.
+   + See Grid Bootstrap example (Hansen, 1999, Mikusheva, 2007, 2012) /pause
+   + Obviously, following through on this advice is _really annoying_
+     + Potentially impossible at this stage, too
+     + I don't know of uniformly valid confidence intervals for the
+       error-correction terms, for example
 * End matter
 ** License and copying
    Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
