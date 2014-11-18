@@ -1,6 +1,9 @@
 Project news
 ============
 
+## Version 0.6.2
+Fix minor typo
+
 ## Version 0.6.1
 Tweak multiple testing slides between and after lectures
 
