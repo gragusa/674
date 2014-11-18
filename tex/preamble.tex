@@ -33,8 +33,6 @@
 \usepackage[bitstream-charter]{mathdesign}
 \usepackage[letterspace=35]{microtype}
 \usepackage[osf]{sourcecodepro}
-\usepackage[round,comma]{natbib}
-\usepackage[top=1in,bottom=1.25in,left=1.25in,right=1.25in]{geometry}
 
 % Change to ragged-right without inline math breaks; this helps avoid
 % awkward line breaks or extensions into the right margin in math or
@@ -59,28 +57,6 @@
 % has very, very few ligatures anyway.
 \DisableLigatures{family = tt*}
 \frenchspacing
-\setcounter{secnumdepth}{2}
-\setcounter{tocdepth}{1}
-\counterwithout{section}{chapter}
-\renewcommand\thesection{\arabic{section}}
-
-\ifoptionfinal{
-  % If the 'final' option is set, \try[etc] just includes or inputs
-  % the file
-  \newcommand{\tryincludegraphics}[1]{\includegraphics{#1}}
-  \newcommand{\tryinput}[2][{}]{\input{#2}}
-  \newcommand{\tryinclude}[2][{}]{\include{#2}}
-}{
-  % If the 'final' option is not set, \try[etc] includes or inputs the
-  % file if it exists, but continues if it doesn't.
-  % Based on a TeX stackexchange answer:
-  % http://tex.stackexchange.com/a/39983/9423
-  \newcommand{\tryincludegraphics}[1]%
-  {\IfFileExists{#1}{\includegraphics{#1}}%
-    {\framebox{Figure missing. See README for help.}}}
-  \newcommand{\tryinput}[2][{}]{\IfFileExists{#2}{\input{#2}}{#1}}
-  \newcommand{\tryinclude}[2][{}]{\IfFileExists{#2}{\include{#2}}{#1}}
-}
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{defn}{Definition}[section]
@@ -92,9 +68,6 @@
 \renewcommand{\labelitemii}{\footnotesize$\circ$}
 \renewcommand{\labelitemiii}{\textperiodcentered}
 \renewcommand{\labelitemiv}{\footnotesize\textperiodcentered}
-
-\newcommand{\OECD}{\allcaps{OECD}}
-\newcommand{\IJF}{\allcaps{IJF}}
 
 %%% Local Variables:
 %%% mode: latex

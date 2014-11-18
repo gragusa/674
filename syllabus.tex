@@ -1,176 +1,11 @@
-\begin{filecontents}{syllabus-2014.bib}
-@book{Ca07,
-  title =	 {Methods for Applied Macroeconomic Research},
-  author =	 {Canova, Fabio},
-  year =	 2007,
-  publisher =	 {Princeton University Press}
-}
-
-@book{DD11,
-  title =	 {Structural Macroeconometrics},
-  author =	 {DeJong, David N and Dave, Chetan},
-  year =	 2011,
-  edition =	 {second},
-  publisher =	 {Princeton University Press}
-}
-
-@Article{FR07,
-  title =	 {{ABC}s (and {D}s) of Understanding {VAR}s},
-  author =	 {Fern{\'a}ndez-Villaverde, Jes{\'u}s and
-                  Rubio-Ram{\'\i}rez, Juan F. and Sargent, Thomas
-                  J. and Watson, Mark W.},
-  journal =	 {American Economic Review, Papers and Proceedings},
-  pages =	 {1021-1026},
-  month =	 {June},
-  year =	 2007,
-}
-
-@Book{Ha94,
-  author =	 {James D. Hamilton},
-  title =	 {Time Series Analysis},
-  publisher =	 {Princeton University Press},
-  year =	 1994
-}
-
-@InCollection{Ki13,
-  author =	 {Lutz Kilian},
-  title =	 {Structural {V}ector {A}utoregressions},
-  booktitle =	 {Handbook of Research Methods and Applications in
-                  Empirical Macroeconomics},
-  publisher =	 {Edward Elgar Publishing},
-  year =	 2013,
-  editor =	 {Hashimzade, Nigar and Thornton, Michael A.},
-  pages =	 {515-554}
-}
-
-@Book{Lu06,
-  author =	 {Helmut L{\"u}tkepohl},
-  title =	 {New Introduction to Multiple Time Series Analysis},
-  publisher =	 {Springer},
-  year =	 2006
-}
-
-@inproceedings{Lu76,
-  title =	 {Econometric Policy Evaluation: A Critique},
-  author =	 {Lucas Jr, Robert E.},
-  booktitle =	 {Carnegie-Rochester Conference Series on Public
-                  Policy},
-  volume =	 1,
-  pages =	 {19-46},
-  year =	 1976,
-  organization = {Elsevier}
-}
-
-@Misc{MS08,
-  author =	 {Anna Mikusheva},
-  title =	 {Lecture Notes for Time Series Analysis ({MIT}
-                  14.384)},
-  note =	 {Available at
-                  \url{ocw.mit.edu/courses/economics/14-384-time-series-analysis-fall-2013}. Licensed
-                  under Creative Commons BY-NC-SA},
-  year =	 2013
-}
-
-@article{No11,
-  title =	 {The Prize in Economic Sciences 2011 --- Advanced
-                  Information},
-  author =	 {{Nobel Prize Committee}},
-  year =	 2011,
-  journal =	 {Nobelprize.org},
-  note =	 {Available at
-                  \url{www.nobelprize.org/nobel_prizes/economic-sciences/laureates/2011/advanced-economicsciences2011.pdf}}
-}
-
-@Misc{SW08,
-  author =	 {James Stock and Mark Watson},
-  title =	 {{NBER} {S}ummer {I}nstitute {L}ectures: What's New
-                  in Econometrics --- Time Series},
-  howpublished = {Video and slides available at
-                  \url{www.nber.org/minicourse_2008.html}},
-  month =	 {July},
-  year =	 2008
-}
-
-@Article{Si12,
-  author =	 {Christopher A. Sims},
-  title =	 {Statistical Modeling of Monetary Policy and Its
-                  Effects},
-  journal =	 {American Economic Review},
-  year =	 2012,
-  volume =	 102,
-  number =	 4,
-  pages =	 {1187-1205},
-  month =	 {June},
-}
-
-@Article{Si80,
-  title =	 {Macroeconomics and Reality},
-  author =	 {Sims, Christopher A.},
-  journal =	 {Econometrica},
-  volume =	 48,
-  number =	 1,
-  pages =	 {1-48},
-  year =	 1980
-}
-\end{filecontents}
-
 \documentclass[nofonts,nols]{tufte-handout}
 \title[Econ 674 syllabus]{Econ 674, PhD Macroeconometrics}
 \author{Helle Bunzel and Gray Calhoun}
 \date{Fall semester, 2014}
 
 \morefloats
-\usepackage{
-  booktabs,
-  enumitem,
-  fancyvrb,
-  fancyhdr,
-  marginfix,
-  tabularx,
-  url,
-  verbatim,
-  xcolor,
-}
-\usepackage[T1]{fontenc}
-\usepackage[utf8x]{inputenc}
-\usepackage[bitstream-charter]{mathdesign}
-\usepackage[letterspace=35]{microtype}
-\usepackage[osf]{sourcecodepro}
-\usepackage{sourcesanspro}
-
-% Change to ragged-right without inline math breaks; this helps avoid
-% awkward line breaks or extensions into the right margin in math or
-% code.
-\RaggedRight
-\relpenalty=10000
-\binoppenalty=10000
-\setlength{\parindent}{1em}
-
-\renewcommand{\smallcaps}[1]{\allcaps{#1}}
-\renewcommand{\allcaps}[1]{\textls{\MakeUppercase{#1}}}
-
-\renewcommand{\FancyVerbFormatLine}[1]{\hspace{\leftmargini}#1}
-\fvset{frame=leftline,rulecolor=\color{lightgray}}
-
-\urlstyle{same}
-\DeclareUrlCommand\url{%
-\def\UrlLeft{\guillemotleft}%
-\def\UrlRight{\guillemotright}%
-\urlstyle{same}}
-
-\DisableLigatures{family = tt*}
-\frenchspacing
-
-\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
-\newcommand{\DSGE}{\allcaps{DSGE}}
-\newcommand{\OH}{\allcaps{OH}}
-\newcommand{\TA}{\allcaps{TA}}
-\newcommand{\VAR}{\allcaps{VAR}}
-
-\renewcommand{\labelitemi}{{$\circ$}}
-\renewcommand{\labelitemii}{\footnotesize$\circ$}
-\renewcommand{\labelitemiii}{\textperiodcentered}
-\renewcommand{\labelitemiv}{\footnotesize\textperiodcentered}
+\input{tex/preamble}
+\input{tex/macros}
 
 \begin{document}
 \maketitle
@@ -256,26 +91,37 @@ with you after you submit it. Your course grade will be listed as
 proposal and the first draft will factor into your grade on the paper.
 
 \begin{table*}[t]
-\begin{tabularx}{\textwidth}{lrX}
+\begin{tabularx}{\textwidth}{lrXX}
   \toprule
-  Lecture topic                                                     & Date & Background reading                                             \\
+  Lecture topic                                                   & Date  & Background reading         & Additional reading                              \\
   \midrule
-  Introduction                                                      & 8/26 & \citep{Lu76} \citep{No11} \citep{Si12}                         \\
-  Basic concepts in time series                                     & 8/28 & \citep{Ha94} Ch 3 \& 4                                         \\
-  Estimating ARMA models                                            & 9/02 & \citep{Ha94} Ch 5, 7 \& 8                                      \\
-  Structural \VAR s                                                 & 9/04 & \citep{Ha94} Ch 10 \& 11                                       \\
-  Bayesian estimation of \VAR s                                     & 9/09 & \citep{Ha94} Ch 12                                             \\
-  Partial identification and inference                              & 9/11 & \citep{Ki13}                                                   \\
-                                                                                                                                            \\
-  \multicolumn{2}{r}{Part II (Helle Bunzel) \hfill 9/16 -- 10/30}   & Heteroskedasticity, bootstrap, unit roots, and structural breaks      \\
-  \multicolumn{2}{r}{Part III (Gray Calhoun) \hfill 11/04 -- 12/04} & Cointegration, \allcaps{DSGE} models, and forecasting as time permits \\
-                                                                                                                                            \\
-  Assignments                                                                                                                               \\
+  Introduction                                                    & w1/Tu &                            & \citep{Lu76}, \citep{No11}, \citep{Si12}        \\
+  Basic concepts in time series                                   & 1/Th  & \citep{Ha94} Ch 3, 7       & \citep{Ha94} Ch 4, 5, \& 8                      \\
+                                                                                                                                                         \\
+  Estimating VAR models                                           & 2/Tu  & \citep{Ha94} Ch 11         & \citep{Ha94} Ch 10                              \\
+  Bayesian estimation of \VAR s                                   & 2/Th  & \citep{Ha94} Ch 12         & \citep{Ch12}                                    \\
+  Structural \VAR s                                               & 3/Tu  & \citep{Ki13}               & \citep{Si80}                                    \\
+  Model selection and sequential testing                          & 3/Th  & \citep{LP05}, \citep{RW05} & \citep{Ro08}                                    \\
+                                                                                                                                                         \\
+  \multicolumn{2}{r}{Part II (Helle Bunzel) \hfill 9/16 -- 10/30} & \multicolumn{2}{l}{Heteroskedasticity, bootstrap, filtering, unit roots, and breaks} \\
+                                                                                                                                                         \\
+  Multivariate unit roots                                         & 11/Tu & \citep{Da13}               & \citep{Ha94} Ch 18, 19                          \\
+  Cointegration (theory)                                          & 11/Th & \citep{Jo14}               & \citep{Ha94} Ch 20                              \\
+  Cointegration (practice)                                        & 12/Tu &                                                                              \\
+                                                                                                                                                         \\
+  State space models                                              & 12/Th & \citep{Fe11}               & \citep{Ha94} Ch 13, \citep{Ch12}                \\
+  Estimating \DSGE\ models                                        & 13/Tu                                                                                \\
+  Applying \DSGE\ models                                          & 13/Th                                                                                \\
+                                                                                                                                                         \\
+  Forecasting with many predictors (maybe)                        & 14/Tu & \multicolumn{2}{l}{(Insert \allcaps{BIG DATA} and other buzzwords here.)}    \\
+  Forecast evaluation (maybe)                                     & 14/Th                                                                                \\
+                                                                                                                                                         \\
+  Assignments                                                                                                                                            \\
   \cmidrule{1-2}
-  Paper proposal due                                                & 10/23                                                                 \\
-  \multicolumn{2}{r}{Oral exam \hfill 12/08 -- 12/12}                                                                                       \\
-  First draft of paper due                                          & 12/19                                                                 \\
-  Final draft of paper due                                          & 1/30                                                                  \\
+  Paper proposal due                                              & 10/23                                                                                \\
+  \multicolumn{2}{r}{Oral exam \hfill 12/08 -- 12/12}                                                                                                    \\
+  First draft of paper due                                        & 12/19                                                                                \\
+  Final draft of paper due                                        & 1/30                                                                                 \\
   \bottomrule
 \end{tabularx}
 \caption{Lecture outline for the first part of the class; tentative
@@ -283,6 +129,20 @@ proposal and the first draft will factor into your grade on the paper.
   deadlines. There is a bibliography with complete citations at the
   end of this document.}
 \end{table*}
+
+\paragraph{Tentative list of topics for final exam}
+\begin{enumerate}
+\item Lucas Critique
+\item Univariate \ARMA\ models
+\item Identification in \SVAR s
+\item Statistical aspects of stationary \VAR s
+\item Multiple hypothesis testing and model selection
+\item Bayesian time-series analysis
+\item Estimating and testing cointegrating relationships
+\item Error Correction Models (estimation and inference)
+\item Estimating state space models
+\item \DSGE\ models
+\end{enumerate}
 
 \section{License and copyright}
 To the extent possible under law, Gray Calhoun, the author, has waived
@@ -362,11 +222,11 @@ Equal Opportunity and Compliance.
 \subsection*{Contact information}
 
 If you feel that any of your rights as a student have been violated,
-please email \url{academicissues@iastate.edu}.
+please email \email{academicissues@iastate.edu}.
 
 \newpage
 
 \bibliographystyle{alpha}
-\bibliography{syllabus-2014}
+\bibliography{tex/references}
 
 \end{document}
