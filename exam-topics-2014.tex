@@ -48,6 +48,7 @@
 \newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 \newcommand{\ARMA}{\allcaps{ARMA}}
 \newcommand{\DSGE}{\allcaps{DSGE}}
+\newcommand{\HAC}{\allcaps{HAC}}
 \newcommand{\OH}{\allcaps{OH}}
 \newcommand{\SVAR}{\allcaps{SVAR}}
 \newcommand{\TA}{\allcaps{TA}}
@@ -62,25 +63,34 @@
 \maketitle
 
 \begin{table*}[h]
-  \begin{tabularx}{\textwidth}{rlX}
+  \begin{tabularx}{\textwidth}{rXX}
     \toprule
-    \multicolumn{2}{l}{Exam topic}                                                & Suggsested reading                                    \\
+        & Exam topic                                                             & Suggsested reading                                                                                      \\
     \midrule
-    1. & Lucas Critique                                       & \citep{Lu76}, \citep{No11}, \citep{Si12}              \\
-    2. & Univariate \ARMA\ models                             & \citep{Ha94} Ch 3 -- 5                                \\
-    3. & Identification in \SVAR s                            & \citep{Si80}, \citep{Ki13}                            \\
-    4. & Statistical aspects of stationary \VAR s             & \citep{Ha94} Ch 10 and 11                             \\
-    \\
-    14. & Nonstationary \VAR s (without cointegration)         & \citep{Ha94} Ch 18                                    \\
-    15. & Estimating and testing cointegrating relationships   & \citep{Ha94} Ch 19,  \citep{Jo14}                     \\
-    16. & Error Correction Models (estimation and inference)   & \citep{Ha94} Ch 20, \citep{Da13}, \citep{Jo14}        \\
-    17. & Multiple hypothesis testing                          & \citep{RW05}, \citep{Ro08}                            \\
-    18. & Bayesian inference                                   & \citep{Ha94} Ch 12, \citep{Ch12}                      \\
-    19. & State space models (focusing on Bayesian estimation) & \citep{Ha94} Ch 12 and 13, \citep{Fe11}, \citep{Ch12} \\
+    1.  & The ``Lucas Critique''                                                 & \citep{Lu76}, \citep{No11}, \citep{Si12}                                                                \\
+    2.  & Univariate \ARMA\ models (stationary and nonstationary)                & \citep{Ha94} Ch 3 -- 5, 15 -- 17                                                                        \\
+    3.  & Identification in \SVAR s                                              & \citep{Si80}, \citep{Ki13}                                                                              \\
+    4.  & Statistical aspects of stationary \VAR s                               & \citep{Ha94} Ch 10 and 11                                                                               \\
+    5.  & Spectral representation                                                & \citep{Ha94} Ch 6                                                                                       \\
+    6.  & Filtering                                                              & \citep{Ha94} Ch 6, \citep{BK99}                                                                         \\
+    7.  & \HAC\ Estimation                                                       & \citep{Ha94} 10.5, \citep{NW87}, \citep{An91}                                                           \\
+    8.  & Testing using fixed bandwidth asymptotics                              & \citep{KV05}, \citep{Su14}                                                                              \\
+    9.  & Testing for a break in the simple regression model with i.i.d.\ errors & \citep[Sec 5]{St94}                                                                                     \\
+    10. & Testing for breaks in realistic time series models                     & \citep{An03}, \citep{Ba97}, \citep{BP98}                                                                \\
+    11. & Bootstrapping i.i.d.\ data                                             & \citep{Ha14} Ch 10                                                                                      \\
+    12. & Bootstrapping time series data                                         & B\"{u}hlmann (1999) research report (on Box), \citep{HHK03} (more theory than covered in class; on Box) \\
+    13. & Determining the trend structure of univariate time series              & \citep{AB00}, \citep{HLT07}                                                                             \\
+    14. & Nonstationary \VAR s (without cointegration)                           & \citep{Ha94} Ch 18                                                                                      \\
+    15. & Estimating and testing cointegrating relationships                     & \citep{Ha94} Ch 19,  \citep{Jo14}                                                                       \\
+    16. & Error Correction Models (estimation and inference)                     & \citep{Ha94} Ch 20, \citep{Da13}, \citep{Jo14}                                                          \\
+    17. & Multiple hypothesis testing                                            & \citep{RW05}, \citep{Ro08}                                                                              \\
+    18. & Bayesian inference                                                     & \citep{Ha94} Ch 12, \citep{Ch12}                                                                        \\
+    19. & State space models (focusing on Bayesian estimation)                   & \citep{Ha94} Ch 12 and 13, \citep{Fe11}, \citep{Ch12}                                                   \\
     \bottomrule
   \end{tabularx}
 \end{table*}
 
+\begin{fullwidth}
 \noindent%
 The recommended resources listed on the syllabus --- \citep{Lu06},
 \citep{Ca07}, \citep{MS08}, and \citep{SW08} --- also have a lot of
@@ -90,5 +100,5 @@ well.
 
 \bibliographystyle{alpha}
 \bibliography{tex/references}
-
+\end{fullwidth}
 \end{document}
