@@ -1,6 +1,9 @@
 Project news
 ============
 
+## Version 0.7.0
+Add list of final exam topics for 2014
+
 ## Version 0.6.2
 Fix minor typo
 
