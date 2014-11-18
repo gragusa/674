@@ -11,7 +11,7 @@ Advanced hypothesis testing
 ** How to test a boatload of hypotheses
    + We should know that testing a bunch of hypotheses at once is not
      reliable
-   
+
      #+BEGIN_SRC R
        y <- rnorm(1000)
        x <- matrix(rnorm(1000 * 15), 1000, 15)
@@ -20,28 +20,28 @@ Advanced hypothesis testing
 ** How to test a boatload of hypotheses
    #+BEGIN_SRC R
 Coefficients:
-             Estimate Std. Error t value Pr(>|t|)  
-(Intercept)  0.010208   0.031954   0.319   0.7495  
-x1           0.001750   0.031773   0.055   0.9561  
-x2          -0.035548   0.032399  -1.097   0.2728  
-x3           0.033969   0.032258   1.053   0.2926  
-x4           0.006661   0.031295   0.213   0.8315  
-x5           0.039517   0.032541   1.214   0.2249  
-x6           0.013614   0.032010   0.425   0.6707  
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.010208   0.031954   0.319   0.7495
+x1           0.001750   0.031773   0.055   0.9561
+x2          -0.035548   0.032399  -1.097   0.2728
+x3           0.033969   0.032258   1.053   0.2926
+x4           0.006661   0.031295   0.213   0.8315
+x5           0.039517   0.032541   1.214   0.2249
+x6           0.013614   0.032010   0.425   0.6707
 x7           0.052953   0.031636   1.674   0.0945 .
-x8          -0.004149   0.031805  -0.130   0.8962  
-x9           0.050640   0.031234   1.621   0.1053  
-x10         -0.036945   0.032535  -1.136   0.2564  
-x11          0.018256   0.032512   0.562   0.5746  
-x12          0.005268   0.031066   0.170   0.8654  
-x13          0.001070   0.032423   0.033   0.9737  
-x14          0.022666   0.032351   0.701   0.4837  
+x8          -0.004149   0.031805  -0.130   0.8962
+x9           0.050640   0.031234   1.621   0.1053
+x10         -0.036945   0.032535  -1.136   0.2564
+x11          0.018256   0.032512   0.562   0.5746
+x12          0.005268   0.031066   0.170   0.8654
+x13          0.001070   0.032423   0.033   0.9737
+x14          0.022666   0.032351   0.701   0.4837
 x15         -0.079088   0.031725  -2.493   0.0128 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 1.001 on 984 degrees of freedom
-Multiple R-squared:  0.0173,	Adjusted R-squared:  0.002316 
+Multiple R-squared:  0.0173,	Adjusted R-squared:  0.002316
 F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
    #+END_SRC
 ** Problems with naive seminar-style testing
@@ -186,6 +186,12 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
      \end{align*}
    + Note that we can then iterate: bound other nuisance parameters
      and test other hypotheses
+* Closing/continuation
+** Some more recommended reading
+   + Leeb and P\"otscher, 2005, "Model Selection and Inference: Facts and Fiction"
+   + Rosenbaum, 2008, "Testing hypotheses in order"
+   + More details (in a different setting): Paul Rosenbaum's /Design of observational studies/
+   + Also look at McCloskey's paper
 ** How does this translate into a research strategy?
    + As a research strategy:
    + *Step 1:* decide on a sequence of hypotheses relevant for your paper
@@ -197,13 +203,17 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
    + *Step 2:* What are the nuisance parameters needed to get
      asymptotic distributions for each of those tests?
    + *Step 3* Apply the sequential procedure from above:
-     1) Construct $1 - \epsilon$ CI for the first nuisance parameters
-     2) Test the first nuisance parameter at $\alpha - \epsilon$
-     3) Construct $1 - \epsilon$ CI for the second nuisance parameters
-     4) Test the second nuisance parameter at $\alpha - \epsilon$
-     5) Continue, and stop when you fail to reject a hypothesis
-   + More details (in a different setting): Paul Rosenbaum's /Design of observational studies/
-   + Also look at McCloskey's paper
+     1) First level-$\alpha$ step:
+	* Construct $1 - \epsilon$ CI for the first nuisance parameters
+	* Test the first hypothesis at $\alpha - \epsilon$, choosing
+          the worst critical values of the nuisance parameters over
+          the $1 - \epsilon$ confidence interval.
+     2) Second level-$\alpha$ step:
+	* Construct $1 - \epsilon$ CI for the second nuisance parameters
+	* Test the second hypothesis at $\alpha - \epsilon$, choosing
+          the worst critical values of the nuisance parameters over
+          the $1 - \epsilon$ confidence interval.
+     3) Continue, and stop when you fail to reject a hypothesis
 ** Estimation
    + This approach can work (in theory) if you are interested in
      testing hypotheses about parameters or constructing confidence intervals
@@ -211,8 +221,47 @@ F-statistic: 1.155 on 15 and 984 DF,  p-value: 0.3023
      in this setting you probably want to do Bayesian inference (which
      we'll talk about in more detail soon)
    + Actually getting confidence intervals for the nuisance parameters
-     can be tricky.
-   + We'll discuss that next time
+     can be tricky
+** Why not just...?
+   + Why not just pretest?
+     + Pretesting affects the asymptotic distribution of potentially
+       all of the coefficient estimators
+     + Let's look at example code...
+   + Why not just do "model selection"?
+     + Model selection behaves like a pretest
+     + Assume we test $\beta = 0$
+     + As $n \to \infty$, power $\to 1$ _unless_ $\beta = b /
+       \sqrt{n}$ for some $b$
+       \[
+         t = \frac{\sqrt{n} \hat\beta}{\hat\tau}
+           = \frac{\sqrt{n} (\hat \beta - \beta)}{\hat\tau} + \frac{\sqrt{n} \beta}{\hat\tau}
+           \Rightarrow N(b/\tau, 1)
+       \]
+     + /Consistent/ model selection: do t-test but use $c_n =
+       o(\sqrt{n})$ as cutoff (there is more nuance, but this gives the gist)
+     + /Conservative/ model selection: just use fixed cutoff
+       (sometimes chooses too large of a model)
+     + Problem: for any $n$, there exists a $b_n$ that causes the
+       _exact same problems_ as in the pretest scenario
+** Grid bootstrap (dealing with potential unit roots)
+   + Same ideas can apply when test statistics/confidence intervals
+     depend on choice between I(0) and I(1), etc.
+   + See Grid Bootstrap example (Hansen, 1999, Mikusheva, 2007, 2012) \pause
+   + Obviously, following through on this advice is _really annoying_
+     + Potentially impossible at this stage, too
+     + I don't know of uniformly valid confidence intervals for the
+       error-correction terms, for example
+   + Model selection in time-series settings is a _really hard problem_
+     + It seems obvious that we should use the data to choose a model
+     + You can easily show that this backfires (in simulations and theory)
+     + "Shrinkage," etc. has similar properties
+     + Inference is at least something we can understand conceptually,
+       but usually controlling size properly destroys power
+   + Rule of thumb:
+     1) If a model selection statistic implies your model is *bad*,
+        you should probably listen
+     2) If a statistic implies your model is *good*, proceed very
+        cautiously
 * End matter
 ** License and copying
    Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
