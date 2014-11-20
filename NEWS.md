@@ -1,6 +1,9 @@
 Project news
 ============
 
+## Version 0.8.1
+Changes to Bayesian slides after lecture
+
 ## Version 0.8.0
 Add slides for Bayesian inference
 
