@@ -1,6 +1,9 @@
 Project news
 ============
 
+## Version 0.8.0
+Add slides for Bayesian inference
+
 ## Version 0.7.0
 Add list of final exam topics for 2014
 
