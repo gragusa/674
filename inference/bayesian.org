@@ -77,9 +77,12 @@ Bayesian inference
    + Informally, in large samples where the MLE is consistent and
      asymptotically normal, the posterior is consistent and
      asymptotically normal as well for any reasonable prior.
-   + /Bernstein-von Mises Theorem/ (see van der Vaart, 1998, /Asymptotic Statistics/)
+   + /Bernstein-von Mises Theorem/ (see van der Vaart, 1998,
+     /Asymptotic Statistics/)
+   + This "proof" is extremely loose. The real proof isn't difficult,
+     but uses more advanced concepts
 * Evaluating the posterior
-**  If this is approximately the same as MLE, why be Bayesian?
+** If this is approximately the same as MLE, why be Bayesian?
    Tight coupling with decision theory
      + Point forecast for $h$-steps ahead:
        \begin{align*}
@@ -107,6 +110,186 @@ Bayesian inference
        about can be integrated away through judicious choice of prior
      + /Practically/ I haven't seen much research on that
    + Consistent with accumulation of information over time
+** Drawbacks of Bayesian approach
+   + Some areas are underdeveloped relative to Classical stats
+     + HAC covariance matrix adjustment
+     + Robustness
+     + Nonstationary processes
+     + But see recent research by Ulrich Mueller (at Princeton)
+   + Appropriate priors should be available, just aren't yet
+* Simple examples of Bayesian inference
+** The simplest example of Bayesian inference you will ever see
+   + $S \sim \mathit{binomial}(n,p)$, so the likelihood is
+     \[
+       f_S(s) = \binom{n}{p} p^s (1-p)^{n-s}
+     \]
+   + Say $n = 25$, $S = 20$, then we can plot the likelihood:
+     =curve(dbinom(20, 25, x), 0, 1)=
+
+     {{{s}}}
+     [[./likelihood1.pdf]]
+** The simplest example of Bayesian inference you will ever see
+   + $S \sim \mathit{binomial}(n,p)$, so the likelihood is
+     \[
+       f_S(s) = \binom{n}{s} p^s (1-p)^{n-s}
+     \]
+   + Now we need a prior density for $p$. Why not uniform?
+     \[
+     f_p(p) = 1\{p \in [0,1]\}
+     \]
+   + Now we can treat likelihood as proportional to posterior density.
+   + *Conjugate prior* a family of priors is the "conjugate prior" for
+     a family of likelihoods if the posterior density is in the same
+     family.
+   + $\mathit{beta}(a, b)$ is the conjugate prior for the binomial
+     family and the corresponding posterior is $\beta(a + s, b + n - s)$
+     + Prior is "equivalent" to adding $a$ successes and $b$ failures
+       to the dataset
+     + $\mathit{uniform}(0,1)$ is the $\mathit{beta}(1,1)$ density
+     + Has mean $21 / 27$ in this example
+** The simplest example of Bayesian inference you will ever see
+   Compare posteriors for $\mathit{beta}(1,1)$, $\mathit{beta}(0,0)$,
+   and $\mathit{beta}(10,0)$,
+
+   {{{s}}}
+
+   [[./posteriors1.pdf]]
+
+** To predict number of successes in next 8 draws
+   + Prediction is easy. Let $S^*$ be the number of successes in the
+     next 5 draws.
+   + Use LIE:
+     \begin{align*}
+     \Pr[S^* = s \mid S] &= \E(\Pr[S^* = s \mid S, p] \mid S) \\
+     &= \E(\Pr[S^* = s \mid p] \mid S) \\
+     &= \E\Bigg( \binom{8}{s} p^s (1-p)^{8-s} \ \Big|\ S \Bigg) \\
+     &= \binom{8}{s} \int_0^1 p^s (1-p)^{8-s} f_p(p \mid S)
+     \end{align*}
+   + Then we (usually) evaluate the probabilities numerically
+     (go to example code)
+** Key issues to discuss
+   1. Choosing a prior distribution
+   2. Working with the posterior numerically
+   3. If you find this stuff interesting enough that you want to do
+      real research with it, take Stats 544 and (maybe) Stats 644! I
+      will teach you just enough to be dangerous in this class.
+* Prior distributions
+** Basic prior distributions
+   + We've already talked about conjugate priors
+     + Easy to use
+     + Available for some families (binomial, normal, etc)
+     + Often one parameterization can be interpreted as "no information"
+     + Often unavailable or has other unappealing properties
+   + "Uninformative" priors
+     + "Flat prior" usually isn't uninformative
+     + The "Jeffreys prior" is a mostly uninformative prior designed
+       to satisfy some invariance principles
+     + "Reference prior" is another (Berger, Bernardo, Sun, 2009)
+     + There are even more...
+   + "Subjective priors"
+     + If you actually know something useful about the system you're
+       studying, you can put it into the model as a prior density
+     + DSGE models can be used to produce priors
+   + Empirical Bayes: why not estimate the parameters of the prior?
+** Priors used in time-series
+   + We will/may talk about DSGE-based priors in our last class
+     meeting
+   + First, suppose we have a regression model:
+     \[
+     y_t = x_t'\beta + e_t
+     \]
+     where $e_t \mid x_1,\dots,x_T \sim N(0, \sigma)$
+   + Conjugate prior for $\beta$ and $\sigma$ is Normal-inverse Gamma.
+   + Start with the priors
+     \begin{align*}
+     \beta \mid \sigma &\sim N(b, \sigma^2 V) \\
+     1/\sigma^2 &\sim \textit{gamma}(N, \lambda)
+     \end{align*}
+     where $b$, $V$, $N$, and $\lambda$ are set by the researcher.
+** Priors used in time-series
+   + Then we get the posterior
+     \begin{align*}
+     \beta \mid \sigma, Y  &\sim N(b^*, \sigma^2 V^*) \\
+     1/\sigma^2 \mid Y &\sim \textit{gamma}(N + T, \lambda + \lambda^* ) \\
+     b^* &= V^*V^{-1} b + V^* \sum_{t=1}^T x_t y_t\\
+     V^* &= (V^{-1} + X'X)^{-1} \\
+     \lambda^* &= \sum_{t=1}^T (y_t - x_t'\hat\beta)^2 + (\hat\beta - b)' V^{-1}V^* X'X  (\hat\beta - b)
+     \end{align*}
+   + Interpretation of prior parameters: it's as though we had an
+     additional dataset with
+     \begin{align*}
+     V^{-1} &\approx X'X & N &\text{ observations} \\
+     b &\approx \hat\beta & \lambda/N &\approx \hat\sigma^2
+     \end{align*}
+     $N, \lambda, V^{-1} \to 0$ is "noninformative"
+** Priors used for time-series
+   + Same prior is used for AR(p) and VAR(p)
+     + Normal-inverse Gamma is conjugate prior for AR(p) too
+     + Normal-inverse Wishart is conjugate prior for VAR(p)
+     + Wishart is a multivariate version of the gamma
+   + "Litterman prior" for a VAR
+     + Normal-inverse Wishart
+     + Diffuse prior for constant terms
+     + For lags of the same variable
+       + Coefficient on first lag: $N(1, \gamma^2)$
+       + Coefficient on $j$th lag ($j > 1$): $N(0, (\gamma/j)^2)$
+     + For lags of different variables (eq $k$, variable $i$)
+       + $j$th lag: $N(0, w \gamma \tau_i / j \tau_k)$
+       + has a correction for variances of different series
+       + $w$ is a tuning parameter (can be estimated)
+     + If series is already differenced (i.e. GDP growth vs. GDP), use
+       0 for the first lag as well
+** Last slide for priors used for time-series
+   + How do we deal with stationarity more generally?
+   + Often people don't, or just truncate coefficients to ensure
+     stationarity
+   + There are some papers that look at potentially nonstationary
+     priors: Phillips (1991), Berger and Yang (1994), but not many
+* Simulating from posterior
+** Need for simulations
+   + Even in our simplest example, the easiest way to work with the
+     posterior is to simulate from it
+   + Most quantities can be expressed as expectations:
+     \[
+     \Pr[\theta \leq c \mid \textit{data}] = E(1\{\theta \leq c\} \mid \textit{data})
+     \]
+   + Bayes's theorem gives us a formula for the density function, not
+     necessarily a good way to directly generate ovservations
+   + Conjugate priors help here
+   + We'll cover simulation abstractly and briefly today, more after break
+** Rejection sampling
+   Suppose we can generate data from $f$, but want to generate data
+   from $g$.
+   
+   If there is a $c$ s.t. $g(x) \leq c f(x)$ for all $x$, we can use
+   the Accept-Reject algorithm:
+   1) Generate a candidate $x$ from $f$
+   2) With probability $g(x) / c f(x)$, accept this value of
+      $x$. Otherwise, go back to step 1.
+
+   When it's available, this can work great. Existance of this $c$ is
+   not always guaranteed, and even if it is, finding it can be hard.
+** Importance sampling
+   Suppose we can generate data from $f$, but want to generate data
+   from $g$ to calculate the expected value of some $h(X)$ with $X
+   \sim g$.
+   * Generate $x_1,\dots,x_n$ from $f$. Then
+     \[
+       h(X) \approx \sum_{i=1}^n h(x_i) g(x_i)/f(x_i)
+     \]
+   * Why? 
+     \begin{align*}
+       \sum_{i=1}^n h(x_i) g(x_i)/f(x_i) &\xrightarrow_{n \to \infty} E h(X) g(X)/f(X) \\
+       &= \int h(x) \tfrac{g(x)}{f(x)} f(x) dx \\
+       &= \int h(x) g(x) dx
+     \end{align*}
+   * Doing this naively can be _very_ inefficient.
+* Conclusion
+** Next week (after Thanksgiving break)
+   + MCMC (more simulation tools)
+   + State Space models
+   + DSGE models
+   + _Have fun!_
 * End matter
 ** License and copying
    Copyright (c) 2013-2014 Gray Calhoun. Permission is granted to copy,
