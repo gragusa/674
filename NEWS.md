@@ -1,6 +1,15 @@
 Project news
 ============
 
+## Version 0.7.0
+Add list of final exam topics for 2014
+
+## Version 0.6.2
+Fix minor typo
+
+## Version 0.6.1
+Tweak multiple testing slides between and after lectures
+
 ### Version 0.6.0
 Add slides on multiple testing and stepdown procedures
 

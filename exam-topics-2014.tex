@@ -1,0 +1,118 @@
+\documentclass[nofonts,nols]{tufte-handout}
+\input{VERSION}
+\title{Final exam topics, Econ 674}
+\author{Helle Bunzel and Gray Calhoun}
+\date{Fall semester, 2014. Version \version}
+
+\morefloats
+\usepackage{
+  booktabs,
+  enumitem,
+  fancyvrb,
+  fancyhdr,
+  marginfix,
+  tabularx,
+  url,
+  verbatim,
+  xcolor,
+}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[letterspace=35]{microtype}
+\usepackage[osf]{sourcecodepro}
+\usepackage{sourcesanspro}
+
+% Change to ragged-right without inline math breaks; this helps avoid
+% awkward line breaks or extensions into the right margin in math or
+% code.
+\RaggedRight
+\relpenalty=10000
+\binoppenalty=10000
+\setlength{\parindent}{1em}
+
+\renewcommand{\smallcaps}[1]{\allcaps{#1}}
+\renewcommand{\allcaps}[1]{\textls{\MakeUppercase{#1}}}
+
+\renewcommand{\FancyVerbFormatLine}[1]{\hspace{\leftmargini}#1}
+\fvset{frame=leftline,rulecolor=\color{lightgray}}
+
+\urlstyle{same}
+\DeclareUrlCommand\url{%
+\def\UrlLeft{\guillemotleft}%
+\def\UrlRight{\guillemotright}%
+\urlstyle{same}}
+
+\DisableLigatures{family = tt*}
+\frenchspacing
+
+\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
+\newcommand{\ARMA}{\allcaps{ARMA}}
+\newcommand{\DSGE}{\allcaps{DSGE}}
+\newcommand{\HAC}{\allcaps{HAC}}
+\newcommand{\OH}{\allcaps{OH}}
+\newcommand{\SVAR}{\allcaps{SVAR}}
+\newcommand{\TA}{\allcaps{TA}}
+\newcommand{\VAR}{\allcaps{VAR}}
+
+\renewcommand{\labelitemi}{{$\circ$}}
+\renewcommand{\labelitemii}{\footnotesize$\circ$}
+\renewcommand{\labelitemiii}{\textperiodcentered}
+\renewcommand{\labelitemiv}{\footnotesize\textperiodcentered}
+
+\begin{document}
+\maketitle
+
+\begin{table*}[h]
+  \begin{tabularx}{\textwidth}{rXX}
+    \toprule
+        & Exam topic                                                             & Suggsested reading                                                                                      \\
+    \midrule
+    1.  & The ``Lucas Critique''                                                 & \citep{Lu76}, \citep{No11}, \citep{Si12}                                                                \\
+    2.  & Stationary univariate \ARMA\ models                                    & \citep{Ha94} Ch 3 -- 5                                                                                  \\
+    3.  & Identification in \SVAR s                                              & \citep{Si80}, \citep{Ki13}                                                                              \\
+    4.  & Statistical aspects of stationary \VAR s                               & \citep{Ha94} Ch 10 and 11                                                                               \\
+    5.  & Spectral representation                                                & \citep{Ha94} Ch 6                                                                                       \\
+    6.  & Filtering                                                              & \citep{Ha94} Ch 6, \citep{BK99}                                                                         \\
+    7.  & \HAC\ Estimation                                                       & \citep{Ha94} 10.5, \citep{NW87}, \citep{An91}                                                           \\
+    8.  & Testing using fixed bandwidth asymptotics                              & \citep{KV05}, \citep{Su14}                                                                              \\
+    9.  & Univariate \ARMA\ processes with stochastic and non-stochastic trends  & \citep{Ha94} Ch 15 -- 17                                                                                \\
+    10. & Testing for a break in the simple regression model with i.i.d.\ errors & \citep[Sec 5]{St94}                                                                                     \\
+    11. & Testing for breaks in realistic time series models                     & \citep{An03}, \citep{Ba97}, \citep{BP98}                                                                \\
+    12. & Bootstrapping i.i.d.\ data                                             & \citep{Ha14} Ch 10                                                                                      \\
+    13. & Bootstrapping time series data                                         & B\"{u}hlmann (1999) research report (on Box), \citep{HHK03} (more theory than covered in class; on Box) \\
+    14. & Determining the trend structure of univariate time series              & \citep{AB00}, \citep{HLT07}                                                                             \\
+    15. & Nonstationary \VAR s (without cointegration)                           & \citep{Ha94} Ch 18                                                                                      \\
+    16. & Estimating and testing cointegrating relationships                     & \citep{Ha94} Ch 19,  \citep{Jo14}                                                                       \\
+    17. & Error Correction Models (estimation and inference)                     & \citep{Ha94} Ch 20, \citep{Da13}, \citep{Jo14}                                                          \\
+    18. & Multiple hypothesis testing                                            & \citep{RW05}, \citep{Ro08}                                                                              \\
+    19. & Bayesian inference                                                     & \citep{Ha94} Ch 12, \citep{Ch12}                                                                        \\
+    20. & State space models (focusing on Bayesian estimation)                   & \citep{Ha94} Ch 12 and 13, \citep{Fe11}, \citep{Ch12}                                                   \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
+
+\begin{fullwidth}
+\noindent%
+A reminder: you'll be given two random topics from this list and must
+pick one of them. You'll then have \~30 minutes to prepare a 20 minute
+presentation on the whiteboard that you'll give to the instructors
+(Helle and Gray). You may use notes during your presentation (but
+style counts).
+
+The recommended resources listed on the syllabus --- \citep{Lu06},
+\citep{Ca07}, \citep{MS08}, and \citep{SW08} --- also have a lot of
+useful material on these topics. You also own several econometrics
+books from the core sequence and they cover some of this material as
+well.
+
+The ``suggested reading'' is meant to be an \emph{exhaustive} and
+\emph{comprehensive} list: we could not imagine any student reading
+all of it in detail. (Feel free to take that as a challenge!) You are
+expected to pick out a subset or overview that you find interesting
+and/or important and prepare to present that material.
+\end{fullwidth}
+
+\bibliographystyle{alpha}
+\bibliography{tex/references}
+\end{document}
