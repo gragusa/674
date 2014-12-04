@@ -1,6 +1,9 @@
 Project news
 ============
 
+## Version 0.9.0
+New slides for second and third Bayesian lectures, with source code
+
 ## Version 0.8.1
 Changes to Bayesian slides after lecture
 
